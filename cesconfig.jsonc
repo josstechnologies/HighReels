@@ -1,0 +1,54 @@
+// This is an optional configuration file used primarily for debugging purposes when reporting issues.
+// It is safe to delete this file as it does not affect the functionality of your application.
+{
+  "cesVersion": "2.23.0",
+  "projectName": "highreels",
+  "packages": [
+    {
+      "name": "expo-router",
+      "type": "navigation",
+      "options": {
+        "type": "stack"
+      }
+    },
+    {
+      "name": "nativewind",
+      "type": "styling"
+    },
+    {
+      "name": "react-native-keyboard-controller",
+      "type": "software-mansion"
+    },
+    {
+      "name": "react-native-svg",
+      "type": "software-mansion"
+    },
+    {
+      "name": "zustand",
+      "type": "state-management"
+    },
+    {
+      "name": "i18next",
+      "type": "internationalization"
+    }
+  ],
+  "flags": {
+    "noGit": false,
+    "noInstall": false,
+    "overwrite": false,
+    "importAlias": true,
+    "packageManager": "bun",
+    "eas": true,
+    "publish": false
+  },
+  "packageManager": {
+    "type": "bun",
+    "version": "1.3.14"
+  },
+  "os": {
+    "type": "Darwin",
+    "platform": "darwin",
+    "arch": "arm64",
+    "kernelVersion": "25.5.0"
+  }
+}
