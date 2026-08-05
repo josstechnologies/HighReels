@@ -36,34 +36,34 @@ export const PhoneInputField = ({
           placeholder={placeholder}
           phoneInputStyles={{
             container: {
-              backgroundColor: '#F9FAFB', // bg-gray-50
-              borderColor: error ? '#FCA5A5' : '#E5E7EB', // border-red-300 or border-gray-200
+              backgroundColor: '#FFFFFF',
+              borderColor: '#ECECEC',
               borderWidth: 1,
-              borderRadius: 8, // rounded-lg
-              height: 56, // h-14
+              borderRadius: 12,
+              height: 56,
             } as ViewStyle,
             input: {
               paddingLeft: 8,
-              color: '#000',
+              color: '#111111',
               fontSize: 16,
-              fontFamily: 'Nunito_400Regular',
+              fontFamily: 'PlusJakartaSans_500Medium',
             },
             flagContainer: {
               paddingRight: 0,
-              borderTopLeftRadius: 8,
-              borderBottomLeftRadius: 8,
+              borderTopLeftRadius: 12,
+              borderBottomLeftRadius: 12,
               backgroundColor: 'transparent',
             },
             callingCode: {
               fontSize: 16,
-              fontFamily: 'Nunito_400Regular',
-              color: '#374151',
+              fontFamily: 'PlusJakartaSans_500Medium',
+              color: '#111111',
             },
             divider: {
-              backgroundColor: '#E5E7EB',
+              backgroundColor: '#ECECEC',
             },
             caret: {
-              color: '#374151',
+              color: '#a7a7a7',
               fontSize: 16,
             },
           }}
@@ -88,7 +88,7 @@ export const PhoneInputField = ({
               height: 48,
               paddingHorizontal: 16,
               fontSize: 16,
-              fontFamily: 'Nunito_400Regular',
+              fontFamily: 'PlusJakartaSans_400Regular',
             },
             countryItem: {
               borderWidth: 1,
@@ -106,12 +106,12 @@ export const PhoneInputField = ({
             },
             countryName: {
               color: '#000',
-              fontFamily: 'Nunito_400Regular',
+              fontFamily: 'PlusJakartaSans_400Regular',
             },
           }}
         />
       </View>
-      {error && <Text className="font-nunito-light ml-2 mt-1 text-sm capitalize text-red-500">{error.message}</Text>}
+      {error && <Text className="text-danger-700 ml-2 mt-1 text-sm font-medium">{error.message}</Text>}
     </View>
   );
 };

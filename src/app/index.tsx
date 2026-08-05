@@ -2,11 +2,15 @@ import {Pressable, Text, View, ScrollView} from 'react-native';
 import {useRouter} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
+import {useSelector} from '@legendapp/state/react';
 import Svg, {Path, Circle, Defs, LinearGradient, Stop} from 'react-native-svg';
+import {authState$} from '@/store';
+import {clearAuthSession} from '@/utils';
 
 export default function Home() {
   const {navigate} = useRouter();
   const {t, i18n} = useTranslation();
+  const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
 
   const toggleLanguage = () => {
     const nextLang = i18n.language === 'en' ? 'fr' : 'en';
@@ -33,12 +37,12 @@ export default function Home() {
                   <Path d="M10 8L16 12L10 16V8Z" fill="#6F41EC" />
                 </Svg>
               </View>
-              <Text className="ml-2 text-xl font-extrabold tracking-wider text-white">{t('landing.title')}</Text>
+              <Text className="ml-2 font-extrabold text-xl tracking-wider text-white">{t('landing.title')}</Text>
             </View>
 
             {/* Language Switcher */}
             <Pressable onPress={toggleLanguage} className="mr-12 rounded-full border border-white/10 bg-white/10 px-4 py-2 active:bg-white/20">
-              <Text className="text-xs font-semibold uppercase tracking-wider text-white">{i18n.language === 'en' ? 'FR' : 'EN'}</Text>
+              <Text className="font-semibold text-xs uppercase tracking-wider text-white">{i18n.language === 'en' ? 'FR' : 'EN'}</Text>
             </Pressable>
           </View>
 
@@ -65,7 +69,7 @@ export default function Home() {
             </View>
 
             <Text className="text-center text-4xl font-black leading-tight tracking-tight text-white">{t('landing.slogan')}</Text>
-            <Text className="mt-3 max-w-[280px] text-center text-base font-medium text-zinc-400">{t('landing.subSlogan')}</Text>
+            <Text className="mt-3 max-w-[280px] text-center font-medium text-base text-zinc-400">{t('landing.subSlogan')}</Text>
           </View>
 
           {/* Overlapping Mock Reel Previews */}
@@ -84,13 +88,13 @@ export default function Home() {
                   />
                 </Svg>
                 <View className="absolute bottom-1.5 left-1.5 rounded bg-purple-600 px-1.5 py-0.5">
-                  <Text className="text-[9px] font-extrabold uppercase text-white">LIVE</Text>
+                  <Text className="font-extrabold text-[9px] uppercase text-white">LIVE</Text>
                 </View>
               </View>
-              <Text className="truncate text-xs font-bold text-white">Epic Quadra Kill 🔥</Text>
+              <Text className="truncate font-bold text-xs text-white">Epic Quadra Kill 🔥</Text>
               <View className="mt-1 flex-row items-center justify-between">
-                <Text className="text-[10px] font-semibold text-purple-400">{t('landing.cardGaming')}</Text>
-                <Text className="text-[9px] font-medium text-zinc-500">45K views</Text>
+                <Text className="font-semibold text-[10px] text-purple-400">{t('landing.cardGaming')}</Text>
+                <Text className="font-medium text-[9px] text-zinc-500">45K views</Text>
               </View>
             </View>
 
@@ -109,37 +113,46 @@ export default function Home() {
                 </Svg>
                 <View className="absolute bottom-1.5 right-1.5 flex-row items-center space-x-1 rounded bg-black/60 px-1.5 py-0.5">
                   <View className="h-1.5 w-1.5 rounded-full bg-red-500" />
-                  <Text className="text-[9px] font-medium text-white">0:15</Text>
+                  <Text className="font-medium text-[9px] text-white">0:15</Text>
                 </View>
               </View>
-              <Text className="truncate text-xs font-bold text-white">Insane Dunk 🏀</Text>
+              <Text className="truncate font-bold text-xs text-white">Insane Dunk 🏀</Text>
               <View className="mt-1 flex-row items-center justify-between">
-                <Text className="text-[10px] font-semibold text-indigo-400">{t('landing.cardSports')}</Text>
-                <Text className="text-[9px] font-medium text-zinc-500">120K views</Text>
+                <Text className="font-semibold text-[10px] text-indigo-400">{t('landing.cardSports')}</Text>
+                <Text className="font-medium text-[9px] text-zinc-500">120K views</Text>
               </View>
             </View>
           </View>
 
-          {/* Action Call-To-Action (CTA) Buttons */}
           <View className="mt-6 w-full space-y-4">
-            {/* Primary Sign Up Button */}
-            <Pressable
-              onPress={() => navigate('/signup')}
-              className="w-full items-center justify-center rounded-2xl bg-purple-600 py-4 shadow-lg shadow-purple-900/40 active:bg-purple-700">
-              <Text className="text-base font-extrabold tracking-wide text-white">{t('landing.signUp')}</Text>
-            </Pressable>
+            {hasSession ? (
+              <>
+                <Text className="text-center font-semibold text-base text-white">{t('login.signedIn')}</Text>
+                <Pressable
+                  onPress={clearAuthSession}
+                  className="mt-3 w-full items-center justify-center rounded-2xl border border-white/20 bg-white/5 py-4 active:bg-white/10">
+                  <Text className="font-bold text-base tracking-wide text-white">{t('login.signOut')}</Text>
+                </Pressable>
+              </>
+            ) : (
+              <>
+                <Pressable
+                  onPress={() => navigate('/signup')}
+                  className="w-full items-center justify-center rounded-2xl bg-purple-600 py-4 shadow-lg shadow-purple-900/40 active:bg-purple-700">
+                  <Text className="font-extrabold text-base tracking-wide text-white">{t('landing.signUp')}</Text>
+                </Pressable>
 
-            {/* Secondary Log In Button */}
-            <Pressable
-              onPress={() => navigate('/signup')}
-              className="mt-3 w-full items-center justify-center rounded-2xl border border-white/20 bg-white/5 py-4 active:bg-white/10">
-              <Text className="text-base font-bold tracking-wide text-white">{t('landing.logIn')}</Text>
-            </Pressable>
+                <Pressable
+                  onPress={() => navigate('/login')}
+                  className="mt-3 w-full items-center justify-center rounded-2xl border border-white/20 bg-white/5 py-4 active:bg-white/10">
+                  <Text className="font-bold text-base tracking-wide text-white">{t('landing.logIn')}</Text>
+                </Pressable>
 
-            {/* Guest mode or simple explore */}
-            <Pressable onPress={() => navigate('/signup')} className="mt-2 items-center justify-center py-3">
-              <Text className="text-sm font-semibold tracking-wide text-zinc-500 hover:text-zinc-400">{t('landing.guest')}</Text>
-            </Pressable>
+                <Pressable onPress={() => navigate('/signup')} className="mt-2 items-center justify-center py-3">
+                  <Text className="font-semibold text-sm tracking-wide text-zinc-500 hover:text-zinc-400">{t('landing.guest')}</Text>
+                </Pressable>
+              </>
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>

@@ -40,11 +40,7 @@
         }
       ]
     ],
-    "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "4aaf691b-3ee1-497c-8e50-dfe15d46d908"
-      }
-    }
+    "extra": {"router": {}, "eas": {"projectId": "d8354511-ea55-4eaf-98c1-a7f934f25a77"}},
+    "owner": "joss-tech"
   }
 }
