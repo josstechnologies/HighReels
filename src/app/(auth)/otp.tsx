@@ -4,10 +4,12 @@ import {useLocalSearchParams, useRouter} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {Controller, useForm} from 'react-hook-form';
+import {useMutation} from '@tanstack/react-query';
 import Svg, {Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
-import {authActions} from '@/store';
-import {apiErrorMessage, resendOtp, verifyLoginOtp} from '@/utils';
+import {API_ROUTES} from '@/constants';
+import {authActions, signupDraftActions} from '@/store';
+import {API, apiErrorMessage, ApiEnvelope, readEnvelope} from '@/utils';
 
 const OTP_LENGTH = 6;
 const RESEND_SECONDS = 60;
@@ -15,6 +17,8 @@ const RESEND_SECONDS = 60;
 type OtpType = 'email' | 'phone';
 
 type FormData = {otp: string};
+
+type AuthTokensPayload = {accessToken?: string; refreshToken?: string};
 
 export default function Otp() {
   const {back, navigate, replace} = useRouter();
@@ -26,10 +30,10 @@ export default function Otp() {
   const sessionId = typeof params.sessionId === 'string' ? params.sessionId : '';
   const isReset = params.flow === 'reset';
   const isLogin = params.flow === 'login';
+  const isSignup = params.flow === 'signup';
 
   const [timer, setTimer] = useState(RESEND_SECONDS);
   const [isFocused, setIsFocused] = useState(false);
-  const [busy, setBusy] = useState(false);
   const otpInputRef = useRef<TextInput>(null);
   const didSubmit = useRef(false);
 
@@ -37,6 +41,60 @@ export default function Otp() {
     defaultValues: {otp: ''},
   });
   const otpCode = watch('otp');
+
+  const verifyLoginMutation = useMutation({
+    mutationFn: async (otp: string) => {
+      const response = await API.post<ApiEnvelope<AuthTokensPayload>>(API_ROUTES.LOGIN.OTP_VERIFY, {sessionId, otp});
+      const tokens = readEnvelope<AuthTokensPayload>(response.data);
+      if (!tokens?.accessToken || !tokens.refreshToken) throw new Error('UNEXPECTED_LOGIN_OTP_VERIFY');
+      return {accessToken: tokens.accessToken, refreshToken: tokens.refreshToken};
+    },
+    onSuccess: (tokens) => {
+      authActions.setSession(tokens);
+      replace('/');
+    },
+    onError: (error) => {
+      didSubmit.current = false;
+      setValue('otp', '');
+      Alert.alert(
+        t('login.errorTitle'),
+        error instanceof Error && error.message.startsWith('UNEXPECTED_')
+          ? t('errors.unexpectedResponse')
+          : apiErrorMessage(error, t('errors.generic'))
+      );
+    },
+  });
+
+  const verifySignupMutation = useMutation({
+    mutationFn: async (otp: string) => {
+      await API.post(API_ROUTES.SIGNUP.OTP_VERIFY, {sessionId, otp});
+    },
+    onSuccess: () => {
+      signupDraftActions.start(sessionId);
+      navigate({pathname: '/password', params: {flow: 'signup'}});
+    },
+    onError: (error) => {
+      didSubmit.current = false;
+      setValue('otp', '');
+      Alert.alert(t('signup.errorTitle'), apiErrorMessage(error, t('errors.generic')));
+    },
+  });
+
+  const resendMutation = useMutation({
+    mutationFn: async () => {
+      await API.post(API_ROUTES.OTP_RESEND, {sessionId});
+    },
+    onSuccess: () => {
+      setValue('otp', '');
+      didSubmit.current = false;
+      setTimer(RESEND_SECONDS);
+    },
+    onError: (error) => {
+      Alert.alert(isLogin ? t('login.errorTitle') : t('signup.errorTitle'), apiErrorMessage(error, t('errors.generic')));
+    },
+  });
+
+  const busy = verifyLoginMutation.isPending || verifySignupMutation.isPending || resendMutation.isPending;
 
   useEffect(() => {
     if (timer === 0) return;
@@ -52,27 +110,18 @@ export default function Otp() {
         Alert.alert(t('login.errorTitle'), t('errors.missingChallenge'));
         return;
       }
-
       didSubmit.current = true;
-      setBusy(true);
-      (async () => {
-        try {
-          const tokens = await verifyLoginOtp(sessionId, otpCode);
-          authActions.setSession(tokens);
-          replace('/');
-        } catch (error) {
-          didSubmit.current = false;
-          setValue('otp', '');
-          Alert.alert(
-            t('login.errorTitle'),
-            error instanceof Error && error.message.startsWith('UNEXPECTED_')
-              ? t('errors.unexpectedResponse')
-              : apiErrorMessage(error, t('errors.generic'))
-          );
-        } finally {
-          setBusy(false);
-        }
-      })();
+      verifyLoginMutation.mutate(otpCode);
+      return;
+    }
+
+    if (isSignup) {
+      if (!sessionId) {
+        Alert.alert(t('signup.errorTitle'), t('errors.missingChallenge'));
+        return;
+      }
+      didSubmit.current = true;
+      verifySignupMutation.mutate(otpCode);
       return;
     }
 
@@ -81,27 +130,20 @@ export default function Otp() {
       navigate(isReset ? {pathname: '/password', params: {flow: 'reset'}} : '/password');
     }, 150);
     return () => clearTimeout(timeout);
-  }, [otpCode, navigate, replace, isReset, isLogin, sessionId, busy, setValue, t]);
+    // mutate is stable; omit mutation objects to avoid re-firing
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [otpCode, navigate, isReset, isLogin, isSignup, sessionId, busy, t]);
 
-  const handleResend = async () => {
+  const handleResend = () => {
     if (timer > 0 || busy) return;
 
-    if (isLogin) {
-      if (!sessionId) {
-        Alert.alert(t('login.errorTitle'), t('errors.missingChallenge'));
-        return;
-      }
-      setBusy(true);
-      try {
-        await resendOtp(sessionId);
-        setValue('otp', '');
-        didSubmit.current = false;
-        setTimer(RESEND_SECONDS);
-      } catch (error) {
-        Alert.alert(t('login.errorTitle'), apiErrorMessage(error, t('errors.generic')));
-      } finally {
-        setBusy(false);
-      }
+    if ((isLogin || isSignup) && sessionId) {
+      resendMutation.mutate();
+      return;
+    }
+
+    if (isLogin || isSignup) {
+      Alert.alert(isLogin ? t('login.errorTitle') : t('signup.errorTitle'), t('errors.missingChallenge'));
       return;
     }
 

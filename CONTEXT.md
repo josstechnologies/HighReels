@@ -37,5 +37,13 @@ The user's phone identifier in E.164 form (`+` and digits only, no spaces), used
 _Avoid_: Mobile, MSISDN (in product language)
 
 **OTP Challenge**:
-A short-lived server handle for an in-progress OTP proof (Login now; signup/reset later). The API field is `sessionId`; that is not a Session.
+A short-lived server handle for an in-progress OTP proof (Login or Signup). The API field is `sessionId`; that is not a Session.
 _Avoid_: Session, auth session, OTP session (as names for this handle)
+
+**Signup**:
+Creating a new account via OTP Challenge then Complete signup (password, PIN, birthday, username).
+_Avoid_: Registration, sign-up (as a separate concept), onboarding (for the API act)
+
+**Signup draft**:
+In-progress local fields collected during Signup for the Complete signup call; not a Session. Cleared after success or abandon.
+_Avoid_: Signup session, wizard state, form state (as product names)

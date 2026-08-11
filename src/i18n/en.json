@@ -61,7 +61,8 @@
     "createPin": "Create PIN",
     "pinSubtitle": "Set up a 4-digit PIN for quick and secure access.",
     "finish": "Finish",
-    "invalidPin": "Please enter a valid 4-digit PIN."
+    "invalidPin": "Please enter a valid 4-digit PIN.",
+    "errorTitle": "Signup failed"
   },
   "login": {
     "title": "Log in to Highreels",

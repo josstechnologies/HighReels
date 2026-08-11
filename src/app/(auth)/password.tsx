@@ -7,6 +7,7 @@ import {Controller, useForm, useWatch} from 'react-hook-form';
 import Svg, {Circle, Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
 import {Button} from '@/components';
+import {signupDraftActions} from '@/store';
 
 type FormData = {password: string};
 
@@ -42,7 +43,14 @@ export default function Password() {
     {label: t('signup.reqSymbol'), checked: hasSymbol},
   ];
 
-  const onContinue = () => navigate(isReset ? '/password-changed' : '/pin');
+  const onContinue = () => {
+    if (isReset) {
+      navigate('/password-changed');
+      return;
+    }
+    signupDraftActions.setPassword(password);
+    navigate({pathname: '/pin', params: {flow: 'signup'}});
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -59,7 +67,7 @@ export default function Password() {
           <View className="mt-6 flex-1 px-6">
             <View className="flex-row items-center">
               <SVGS.PasswordBG width={58} height={58} />
-              <Text className="ml-4 flex-1 text-[28px] font-extrabold leading-9 text-[#111111]">{t('signup.createPassword')}</Text>
+              <Text className="ml-4 flex-1 font-extrabold text-[28px] leading-9 text-[#111111]">{t('signup.createPassword')}</Text>
             </View>
 
             <View className="mt-8 h-14 flex-row items-center rounded-xl border border-[#ececec] px-4">
@@ -76,7 +84,7 @@ export default function Password() {
                     placeholderTextColor="#a7a7a7"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    className="flex-1 text-base font-medium text-[#111111]"
+                    className="flex-1 font-medium text-base text-[#111111]"
                   />
                 )}
               />
@@ -99,7 +107,7 @@ export default function Password() {
               {rules.map((rule) => (
                 <View key={rule.label} className="flex-row items-center">
                   <RuleIcon checked={rule.checked} />
-                  <Text className={`ml-3 text-[15px] font-medium ${rule.checked ? 'text-[#111111]' : 'text-[#a7a7a7]'}`}>{rule.label}</Text>
+                  <Text className={`ml-3 font-medium text-[15px] ${rule.checked ? 'text-[#111111]' : 'text-[#a7a7a7]'}`}>{rule.label}</Text>
                 </View>
               ))}
             </View>

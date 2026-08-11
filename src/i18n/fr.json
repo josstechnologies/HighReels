@@ -61,7 +61,8 @@
     "createPin": "Créer un code PIN",
     "pinSubtitle": "Configurez un code PIN à 4 chiffres pour un accès rapide et sécurisé.",
     "finish": "Terminer",
-    "invalidPin": "Veuillez saisir un code PIN valide à 4 chiffres."
+    "invalidPin": "Veuillez saisir un code PIN valide à 4 chiffres.",
+    "errorTitle": "Échec de l'inscription"
   },
   "login": {
     "title": "Connectez-vous à Highreels",

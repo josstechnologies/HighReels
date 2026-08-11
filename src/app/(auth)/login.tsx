@@ -4,15 +4,19 @@ import {useRouter} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {Controller, useForm} from 'react-hook-form';
+import {useMutation} from '@tanstack/react-query';
 import Svg, {Circle, Path} from 'react-native-svg';
 import {AuthMethodTabs, AuthTab, Button, PhoneInputField, SocialAuthButtons} from '@/components';
-import {apiErrorMessage, sendLoginOtp, toE164} from '@/utils';
+import {API_ROUTES} from '@/constants';
+import {API, apiErrorMessage, ApiEnvelope, readEnvelope, toE164} from '@/utils';
 
 type FormData = {
   email: string;
   password: string;
   phone: string;
 };
+
+type OtpChallengePayload = {sessionId?: string};
 
 export default function Login() {
   const {navigate} = useRouter();
@@ -21,10 +25,27 @@ export default function Login() {
   const [activeTab, setActiveTab] = useState<AuthTab>('email');
   const [selectedCountry, setSelectedCountry] = useState<any>(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const {control, handleSubmit, clearErrors} = useForm<FormData>({
-    defaultValues: {email: '', password: '', phone: ''},
+  const {control, handleSubmit, clearErrors} = useForm<FormData>({defaultValues: {email: '', password: '', phone: ''}});
+
+  const sendOtpMutation = useMutation({
+    mutationFn: async (phone: string) => {
+      const response = await API.post<ApiEnvelope<OtpChallengePayload>>(API_ROUTES.LOGIN.OTP_SEND, {phone});
+      const sessionId = readEnvelope<OtpChallengePayload>(response.data)?.sessionId;
+      if (!sessionId) throw new Error('UNEXPECTED_LOGIN_OTP_SEND');
+      return {sessionId, phone};
+    },
+    onSuccess: ({sessionId, phone}) => {
+      navigate({pathname: '/otp', params: {flow: 'login', type: 'phone', value: phone, sessionId}});
+    },
+    onError: (error) => {
+      Alert.alert(
+        t('login.errorTitle'),
+        error instanceof Error && error.message.startsWith('UNEXPECTED_')
+          ? t('errors.unexpectedResponse')
+          : apiErrorMessage(error, t('errors.generic'))
+      );
+    },
   });
 
   const handleTabChange = (tab: AuthTab) => {
@@ -32,7 +53,7 @@ export default function Login() {
     clearErrors();
   };
 
-  const onSubmit = async ({phone}: FormData) => {
+  const onSubmit = ({phone}: FormData) => {
     if (activeTab !== 'phone') return;
 
     const callingCode = selectedCountry?.callingCode;
@@ -41,24 +62,7 @@ export default function Login() {
       return;
     }
 
-    const e164 = toE164(String(callingCode), phone);
-    setLoading(true);
-    try {
-      const sessionId = await sendLoginOtp(e164);
-      navigate({
-        pathname: '/otp',
-        params: {flow: 'login', type: 'phone', value: e164, sessionId},
-      });
-    } catch (error) {
-      Alert.alert(
-        t('login.errorTitle'),
-        error instanceof Error && error.message.startsWith('UNEXPECTED_')
-          ? t('errors.unexpectedResponse')
-          : apiErrorMessage(error, t('errors.generic'))
-      );
-    } finally {
-      setLoading(false);
-    }
+    sendOtpMutation.mutate(toE164(String(callingCode), phone));
   };
 
   return (
@@ -186,7 +190,7 @@ export default function Login() {
               className="mt-4"
               title={activeTab === 'email' ? t('login.submit') : t('signup.sendOtp')}
               disabled={activeTab === 'email'}
-              loading={loading}
+              loading={sendOtpMutation.isPending}
               onPress={handleSubmit(onSubmit)}
             />
 

@@ -41,12 +41,7 @@ export const init18n = ({resources, fallbackLng}: Init18n) => {
       cacheUserLanguage: () => {},
     })
     .use(initReactI18next)
-    .init({
-      resources,
-      compatibilityJSON: 'v3',
-      interpolation: {escapeValue: false},
-      fallbackLng: fallbackChecker(resources, fallbackLng),
-    });
+    .init({resources, compatibilityJSON: 'v3', interpolation: {escapeValue: false}, fallbackLng: fallbackChecker(resources, fallbackLng)});
 };
 
 const i18nInstance = init18n({resources, fallbackLng});

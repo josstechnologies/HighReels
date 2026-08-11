@@ -1,15 +1,15 @@
 import {AxiosError, InternalAxiosRequestConfig, create, isAxiosError} from 'axios';
+import {API_ROUTES, BASE_URL} from '@/constants';
 import {authActions, authState$} from '@/store';
 import {queryClient} from '@/utils/queryClient';
 
-type ApiEnvelope<T> = {success?: boolean; data?: T; message?: string; code?: string};
+export type ApiEnvelope<T> = {success?: boolean; data?: T; message?: string; code?: string};
 
 type AuthTokensPayload = {accessToken?: string; refreshToken?: string};
-type OtpChallengePayload = {sessionId?: string};
 
 type RetryableRequestConfig = InternalAxiosRequestConfig & {_retry?: boolean};
 
-const baseURL = process.env.EXPO_PUBLIC_API_URL;
+const baseURL = BASE_URL;
 if (!baseURL) throw new Error('EXPO_PUBLIC_API_URL is not set');
 
 export const API = create({baseURL});
@@ -23,7 +23,7 @@ export const clearAuthSession = () => {
 
 let refreshPromise: Promise<string> | null = null;
 
-const readEnvelope = <T extends object>(body: unknown): T | undefined => {
+export const readEnvelope = <T extends object>(body: unknown): T | undefined => {
   if (!body || typeof body !== 'object') return undefined;
   const envelope = body as ApiEnvelope<T> & T;
   if (envelope.data && typeof envelope.data === 'object') return envelope.data;
@@ -43,35 +43,12 @@ export const toE164 = (callingCode: string, nationalNumber: string) => {
   return `+${code}${national}`;
 };
 
-export const sendLoginOtp = async (phone: string) => {
-  const response = await API.post<ApiEnvelope<OtpChallengePayload>>('/api/v1/auth/login/otp-send', {phone});
-  const sessionId = readEnvelope<OtpChallengePayload>(response.data)?.sessionId;
-  if (!sessionId) throw new Error('UNEXPECTED_LOGIN_OTP_SEND');
-  return sessionId;
-};
-
-export const verifyLoginOtp = async (sessionId: string, otp: string) => {
-  const response = await API.post<ApiEnvelope<AuthTokensPayload>>('/api/v1/auth/login/otp-verify', {
-    sessionId,
-    otp,
-  });
-  const tokens = readEnvelope<AuthTokensPayload>(response.data);
-  if (!tokens?.accessToken || !tokens.refreshToken) throw new Error('UNEXPECTED_LOGIN_OTP_VERIFY');
-  return {accessToken: tokens.accessToken, refreshToken: tokens.refreshToken};
-};
-
-export const resendOtp = async (sessionId: string) => {
-  await API.post('/api/v1/auth/otp/resend', {sessionId});
-};
-
 const refreshAccessToken = async () => {
   const refreshToken = authState$.refreshToken.get();
 
   if (!refreshToken) throw new Error('No refresh token available');
 
-  const response = await refreshAPI.post<ApiEnvelope<AuthTokensPayload>>('/api/v1/auth/refresh', null, {
-    headers: {'x-refresh-token': refreshToken},
-  });
+  const response = await refreshAPI.post<ApiEnvelope<AuthTokensPayload>>(API_ROUTES.REFRESH, null, {headers: {'x-refresh-token': refreshToken}});
   const tokens = readEnvelope<AuthTokensPayload>(response.data);
   if (!tokens?.accessToken) throw new Error('UNEXPECTED_REFRESH');
 

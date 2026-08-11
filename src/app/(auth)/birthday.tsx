@@ -6,6 +6,11 @@ import {Controller, useForm, useWatch} from 'react-hook-form';
 import Svg, {Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
 import {Button, DateParts, DatePickerWheel, datePartsFromDate, formatBirthdayLabel, isAtLeastAge} from '@/components';
+import {signupDraftActions} from '@/store';
+
+function toDob(parts: DateParts): string {
+  return `${parts.year}-${String(parts.month).padStart(2, '0')}-${String(parts.day).padStart(2, '0')}`;
+}
 
 const MIN_AGE = 13;
 
@@ -34,10 +39,10 @@ export default function Birthday() {
 
         <View className="mt-6 flex-row items-center">
           <SVGS.BirthdayBG width={58} height={58} />
-          <Text className="ml-4 flex-1 text-[28px] font-extrabold leading-9 text-[#111111]">{t('signup.birthdayTitle')}</Text>
+          <Text className="ml-4 flex-1 font-extrabold text-[28px] leading-9 text-[#111111]">{t('signup.birthdayTitle')}</Text>
         </View>
 
-        <Text className="mt-10 text-center text-2xl font-extrabold text-[#111111]">{formatBirthdayLabel(birthday)}</Text>
+        <Text className="mt-10 text-center font-extrabold text-2xl text-[#111111]">{formatBirthdayLabel(birthday)}</Text>
 
         <View className="mt-10">
           <Controller
@@ -48,9 +53,15 @@ export default function Birthday() {
         </View>
 
         <View className="mt-auto pb-4 pt-10">
-          <Button title={t('signup.continue')} disabled={!canContinue} onPress={() => navigate('/username')} />
+          <Button
+            title={t('signup.continue')}
+            disabled={!canContinue}
+            onPress={() => {
+              signupDraftActions.setDob(toDob(birthday));
+              navigate('/username');
+            }}
+          />
         </View>
-
       </View>
     </SafeAreaView>
   );
