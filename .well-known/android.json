@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.highreels",
+      "sha256_cert_fingerprints": ["2E:0B:F7:39:46:3A:AC:7F:1A:76:25:73:F0:94:4E:4D:51:1F:65:46:4C:8B:BD:CC:13:A5:8D:F2:DD:3C:66:CA"]
+    }
+  }
+]

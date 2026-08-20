@@ -7,9 +7,18 @@
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
-    "assetBundlePatterns": ["**/*"],
-    "platforms": ["web", "ios", "android"],
-    "experiments": {"typedRoutes": true, "tsconfigPaths": true},
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "platforms": [
+      "web",
+      "ios",
+      "android"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "tsconfigPaths": true
+    },
     "web": {
       "bundler": "metro",
       "output": "static",
@@ -17,12 +26,15 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.highreels"
+      "bundleIdentifier": "com.highreels",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000000"
       },
       "package": "com.highreels"
     },
@@ -35,12 +47,17 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#000000",
           "image": "./src/assets/splash.png"
         }
       ]
     ],
-    "extra": {"router": {}, "eas": {"projectId": "88a2f948-4ba4-4eb1-a1e0-5ce65ead8f71"}},
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "88a2f948-4ba4-4eb1-a1e0-5ce65ead8f71"
+      }
+    },
     "owner": "joss-technologies"
   }
 }

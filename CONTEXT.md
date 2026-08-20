@@ -4,6 +4,10 @@ Mobile client for the HighReels short-video product.
 
 ## Language
 
+**Brand mark**:
+The HighReels visual mark: white musical note on black. Used as the App icon, Android adaptive icon foreground, splash image, and favicon.
+_Avoid_: Logo (as a separate asset type), wordmark
+
 **Environment**:
 A named backend the app talks to, identified by its API base URL. Today there are two: Development and Production. An Environment is not an Expo/EAS build profile; those are deferred until EAS is set up.
 _Avoid_: Build profile, EAS environment, stage, deployment (when meaning the backend target)
