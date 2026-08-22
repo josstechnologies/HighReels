@@ -1,13 +1,16 @@
 import {useState} from 'react';
-import {View, Text, Pressable, TextInput, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
+import {View, Text, Pressable, TextInput, KeyboardAvoidingView, Platform, ScrollView, Alert} from 'react-native';
 import {useLocalSearchParams, useRouter} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {Controller, useForm, useWatch} from 'react-hook-form';
+import {useMutation} from '@tanstack/react-query';
 import Svg, {Circle, Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
 import {Button} from '@/components';
+import {API_ROUTES} from '@/constants';
 import {signupDraftActions} from '@/store';
+import {API, apiErrorMessage} from '@/utils';
 
 type FormData = {password: string};
 
@@ -23,8 +26,9 @@ function RuleIcon({checked}: {checked: boolean}) {
 export default function Password() {
   const {back, navigate} = useRouter();
   const {t} = useTranslation();
-  const params = useLocalSearchParams<{flow?: string}>();
+  const params = useLocalSearchParams<{flow?: string; sessionId?: string}>();
   const isReset = params.flow === 'reset';
+  const sessionId = typeof params.sessionId === 'string' ? params.sessionId : '';
   const [showPassword, setShowPassword] = useState(false);
 
   const {control} = useForm<FormData>({defaultValues: {password: ''}});
@@ -36,6 +40,28 @@ export default function Password() {
   const hasSymbol = /[!@#$%^&*(),.?":{}|<>#&]/.test(password);
   const isValid = hasNumber && isMinLength && hasNoSpaces && hasSymbol;
 
+  const resetMutation = useMutation({
+    mutationFn: async () => {
+      if (!sessionId) throw new Error('UNEXPECTED_PASSWORD_RESET_SESSION');
+      await API.post(API_ROUTES.PASSWORD_RESET.COMPLETE, {
+        sessionId,
+        createPassword: password,
+        confirmPassword: password,
+      });
+    },
+    onSuccess: () => {
+      navigate('/password-changed');
+    },
+    onError: (error) => {
+      Alert.alert(
+        t('login.forgotPasswordTitle'),
+        error instanceof Error && error.message.startsWith('UNEXPECTED_')
+          ? t('errors.unexpectedResponse')
+          : apiErrorMessage(error, t('errors.generic'))
+      );
+    },
+  });
+
   const rules = [
     {label: t('signup.reqNumber'), checked: hasNumber},
     {label: t('signup.reqMinLength'), checked: isMinLength},
@@ -45,7 +71,11 @@ export default function Password() {
 
   const onContinue = () => {
     if (isReset) {
-      navigate('/password-changed');
+      if (!sessionId) {
+        Alert.alert(t('login.forgotPasswordTitle'), t('errors.missingChallenge'));
+        return;
+      }
+      resetMutation.mutate();
       return;
     }
     signupDraftActions.setPassword(password);
@@ -113,7 +143,12 @@ export default function Password() {
             </View>
 
             <View className="mt-auto pt-10">
-              <Button title={t('signup.continue')} disabled={!isValid} onPress={onContinue} />
+              <Button
+                title={t('signup.continue')}
+                disabled={!isValid || resetMutation.isPending}
+                loading={resetMutation.isPending}
+                onPress={onContinue}
+              />
             </View>
           </View>
         </ScrollView>

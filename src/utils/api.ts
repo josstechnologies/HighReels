@@ -1,6 +1,7 @@
 import {AxiosError, InternalAxiosRequestConfig, create, isAxiosError} from 'axios';
 import {API_ROUTES, BASE_URL} from '@/constants';
 import {authActions, authState$} from '@/store';
+import {getDeviceId, getDeviceName} from '@/utils/device';
 import {queryClient} from '@/utils/queryClient';
 
 export type ApiEnvelope<T> = {success?: boolean; data?: T; message?: string; code?: string};
@@ -21,6 +22,20 @@ export const clearAuthSession = () => {
   queryClient.clear();
 };
 
+export const signOut = async () => {
+  const refreshToken = authState$.refreshToken.get();
+
+  if (refreshToken) {
+    try {
+      await refreshAPI.post(API_ROUTES.LOGOUT, null, {headers: {'x-refresh-token': refreshToken}});
+    } catch {
+      // Local sign-out still proceeds if revoke fails (offline / expired token).
+    }
+  }
+
+  clearAuthSession();
+};
+
 let refreshPromise: Promise<string> | null = null;
 
 export const readEnvelope = <T extends object>(body: unknown): T | undefined => {
@@ -34,13 +49,6 @@ export const apiErrorMessage = (error: unknown, fallback: string) => {
   if (!isAxiosError(error)) return fallback;
   const message = (error.response?.data as ApiEnvelope<unknown> | undefined)?.message;
   return typeof message === 'string' && message.trim() ? message : fallback;
-};
-
-/** E.164: +countryCode + national digits (trunk 0 stripped), no spaces. */
-export const toE164 = (callingCode: string, nationalNumber: string) => {
-  const code = callingCode.replace(/\D/g, '');
-  const national = nationalNumber.replace(/\D/g, '').replace(/^0+/, '');
-  return `+${code}${national}`;
 };
 
 const refreshAccessToken = async () => {
@@ -61,12 +69,20 @@ const refreshAccessToken = async () => {
   return tokens.accessToken;
 };
 
-API.interceptors.request.use((config) => {
-  const accessToken = authState$.accessToken.get();
+const attachDeviceHeaders = (config: InternalAxiosRequestConfig) => {
+  config.headers['x-device-id'] = getDeviceId();
+  config.headers['x-device-name'] = getDeviceName();
+  return config;
+};
 
+API.interceptors.request.use((config) => {
+  attachDeviceHeaders(config);
+  const accessToken = authState$.accessToken.get();
   if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 });
+
+refreshAPI.interceptors.request.use(attachDeviceHeaders);
 
 API.interceptors.response.use(
   (response) => response,

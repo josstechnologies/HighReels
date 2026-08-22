@@ -1,41 +1,50 @@
-import {useState} from 'react';
-import {View, Text, Pressable, TextInput, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
+import {View, Text, Pressable, TextInput, KeyboardAvoidingView, Platform, ScrollView, Alert} from 'react-native';
 import {useRouter} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {Controller, useForm} from 'react-hook-form';
+import {useMutation} from '@tanstack/react-query';
 import Svg, {Path} from 'react-native-svg';
-import {AuthMethodTabs, AuthTab, Button, PhoneInputField} from '@/components';
+import {Button} from '@/components';
+import {API_ROUTES} from '@/constants';
+import {API, apiErrorMessage, ApiEnvelope, readEnvelope} from '@/utils';
 
 type FormData = {
   email: string;
-  phone: string;
 };
+
+type OtpChallengePayload = {sessionId?: string};
 
 export default function ForgotPassword() {
   const {back, navigate} = useRouter();
   const {t} = useTranslation();
 
-  const [activeTab, setActiveTab] = useState<AuthTab>('email');
-  const [selectedCountry, setSelectedCountry] = useState<any>(null);
-
-  const {control, handleSubmit, clearErrors} = useForm<FormData>({
-    defaultValues: {email: '', phone: ''},
+  const {control, handleSubmit} = useForm<FormData>({
+    defaultValues: {email: ''},
   });
 
-  const handleTabChange = (tab: AuthTab) => {
-    setActiveTab(tab);
-    clearErrors();
-  };
+  const sendOtpMutation = useMutation({
+    mutationFn: async (email: string) => {
+      const response = await API.post<ApiEnvelope<OtpChallengePayload>>(API_ROUTES.PASSWORD_RESET.OTP_SEND, {email});
+      const sessionId = readEnvelope<OtpChallengePayload>(response.data)?.sessionId;
+      if (!sessionId) throw new Error('UNEXPECTED_PASSWORD_RESET_OTP_SEND');
+      return {sessionId, email};
+    },
+    onSuccess: ({sessionId, email}) => {
+      navigate({pathname: '/otp', params: {flow: 'reset', type: 'email', value: email, sessionId}});
+    },
+    onError: (error) => {
+      Alert.alert(
+        t('login.forgotPasswordTitle'),
+        error instanceof Error && error.message.startsWith('UNEXPECTED_')
+          ? t('errors.unexpectedResponse')
+          : apiErrorMessage(error, t('errors.generic'))
+      );
+    },
+  });
 
-  const onSend = ({email, phone}: FormData) => {
-    if (activeTab === 'email') {
-      navigate({pathname: '/otp', params: {type: 'email', value: email, flow: 'reset'}});
-      return;
-    }
-
-    const countryCode = selectedCountry?.callingCode ? `+${selectedCountry.callingCode}` : '';
-    navigate({pathname: '/otp', params: {type: 'phone', value: `${countryCode} ${phone}`.trim(), flow: 'reset'}});
+  const onSend = ({email}: FormData) => {
+    sendOtpMutation.mutate(email.trim());
   };
 
   return (
@@ -54,63 +63,40 @@ export default function ForgotPassword() {
             <Text className="text-center text-2xl font-extrabold text-[#111111]">{t('login.forgotPasswordTitle')}</Text>
           </View>
 
-          <AuthMethodTabs activeTab={activeTab} onChange={handleTabChange} />
-
           <View className="px-6">
-            {activeTab === 'email' ? (
-              <Controller
-                name="email"
-                control={control}
-                rules={{
-                  validate: (val) => {
-                    if (activeTab !== 'email') return true;
-                    if (!val) return t('signup.invalidEmail');
-                    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || t('signup.invalidEmail');
-                  },
-                }}
-                render={({field: {onChange, onBlur, value}, fieldState}) => (
-                  <View>
-                    <TextInput
-                      value={value}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      placeholder={t('signup.emailPlaceholder')}
-                      placeholderTextColor="#a7a7a7"
-                      autoCapitalize="none"
-                      keyboardType="email-address"
-                      autoComplete="email"
-                      className="h-14 rounded-xl border border-[#ececec] px-4 text-base font-medium text-[#111111]"
-                    />
-                    {fieldState.error?.message ? <Text className="text-danger-700 mt-2 text-sm font-medium">{fieldState.error.message}</Text> : null}
-                  </View>
-                )}
-              />
-            ) : (
-              <Controller
-                name="phone"
-                control={control}
-                rules={{
-                  validate: (val) => {
-                    if (activeTab !== 'phone') return true;
-                    const digits = val.replace(/\D/g, '');
-                    return digits.length >= 7 || t('signup.invalidPhone');
-                  },
-                }}
-                render={({field: {onChange, value}, fieldState}) => (
-                  <PhoneInputField
+            <Controller
+              name="email"
+              control={control}
+              rules={{
+                validate: (val) => {
+                  if (!val) return t('signup.invalidEmail');
+                  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || t('signup.invalidEmail');
+                },
+              }}
+              render={({field: {onChange, onBlur, value}, fieldState}) => (
+                <View>
+                  <TextInput
                     value={value}
-                    onChangePhoneNumber={onChange}
-                    selectedCountry={selectedCountry}
-                    onChangeSelectedCountry={setSelectedCountry}
-                    placeholder={t('signup.phonePlaceholder')}
-                    defaultCountry="AU"
-                    error={fieldState.error}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    placeholder={t('signup.emailPlaceholder')}
+                    placeholderTextColor="#a7a7a7"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    autoComplete="email"
+                    className="h-14 rounded-xl border border-[#ececec] px-4 text-base font-medium text-[#111111]"
                   />
-                )}
-              />
-            )}
+                  {fieldState.error?.message ? <Text className="text-danger-700 mt-2 text-sm font-medium">{fieldState.error.message}</Text> : null}
+                </View>
+              )}
+            />
 
-            <Button className="mt-4" title={activeTab === 'email' ? t('signup.sendCode') : t('signup.sendOtp')} onPress={handleSubmit(onSend)} />
+            <Button
+              className="mt-4"
+              title={t('signup.sendCode')}
+              loading={sendOtpMutation.isPending}
+              onPress={handleSubmit(onSend)}
+            />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
