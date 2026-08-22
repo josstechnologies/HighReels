@@ -8,7 +8,8 @@ import {useMutation} from '@tanstack/react-query';
 import Svg, {Path} from 'react-native-svg';
 import {AuthMethodTabs, AuthTab, Button, PhoneInputField, SocialAuthButtons} from '@/components';
 import {API_ROUTES} from '@/constants';
-import {API, apiErrorMessage, ApiEnvelope, readEnvelope, toE164} from '@/utils';
+import {API, apiErrorMessage, ApiEnvelope, isValidNationalPhone, readEnvelope, toPhoneE164} from '@/utils';
+import type {ICountry} from 'rn-international-phone-number';
 
 type FormData = {
   email: string;
@@ -22,21 +23,24 @@ export default function Signup() {
   const {t} = useTranslation();
 
   const [activeTab, setActiveTab] = useState<AuthTab>('email');
-  const [selectedCountry, setSelectedCountry] = useState<any>(null);
+  const [selectedCountry, setSelectedCountry] = useState<ICountry | null>(null);
 
   const {control, handleSubmit, clearErrors} = useForm<FormData>({
     defaultValues: {email: '', phone: ''},
   });
 
   const sendOtpMutation = useMutation({
-    mutationFn: async (email: string) => {
-      const response = await API.post<ApiEnvelope<OtpChallengePayload>>(API_ROUTES.SIGNUP.OTP_SEND, {email});
+    mutationFn: async (payload: {type: 'email'; email: string} | {type: 'phone'; phone: string}) => {
+      const body = payload.type === 'email' ? {email: payload.email} : {phone: payload.phone};
+      const response = await API.post<ApiEnvelope<OtpChallengePayload>>(API_ROUTES.SIGNUP.OTP_SEND, body);
       const sessionId = readEnvelope<OtpChallengePayload>(response.data)?.sessionId;
       if (!sessionId) throw new Error('UNEXPECTED_SIGNUP_OTP_SEND');
-      return {sessionId, email};
+      return payload.type === 'email'
+        ? {sessionId, type: 'email' as const, value: payload.email}
+        : {sessionId, type: 'phone' as const, value: payload.phone};
     },
-    onSuccess: ({sessionId, email}) => {
-      navigate({pathname: '/otp', params: {flow: 'signup', type: 'email', value: email, sessionId}});
+    onSuccess: ({sessionId, type, value}) => {
+      navigate({pathname: '/otp', params: {flow: 'signup', type, value, sessionId}});
     },
     onError: (error) => {
       Alert.alert(
@@ -55,19 +59,17 @@ export default function Signup() {
 
   const onSend = ({email, phone}: FormData) => {
     if (activeTab === 'email') {
-      sendOtpMutation.mutate(email.trim());
+      sendOtpMutation.mutate({type: 'email', email: email.trim()});
       return;
     }
 
-    const callingCode = selectedCountry?.callingCode;
-    if (!callingCode) {
+    const e164 = toPhoneE164(phone, selectedCountry);
+    if (!e164) {
       Alert.alert(t('signup.errorTitle'), t('signup.invalidPhone'));
       return;
     }
 
-    // Phone signup OTP endpoint not wired yet — UI-only navigation.
-    const e164 = toE164(String(callingCode), phone);
-    navigate({pathname: '/otp', params: {flow: 'signup', type: 'phone', value: e164}});
+    sendOtpMutation.mutate({type: 'phone', phone: e164});
   };
 
   return (
@@ -123,17 +125,14 @@ export default function Signup() {
                 control={control}
                 rules={{
                   required: t('signup.invalidPhone'),
-                  validate: (val) => {
-                    const digits = val.replace(/\D/g, '');
-                    return digits.length >= 7 || t('signup.invalidPhone');
-                  },
+                  validate: (val) => isValidNationalPhone(val, selectedCountry) || t('signup.invalidPhone'),
                 }}
                 render={({field: {onChange, value}, fieldState}) => (
                   <PhoneInputField
                     value={value}
                     onChangePhoneNumber={onChange}
-                    selectedCountry={selectedCountry}
-                    onChangeSelectedCountry={setSelectedCountry}
+                    country={selectedCountry}
+                    onChangeCountry={setSelectedCountry}
                     placeholder={t('signup.phonePlaceholder')}
                     defaultCountry="AU"
                     error={fieldState.error}

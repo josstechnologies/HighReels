@@ -5,11 +5,14 @@ dist/
 .env.*
 npm-debug.*
 *.jks
+*.keystore
 *.p8
 *.p12
 *.key
 *.mobileprovision
 *.orig.*
+*.apk
+*.aab
 web-build/
 # expo router
 expo-env.d.ts

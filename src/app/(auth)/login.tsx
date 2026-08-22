@@ -8,7 +8,9 @@ import {useMutation} from '@tanstack/react-query';
 import Svg, {Circle, Path} from 'react-native-svg';
 import {AuthMethodTabs, AuthTab, Button, PhoneInputField, SocialAuthButtons} from '@/components';
 import {API_ROUTES} from '@/constants';
-import {API, apiErrorMessage, ApiEnvelope, readEnvelope, toE164} from '@/utils';
+import {authActions} from '@/store';
+import {API, apiErrorMessage, ApiEnvelope, isValidNationalPhone, readEnvelope, toPhoneE164} from '@/utils';
+import type {ICountry} from 'rn-international-phone-number';
 
 type FormData = {
   email: string;
@@ -17,16 +19,52 @@ type FormData = {
 };
 
 type OtpChallengePayload = {sessionId?: string};
+type AuthTokensPayload = {accessToken?: string; refreshToken?: string};
+type PasswordLoginPayload = AuthTokensPayload & {requiresOtp?: boolean; sessionId?: string};
 
 export default function Login() {
-  const {navigate} = useRouter();
+  const {navigate, replace} = useRouter();
   const {t} = useTranslation();
 
   const [activeTab, setActiveTab] = useState<AuthTab>('email');
-  const [selectedCountry, setSelectedCountry] = useState<any>(null);
+  const [selectedCountry, setSelectedCountry] = useState<ICountry | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
   const {control, handleSubmit, clearErrors} = useForm<FormData>({defaultValues: {email: '', password: '', phone: ''}});
+
+  const alertLoginError = (error: unknown) => {
+    Alert.alert(
+      t('login.errorTitle'),
+      error instanceof Error && error.message.startsWith('UNEXPECTED_')
+        ? t('errors.unexpectedResponse')
+        : apiErrorMessage(error, t('errors.generic'))
+    );
+  };
+
+  const passwordLoginMutation = useMutation({
+    mutationFn: async ({email, password}: {email: string; password: string}) => {
+      const response = await API.post<ApiEnvelope<PasswordLoginPayload>>(API_ROUTES.LOGIN.PASSWORD, {
+        email,
+        password,
+      });
+      const data = readEnvelope<PasswordLoginPayload>(response.data);
+      if (!data) throw new Error('UNEXPECTED_LOGIN_PASSWORD');
+      return {data, email};
+    },
+    onSuccess: ({data, email}) => {
+      if (data.accessToken && data.refreshToken) {
+        authActions.setSession({accessToken: data.accessToken, refreshToken: data.refreshToken});
+        replace('/');
+        return;
+      }
+      if (data.requiresOtp && data.sessionId) {
+        navigate({pathname: '/otp', params: {flow: 'login', type: 'email', value: email, sessionId: data.sessionId}});
+        return;
+      }
+      Alert.alert(t('login.errorTitle'), t('errors.unexpectedResponse'));
+    },
+    onError: alertLoginError,
+  });
 
   const sendOtpMutation = useMutation({
     mutationFn: async (phone: string) => {
@@ -38,14 +76,7 @@ export default function Login() {
     onSuccess: ({sessionId, phone}) => {
       navigate({pathname: '/otp', params: {flow: 'login', type: 'phone', value: phone, sessionId}});
     },
-    onError: (error) => {
-      Alert.alert(
-        t('login.errorTitle'),
-        error instanceof Error && error.message.startsWith('UNEXPECTED_')
-          ? t('errors.unexpectedResponse')
-          : apiErrorMessage(error, t('errors.generic'))
-      );
-    },
+    onError: alertLoginError,
   });
 
   const handleTabChange = (tab: AuthTab) => {
@@ -53,16 +84,19 @@ export default function Login() {
     clearErrors();
   };
 
-  const onSubmit = ({phone}: FormData) => {
-    if (activeTab !== 'phone') return;
+  const onSubmit = ({email, password, phone}: FormData) => {
+    if (activeTab === 'email') {
+      passwordLoginMutation.mutate({email: email.trim(), password});
+      return;
+    }
 
-    const callingCode = selectedCountry?.callingCode;
-    if (!callingCode) {
+    const e164 = toPhoneE164(phone, selectedCountry);
+    if (!e164) {
       Alert.alert(t('login.errorTitle'), t('signup.invalidPhone'));
       return;
     }
 
-    sendOtpMutation.mutate(toE164(String(callingCode), phone));
+    sendOtpMutation.mutate(e164);
   };
 
   return (
@@ -168,16 +202,15 @@ export default function Login() {
                 rules={{
                   validate: (val) => {
                     if (activeTab !== 'phone') return true;
-                    const digits = val.replace(/\D/g, '');
-                    return digits.length >= 7 || t('signup.invalidPhone');
+                    return isValidNationalPhone(val, selectedCountry) || t('signup.invalidPhone');
                   },
                 }}
                 render={({field: {onChange, value}, fieldState}) => (
                   <PhoneInputField
                     value={value}
                     onChangePhoneNumber={onChange}
-                    selectedCountry={selectedCountry}
-                    onChangeSelectedCountry={setSelectedCountry}
+                    country={selectedCountry}
+                    onChangeCountry={setSelectedCountry}
                     placeholder={t('signup.phonePlaceholder')}
                     defaultCountry="AU"
                     error={fieldState.error}
@@ -189,8 +222,7 @@ export default function Login() {
             <Button
               className="mt-4"
               title={activeTab === 'email' ? t('login.submit') : t('signup.sendOtp')}
-              disabled={activeTab === 'email'}
-              loading={sendOtpMutation.isPending}
+              loading={passwordLoginMutation.isPending || sendOtpMutation.isPending}
               onPress={handleSubmit(onSubmit)}
             />
 

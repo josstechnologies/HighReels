@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {useSelector} from '@legendapp/state/react';
 import Svg, {Path, Circle, Defs, LinearGradient, Stop} from 'react-native-svg';
 import {authState$} from '@/store';
-import {clearAuthSession} from '@/utils';
+import {signOut} from '@/utils';
 
 export default function Home() {
   const {navigate} = useRouter();
@@ -129,7 +129,9 @@ export default function Home() {
               <>
                 <Text className="text-center font-semibold text-base text-white">{t('login.signedIn')}</Text>
                 <Pressable
-                  onPress={clearAuthSession}
+                  onPress={() => {
+                    void signOut();
+                  }}
                   className="mt-3 w-full items-center justify-center rounded-2xl border border-white/20 bg-white/5 py-4 active:bg-white/10">
                   <Text className="font-bold text-base tracking-wide text-white">{t('login.signOut')}</Text>
                 </Pressable>

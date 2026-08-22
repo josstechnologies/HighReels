@@ -1,12 +1,13 @@
+import {useEffect} from 'react';
 import {FieldError} from 'react-hook-form';
 import {Text, View, ViewStyle} from 'react-native';
-import PhoneInput from 'rn-international-phone-number';
+import PhoneInput, {getCountryByCca2, type ICountry} from 'rn-international-phone-number';
 
 interface PhoneInputFieldProps {
   value: string;
   onChangePhoneNumber: (value: string) => void;
-  selectedCountry: any;
-  onChangeSelectedCountry: (country: any) => void;
+  country: ICountry | null;
+  onChangeCountry: (country: ICountry) => void;
   error?: FieldError;
   placeholder?: string;
   defaultCountry?: string;
@@ -16,22 +17,28 @@ interface PhoneInputFieldProps {
 export const PhoneInputField = ({
   value,
   onChangePhoneNumber,
-  selectedCountry,
-  onChangeSelectedCountry,
+  country,
+  onChangeCountry,
   error,
   placeholder,
-  defaultCountry = 'US',
+  defaultCountry = 'AU',
   language = 'eng',
 }: PhoneInputFieldProps) => {
+  useEffect(() => {
+    if (country || !defaultCountry) return;
+    const initial = getCountryByCca2(defaultCountry as ICountry['cca2']);
+    if (initial) onChangeCountry(initial);
+  }, [country, defaultCountry, onChangeCountry]);
+
   return (
     <View className="mb-4">
       <View className="w-full">
         <PhoneInput
           value={value}
           onChangePhoneNumber={onChangePhoneNumber}
-          selectedCountry={selectedCountry}
-          onChangeSelectedCountry={onChangeSelectedCountry}
-          defaultCountry={defaultCountry as any}
+          country={country ?? undefined}
+          onChangeCountry={onChangeCountry}
+          defaultCountry={defaultCountry as ICountry['cca2']}
           language={language as any}
           placeholder={placeholder}
           phoneInputStyles={{
@@ -69,13 +76,8 @@ export const PhoneInputField = ({
           }}
           modalStyles={{
             backdrop: {
-              backgroundColor: 'rgba(0, 0, 0, 0.4)', // Semi-transparent dark overlay
+              backgroundColor: 'rgba(0, 0, 0, 0.4)',
             },
-            // modal: {
-            //   backgroundColor: '#FFF',
-            //   borderTopLeftRadius: 16,
-            //   borderTopRightRadius: 16,
-            // },
             list: {
               backgroundColor: '#FFF',
             },

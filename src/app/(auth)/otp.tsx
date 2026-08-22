@@ -7,7 +7,7 @@ import {Controller, useForm} from 'react-hook-form';
 import {useMutation} from '@tanstack/react-query';
 import Svg, {Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
-import {API_ROUTES} from '@/constants';
+import {API_ROUTES, AuthOtpFlow, OTP_VERIFY_ROUTE} from '@/constants';
 import {authActions, signupDraftActions} from '@/store';
 import {API, apiErrorMessage, ApiEnvelope, readEnvelope} from '@/utils';
 
@@ -20,6 +20,11 @@ type FormData = {otp: string};
 
 type AuthTokensPayload = {accessToken?: string; refreshToken?: string};
 
+function parseFlow(raw: string | undefined): AuthOtpFlow | null {
+  if (raw === 'login' || raw === 'signup' || raw === 'reset') return raw;
+  return null;
+}
+
 export default function Otp() {
   const {back, navigate, replace} = useRouter();
   const {t} = useTranslation();
@@ -28,9 +33,7 @@ export default function Otp() {
   const type: OtpType = params.type === 'email' ? 'email' : 'phone';
   const value = typeof params.value === 'string' ? params.value : '';
   const sessionId = typeof params.sessionId === 'string' ? params.sessionId : '';
-  const isReset = params.flow === 'reset';
-  const isLogin = params.flow === 'login';
-  const isSignup = params.flow === 'signup';
+  const flow = parseFlow(typeof params.flow === 'string' ? params.flow : undefined);
 
   const [timer, setTimer] = useState(RESEND_SECONDS);
   const [isFocused, setIsFocused] = useState(false);
@@ -42,41 +45,42 @@ export default function Otp() {
   });
   const otpCode = watch('otp');
 
-  const verifyLoginMutation = useMutation({
+  const errorTitle =
+    flow === 'login' ? t('login.errorTitle') : flow === 'reset' ? t('login.forgotPasswordTitle') : t('signup.errorTitle');
+
+  const verifyMutation = useMutation({
     mutationFn: async (otp: string) => {
-      const response = await API.post<ApiEnvelope<AuthTokensPayload>>(API_ROUTES.LOGIN.OTP_VERIFY, {sessionId, otp});
+      if (!flow) throw new Error('UNEXPECTED_OTP_FLOW');
+      const response = await API.post<ApiEnvelope<AuthTokensPayload>>(OTP_VERIFY_ROUTE[flow], {sessionId, otp});
+      if (flow !== 'login') return null;
       const tokens = readEnvelope<AuthTokensPayload>(response.data);
       if (!tokens?.accessToken || !tokens.refreshToken) throw new Error('UNEXPECTED_LOGIN_OTP_VERIFY');
       return {accessToken: tokens.accessToken, refreshToken: tokens.refreshToken};
     },
     onSuccess: (tokens) => {
-      authActions.setSession(tokens);
-      replace('/');
+      if (flow === 'login' && tokens) {
+        authActions.setSession(tokens);
+        replace('/');
+        return;
+      }
+      if (flow === 'signup') {
+        signupDraftActions.start(sessionId);
+        navigate({pathname: '/password', params: {flow: 'signup'}});
+        return;
+      }
+      if (flow === 'reset') {
+        navigate({pathname: '/password', params: {flow: 'reset', sessionId}});
+      }
     },
     onError: (error) => {
       didSubmit.current = false;
       setValue('otp', '');
       Alert.alert(
-        t('login.errorTitle'),
+        errorTitle,
         error instanceof Error && error.message.startsWith('UNEXPECTED_')
           ? t('errors.unexpectedResponse')
           : apiErrorMessage(error, t('errors.generic'))
       );
-    },
-  });
-
-  const verifySignupMutation = useMutation({
-    mutationFn: async (otp: string) => {
-      await API.post(API_ROUTES.SIGNUP.OTP_VERIFY, {sessionId, otp});
-    },
-    onSuccess: () => {
-      signupDraftActions.start(sessionId);
-      navigate({pathname: '/password', params: {flow: 'signup'}});
-    },
-    onError: (error) => {
-      didSubmit.current = false;
-      setValue('otp', '');
-      Alert.alert(t('signup.errorTitle'), apiErrorMessage(error, t('errors.generic')));
     },
   });
 
@@ -90,11 +94,11 @@ export default function Otp() {
       setTimer(RESEND_SECONDS);
     },
     onError: (error) => {
-      Alert.alert(isLogin ? t('login.errorTitle') : t('signup.errorTitle'), apiErrorMessage(error, t('errors.generic')));
+      Alert.alert(errorTitle, apiErrorMessage(error, t('errors.generic')));
     },
   });
 
-  const busy = verifyLoginMutation.isPending || verifySignupMutation.isPending || resendMutation.isPending;
+  const busy = verifyMutation.isPending || resendMutation.isPending;
 
   useEffect(() => {
     if (timer === 0) return;
@@ -105,51 +109,26 @@ export default function Otp() {
   useEffect(() => {
     if (otpCode.length !== OTP_LENGTH || didSubmit.current || busy) return;
 
-    if (isLogin) {
-      if (!sessionId) {
-        Alert.alert(t('login.errorTitle'), t('errors.missingChallenge'));
-        return;
-      }
-      didSubmit.current = true;
-      verifyLoginMutation.mutate(otpCode);
-      return;
-    }
-
-    if (isSignup) {
-      if (!sessionId) {
-        Alert.alert(t('signup.errorTitle'), t('errors.missingChallenge'));
-        return;
-      }
-      didSubmit.current = true;
-      verifySignupMutation.mutate(otpCode);
+    if (!flow || !sessionId) {
+      Alert.alert(errorTitle, t('errors.missingChallenge'));
       return;
     }
 
     didSubmit.current = true;
-    const timeout = setTimeout(() => {
-      navigate(isReset ? {pathname: '/password', params: {flow: 'reset'}} : '/password');
-    }, 150);
-    return () => clearTimeout(timeout);
+    verifyMutation.mutate(otpCode);
     // mutate is stable; omit mutation objects to avoid re-firing
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [otpCode, navigate, isReset, isLogin, isSignup, sessionId, busy, t]);
+  }, [otpCode, flow, sessionId, busy, t, errorTitle]);
 
   const handleResend = () => {
     if (timer > 0 || busy) return;
 
-    if ((isLogin || isSignup) && sessionId) {
-      resendMutation.mutate();
+    if (!sessionId) {
+      Alert.alert(errorTitle, t('errors.missingChallenge'));
       return;
     }
 
-    if (isLogin || isSignup) {
-      Alert.alert(isLogin ? t('login.errorTitle') : t('signup.errorTitle'), t('errors.missingChallenge'));
-      return;
-    }
-
-    setValue('otp', '');
-    didSubmit.current = false;
-    setTimer(RESEND_SECONDS);
+    resendMutation.mutate();
   };
 
   const timerLabel = `00:${timer < 10 ? `0${timer}` : timer}`;
