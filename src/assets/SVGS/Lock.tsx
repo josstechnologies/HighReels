@@ -3,6 +3,7 @@ export const Lock = (props: SvgProps) => (
   <Svg
     width={20}
     height={20}
+    viewBox="0 0 20 20"
     fill="none"
     {...props}
   >

@@ -40,6 +40,7 @@ export default function Layout() {
     <Provider>
       <Stack screenOptions={{headerShown: false}}>
         <Stack.Screen name="index" />
+        <Stack.Screen name="(account-settings)" />
         <Stack.Protected guard={!hasSession}>
           <Stack.Screen name="(auth)" />
         </Stack.Protected>

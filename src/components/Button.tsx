@@ -13,15 +13,15 @@ type ButtonProps = Omit<PressableProps, 'children' | 'disabled'> & {
 const containerClass: Record<ButtonVariant, {default: string; disabled: string}> = {
   primary: {
     default: 'bg-primary active:opacity-90',
-    disabled: 'bg-[#F0ECFB]',
+    disabled: 'bg-primary-disabled',
   },
   secondary: {
-    default: 'bg-[#F3F3F3] active:opacity-80',
-    disabled: 'bg-[#DFDFDF]',
+    default: 'bg-secondary active:bg-secondary-pressed',
+    disabled: 'bg-secondary-disabled',
   },
   outlined: {
     default: 'border border-black bg-transparent active:opacity-80',
-    disabled: 'border-0 bg-[#E0E0E0]',
+    disabled: 'border-0 bg-secondary-disabled',
   },
   text: {
     default: 'bg-transparent active:opacity-70',
@@ -31,9 +31,9 @@ const containerClass: Record<ButtonVariant, {default: string; disabled: string}>
 
 const textClass: Record<ButtonVariant, {default: string; disabled: string}> = {
   primary: {default: 'text-white', disabled: 'text-white'},
-  secondary: {default: 'text-[#111111]', disabled: 'text-white'},
-  outlined: {default: 'text-[#111111]', disabled: 'text-white'},
-  text: {default: 'text-[#111111]', disabled: 'text-[#D4D4D4]'},
+  secondary: {default: 'text-black', disabled: 'text-white'},
+  outlined: {default: 'text-black', disabled: 'text-white'},
+  text: {default: 'text-black', disabled: 'text-grey-100'},
 };
 
 const spinnerColor: Record<ButtonVariant, string> = {

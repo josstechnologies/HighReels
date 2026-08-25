@@ -1,0 +1,415 @@
+{
+  "languagePickerTitle": "Choisir une langue",
+  "languagePickerSubtitle": "Sélectionnez votre langue préférée pour consulter les politiques et règles.",
+  "languagePickerDone": "Terminé",
+  "languages": {
+    "en": "English",
+    "fr": "Français"
+  },
+  "communityGuidelines": {
+    "title": "Règles de la communauté",
+    "intro": "Nos règles aident à garder la plateforme sûre, respectueuse et agréable pour tous.",
+    "sections": [
+      {
+        "title": "Aperçu",
+        "kind": "text",
+        "body": "Notre plateforme est conçue pour aider les gens à créer, partager et se connecter en toute sécurité. Ces règles définissent ce qui est autorisé et ce qui ne l'est pas."
+      },
+      {
+        "title": "Ce que vous pouvez faire",
+        "kind": "bullets",
+        "items": [
+          "Partager du contenu original (vidéos, images, texte)",
+          "Exprimer vos opinions avec respect",
+          "Collaborer et échanger avec les autres"
+        ]
+      },
+      {
+        "title": "Ce qui n'est pas autorisé",
+        "kind": "bullets",
+        "items": [
+          "Discours haineux ou comportement abusif",
+          "Harcèlement, intimidation ou menaces",
+          "Contenu explicite ou nuisible",
+          "Informations trompeuses ou fausses",
+          "Violations de droits d'auteur"
+        ]
+      },
+      {
+        "title": "Modération du contenu",
+        "kind": "textBullets",
+        "body": "Nous examinons le contenu à l'aide de systèmes automatisés et de contrôles manuels. Les violations peuvent entraîner :",
+        "items": ["Suppression du contenu", "Restrictions temporaires", "Suspension du compte"]
+      },
+      {
+        "title": "Comportement respectueux",
+        "kind": "text",
+        "body": "Traitez les autres avec respect. Évitez de cibler des personnes ou des groupes."
+      },
+      {
+        "title": "FAQ",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Pourquoi mon contenu a-t-il été supprimé ?",
+            "answer": "Il a peut-être enfreint une ou plusieurs règles, comme un contenu nuisible, trompeur ou inapproprié."
+          },
+          {
+            "question": "Puis-je contester une décision ?",
+            "answer": "Oui, vous pouvez demander un nouvel examen si vous pensez qu'une erreur a été commise."
+          },
+          {
+            "question": "Ces règles s'appliquent-elles au contenu privé ?",
+            "answer": "Oui, tout contenu partagé sur la plateforme doit respecter les règles."
+          }
+        ]
+      }
+    ]
+  },
+  "safetyHub": {
+    "title": "Centre de sécurité",
+    "sections": [
+      {
+        "title": "Aperçu",
+        "kind": "text",
+        "body": "Votre sécurité compte. Cette section vous aide à protéger votre compte et à gérer votre expérience."
+      },
+      {
+        "title": "Sécurité du compte",
+        "kind": "bullets",
+        "items": [
+          "Utilisez un mot de passe fort",
+          "Activez des fonctionnalités de sécurité supplémentaires",
+          "Vérifiez régulièrement les appareils connectés"
+        ]
+      },
+      {
+        "title": "Contrôles de confidentialité",
+        "kind": "bullets",
+        "items": [
+          "Gérez qui peut voir votre contenu",
+          "Contrôlez qui peut vous contacter",
+          "Ajustez la visibilité à tout moment"
+        ]
+      },
+      {
+        "title": "Signalement et blocage",
+        "kind": "bullets",
+        "items": [
+          "Signalez un contenu ou un utilisateur inapproprié",
+          "Bloquez des comptes pour empêcher toute interaction"
+        ]
+      },
+      {
+        "title": "Bien-être numérique",
+        "kind": "bullets",
+        "items": [
+          "Définir des limites de temps d'écran",
+          "Planifier des pauses",
+          "Activer les heures calmes"
+        ]
+      },
+      {
+        "title": "FAQ",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Comment signaler un utilisateur ?",
+            "answer": "Vous pouvez signaler directement depuis son profil ou son contenu."
+          },
+          {
+            "question": "Les utilisateurs sauront-ils que je les ai signalés ?",
+            "answer": "Non, les signalements sont privés."
+          },
+          {
+            "question": "Comment débloquer quelqu'un ?",
+            "answer": "Vous pouvez gérer les utilisateurs bloqués dans vos paramètres de confidentialité."
+          }
+        ]
+      }
+    ]
+  },
+  "termsOfUse": {
+    "title": "Conditions d'utilisation",
+    "sections": [
+      {
+        "title": "Aperçu",
+        "kind": "text",
+        "body": "Ces conditions définissent comment vous pouvez utiliser la plateforme et ce qui est attendu des utilisateurs."
+      },
+      {
+        "title": "Utilisation de la plateforme",
+        "kind": "text",
+        "body": "Vous devez utiliser la plateforme de manière responsable et respecter toutes les règles."
+      },
+      {
+        "title": "Responsabilités de l'utilisateur",
+        "kind": "bullets",
+        "items": [
+          "Fournir des informations exactes",
+          "Protéger votre compte",
+          "Respecter les autres utilisateurs"
+        ]
+      },
+      {
+        "title": "Utilisation interdite",
+        "kind": "bullets",
+        "items": [
+          "Activités illégales",
+          "Mauvaise utilisation des services",
+          "Tenter de nuire ou de perturber la plateforme"
+        ]
+      },
+      {
+        "title": "Modifications du service",
+        "kind": "text",
+        "body": "Nous pouvons mettre à jour les fonctionnalités, politiques ou services à tout moment."
+      },
+      {
+        "title": "FAQ",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Mon compte peut-il être suspendu ?",
+            "answer": "Oui, si vous enfreignez les conditions."
+          },
+          {
+            "question": "Puis-je avoir plusieurs comptes ?",
+            "answer": "Uniquement si cela est autorisé par les règles de la plateforme."
+          },
+          {
+            "question": "Les conditions évoluent-elles avec le temps ?",
+            "answer": "Oui, les conditions peuvent être mises à jour périodiquement."
+          }
+        ]
+      }
+    ]
+  },
+  "privacyPolicy": {
+    "title": "Politique de confidentialité",
+    "sections": [
+      {
+        "title": "Aperçu",
+        "kind": "text",
+        "body": "Nous nous engageons à protéger vos données personnelles et votre vie privée."
+      },
+      {
+        "title": "Informations que nous collectons",
+        "kind": "bullets",
+        "items": [
+          "Détails du compte",
+          "Activité d'utilisation",
+          "Informations sur l'appareil"
+        ]
+      },
+      {
+        "title": "Comment nous utilisons vos données",
+        "kind": "bullets",
+        "items": [
+          "Améliorer les services",
+          "Personnaliser votre expérience",
+          "Assurer la sécurité"
+        ]
+      },
+      {
+        "title": "Protection des données",
+        "kind": "text",
+        "body": "Nous utilisons des mesures de sécurité pour protéger vos informations."
+      },
+      {
+        "title": "Votre contrôle",
+        "kind": "bullets",
+        "items": [
+          "Gérer les paramètres de confidentialité",
+          "Contrôler la visibilité",
+          "Demander l'accès aux données (si applicable)"
+        ]
+      },
+      {
+        "title": "FAQ",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Mes données sont-elles partagées avec d'autres ?",
+            "answer": "Uniquement lorsque c'est nécessaire et conformément à la politique."
+          },
+          {
+            "question": "Puis-je supprimer mes données ?",
+            "answer": "Oui, selon les paramètres de votre compte."
+          },
+          {
+            "question": "Mes informations sont-elles en sécurité ?",
+            "answer": "Nous utilisons des pratiques de sécurité standards pour les protéger."
+          }
+        ]
+      }
+    ]
+  },
+  "rewardsPolicy": {
+    "title": "Politique de récompenses",
+    "sections": [
+      {
+        "title": "Aperçu",
+        "kind": "text",
+        "body": "Gagnez et gérez des récompenses grâce à votre activité sur la plateforme."
+      },
+      {
+        "title": "Gagner des récompenses",
+        "kind": "bullets",
+        "items": [
+          "Créer du contenu engageant",
+          "Participer aux fonctionnalités",
+          "Accomplir des actions spécifiques"
+        ]
+      },
+      {
+        "title": "Utiliser les récompenses",
+        "kind": "bullets",
+        "items": [
+          "Échanger contre des fonctionnalités ou avantages",
+          "Utiliser au sein de l'écosystème de l'application"
+        ]
+      },
+      {
+        "title": "Limitations",
+        "kind": "bullets",
+        "items": [
+          "Les récompenses peuvent expirer",
+          "Certaines actions peuvent ne pas être éligibles"
+        ]
+      },
+      {
+        "title": "Abus",
+        "kind": "textBullets",
+        "body": "Un abus du système de récompenses peut entraîner :",
+        "items": ["Suppression des récompenses", "Restrictions de compte"]
+      },
+      {
+        "title": "FAQ",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Pourquoi n'ai-je pas reçu de récompenses ?",
+            "answer": "L'activité peut ne pas répondre aux critères d'éligibilité."
+          },
+          {
+            "question": "Les récompenses expirent-elles ?",
+            "answer": "Oui, selon la politique."
+          },
+          {
+            "question": "Les récompenses peuvent-elles être transférées ?",
+            "answer": "Non, les récompenses sont liées à votre compte."
+          }
+        ]
+      }
+    ]
+  },
+  "digitalAssetsPolicy": {
+    "title": "Politique des actifs numériques",
+    "sections": [
+      {
+        "title": "Aperçu",
+        "kind": "text",
+        "body": "Cette politique couvre l'utilisation et la propriété du contenu numérique sur la plateforme."
+      },
+      {
+        "title": "Votre contenu",
+        "kind": "text",
+        "body": "Vous conservez la propriété du contenu que vous créez."
+      },
+      {
+        "title": "Droits d'utilisation de la plateforme",
+        "kind": "text",
+        "body": "Vous accordez à la plateforme l'autorisation d'afficher et de distribuer votre contenu."
+      },
+      {
+        "title": "Contenu restreint",
+        "kind": "bullets",
+        "items": [
+          "Matériel protégé par le droit d'auteur non autorisé",
+          "Contenu sans droits appropriés"
+        ]
+      },
+      {
+        "title": "Suppression du contenu",
+        "kind": "text",
+        "body": "Nous pouvons supprimer le contenu qui viole des droits ou des politiques."
+      },
+      {
+        "title": "FAQ",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Est-ce que je possède mes publications ?",
+            "answer": "Oui, vous conservez la propriété."
+          },
+          {
+            "question": "D'autres peuvent-ils utiliser mon contenu ?",
+            "answer": "Uniquement si vous l'autorisez ou si les règles de la plateforme le permettent."
+          },
+          {
+            "question": "Que se passe-t-il si je téléverse du contenu protégé ?",
+            "answer": "Il peut être supprimé."
+          }
+        ]
+      }
+    ]
+  },
+  "teenSafetyPolicy": {
+    "title": "Politique de sécurité des adolescents",
+    "sections": [
+      {
+        "title": "Aperçu",
+        "kind": "text",
+        "body": "Nous offrons des protections supplémentaires aux utilisateurs plus jeunes pour garantir un environnement sûr."
+      },
+      {
+        "title": "Confidentialité pour les adolescents",
+        "kind": "bullets",
+        "items": [
+          "Les comptes peuvent être privés par défaut",
+          "Options de visibilité limitées"
+        ]
+      },
+      {
+        "title": "Restrictions de contenu",
+        "kind": "bullets",
+        "items": [
+          "Le contenu sensible est limité",
+          "Des expériences adaptées à l'âge sont prioritaires"
+        ]
+      },
+      {
+        "title": "Contrôles d'interaction",
+        "kind": "bullets",
+        "items": [
+          "Options de messagerie restreintes",
+          "Paramètres de découverte plus sûrs"
+        ]
+      },
+      {
+        "title": "Sensibilisation parentale",
+        "kind": "text",
+        "body": "Encouragez une utilisation sûre et la sensibilisation des utilisateurs plus jeunes."
+      },
+      {
+        "title": "FAQ",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Les comptes adolescents sont-ils privés par défaut ?",
+            "answer": "Oui, pour plus de sécurité."
+          },
+          {
+            "question": "Les adolescents peuvent-ils recevoir des messages de tout le monde ?",
+            "answer": "Non, la messagerie est restreinte."
+          },
+          {
+            "question": "Quelles protections sont incluses ?",
+            "answer": "Contrôles de confidentialité, filtres de contenu et interactions limitées."
+          }
+        ]
+      }
+    ]
+  }
+}

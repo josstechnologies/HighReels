@@ -1,0 +1,384 @@
+{
+  "languagePickerTitle": "Choose a language",
+  "languagePickerSubtitle": "Select your preferred language to view policies and guidelines.",
+  "languagePickerDone": "Done",
+  "languages": {
+    "en": "English",
+    "fr": "Français"
+  },
+  "communityGuidelines": {
+    "title": "Community Guidelines",
+    "intro": "Our guidelines help keep the platform safe, respectful, and enjoyable for everyone.",
+    "sections": [
+      {
+        "title": "Overview",
+        "kind": "text",
+        "body": "Our platform is built to help people create, share, and connect safely. These guidelines define what is allowed and what is not."
+      },
+      {
+        "title": "What You Can Do",
+        "kind": "bullets",
+        "items": [
+          "Share original content (videos, images, text)",
+          "Express opinions respectfully",
+          "Collaborate and engage with others"
+        ]
+      },
+      {
+        "title": "What Is Not Allowed",
+        "kind": "bullets",
+        "items": [
+          "Hate speech or abusive behavior",
+          "Harassment, bullying, or threats",
+          "Explicit or harmful content",
+          "Misleading or false information",
+          "Copyright violations"
+        ]
+      },
+      {
+        "title": "Content Moderation",
+        "kind": "textBullets",
+        "body": "We review content using automated systems and manual checks. Violations may result in:",
+        "items": ["Content removal", "Temporary restrictions", "Account suspension"]
+      },
+      {
+        "title": "Respectful Behaviour",
+        "kind": "text",
+        "body": "Treat others with respect. Avoid targeting individuals or groups."
+      },
+      {
+        "title": "FAQ's",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Why was my content removed?",
+            "answer": "It may have violated one or more guidelines such as harmful, misleading, or inappropriate content."
+          },
+          {
+            "question": "Can I appeal a decision?",
+            "answer": "Yes, you can request a review if you believe a mistake was made."
+          },
+          {
+            "question": "Do these rules apply to private content?",
+            "answer": "Yes, all content shared on the platform must follow guidelines."
+          }
+        ]
+      }
+    ]
+  },
+  "safetyHub": {
+    "title": "Safety Hub",
+    "sections": [
+      {
+        "title": "Overview",
+        "kind": "text",
+        "body": "Your safety matters. This section helps you protect your account and manage your experience."
+      },
+      {
+        "title": "Account Safety",
+        "kind": "bullets",
+        "items": [
+          "Use a strong password",
+          "Enable additional security features",
+          "Review logged-in devices regularly"
+        ]
+      },
+      {
+        "title": "Privacy Controls",
+        "kind": "bullets",
+        "items": [
+          "Manage who can see your content",
+          "Control who can contact you",
+          "Adjust visibility settings anytime"
+        ]
+      },
+      {
+        "title": "Reporting & Blocking",
+        "kind": "bullets",
+        "items": [
+          "Report inappropriate content or users",
+          "Block accounts to prevent interaction"
+        ]
+      },
+      {
+        "title": "Digital Well-being",
+        "kind": "bullets",
+        "items": ["Set screen time limits", "Schedule breaks", "Enable quiet hours"]
+      },
+      {
+        "title": "FAQ's",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "How do I report a user?",
+            "answer": "You can report directly from their profile or content."
+          },
+          {
+            "question": "Will users know if I report them?",
+            "answer": "No, reports are private."
+          },
+          {
+            "question": "How do I unblock someone?",
+            "answer": "You can manage blocked users in your privacy settings."
+          }
+        ]
+      }
+    ]
+  },
+  "termsOfUse": {
+    "title": "Terms of Use",
+    "sections": [
+      {
+        "title": "Overview",
+        "kind": "text",
+        "body": "These terms define how you can use the platform and what is expected from users."
+      },
+      {
+        "title": "Using the Platform",
+        "kind": "text",
+        "body": "You must use the platform responsibly and follow all rules."
+      },
+      {
+        "title": "User Responsibilities",
+        "kind": "bullets",
+        "items": ["Provide accurate information", "Keep your account secure", "Respect other users"]
+      },
+      {
+        "title": "Prohibited Use",
+        "kind": "bullets",
+        "items": [
+          "Illegal activities",
+          "Misuse of services",
+          "Attempting to harm or disrupt the platform"
+        ]
+      },
+      {
+        "title": "Service Changes",
+        "kind": "text",
+        "body": "We may update features, policies, or services at any time."
+      },
+      {
+        "title": "FAQ's",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Can my account be suspended?",
+            "answer": "Yes, if you violate the terms."
+          },
+          {
+            "question": "Can I have multiple accounts?",
+            "answer": "Only if allowed under platform rules."
+          },
+          {
+            "question": "Do terms change over time?",
+            "answer": "Yes, terms may be updated periodically."
+          }
+        ]
+      }
+    ]
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "sections": [
+      {
+        "title": "Overview",
+        "kind": "text",
+        "body": "We are committed to protecting your personal data and privacy."
+      },
+      {
+        "title": "Information We Collect",
+        "kind": "bullets",
+        "items": ["Account details", "Usage activity", "Device information"]
+      },
+      {
+        "title": "How We Use Your Data",
+        "kind": "bullets",
+        "items": ["Improve services", "Personalize your experience", "Ensure safety and security"]
+      },
+      {
+        "title": "Data Protection",
+        "kind": "text",
+        "body": "We use security measures to protect your information."
+      },
+      {
+        "title": "Your Control",
+        "kind": "bullets",
+        "items": [
+          "Manage privacy settings",
+          "Control visibility",
+          "Request data access (if applicable)"
+        ]
+      },
+      {
+        "title": "FAQ's",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Is my data shared with others?",
+            "answer": "Only when necessary and according to policy."
+          },
+          {
+            "question": "Can I delete my data?",
+            "answer": "Yes, depending on your account settings."
+          },
+          {
+            "question": "Is my information safe?",
+            "answer": "We use standard security practices to protect it."
+          }
+        ]
+      }
+    ]
+  },
+  "rewardsPolicy": {
+    "title": "Rewards Policy",
+    "sections": [
+      {
+        "title": "Overview",
+        "kind": "text",
+        "body": "Earn and manage rewards through your activity on the platform."
+      },
+      {
+        "title": "Earning Rewards",
+        "kind": "bullets",
+        "items": [
+          "Creating engaging content",
+          "Participating in features",
+          "Completing specific actions"
+        ]
+      },
+      {
+        "title": "Using Rewards",
+        "kind": "bullets",
+        "items": ["Redeem for features or benefits", "Use within the app ecosystem"]
+      },
+      {
+        "title": "Limitations",
+        "kind": "bullets",
+        "items": ["Rewards may expire", "Certain actions may not qualify"]
+      },
+      {
+        "title": "Misuse",
+        "kind": "textBullets",
+        "body": "Abuse of the rewards system may result in:",
+        "items": ["Reward removal", "Account restrictions"]
+      },
+      {
+        "title": "FAQ's",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Why didn't I receive rewards?",
+            "answer": "The activity may not meet eligibility criteria."
+          },
+          {
+            "question": "Do rewards expire?",
+            "answer": "Yes, depending on the policy."
+          },
+          {
+            "question": "Can rewards be transferred?",
+            "answer": "No, rewards are tied to your account."
+          }
+        ]
+      }
+    ]
+  },
+  "digitalAssetsPolicy": {
+    "title": "Digital Assets Policy",
+    "sections": [
+      {
+        "title": "Overview",
+        "kind": "text",
+        "body": "This policy covers the use and ownership of digital content on the platform."
+      },
+      {
+        "title": "Your Content",
+        "kind": "text",
+        "body": "You retain ownership of the content you create."
+      },
+      {
+        "title": "Platform Usage Rights",
+        "kind": "text",
+        "body": "You grant the platform permission to display and distribute your content."
+      },
+      {
+        "title": "Restricted Content",
+        "kind": "bullets",
+        "items": ["Unauthorized copyrighted material", "Content without proper rights"]
+      },
+      {
+        "title": "Content Removal",
+        "kind": "text",
+        "body": "We may remove content that violates rights or policies."
+      },
+      {
+        "title": "FAQ's",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Do I own my uploads?",
+            "answer": "Yes, you retain ownership."
+          },
+          {
+            "question": "Can others use my content?",
+            "answer": "Only if permitted by you or platform rules."
+          },
+          {
+            "question": "What happens if I upload copyrighted content?",
+            "answer": "It may be removed."
+          }
+        ]
+      }
+    ]
+  },
+  "teenSafetyPolicy": {
+    "title": "Teens Safety Policy",
+    "sections": [
+      {
+        "title": "Overview",
+        "kind": "text",
+        "body": "We provide additional protections for younger users to ensure a safe environment."
+      },
+      {
+        "title": "Privacy for Teens",
+        "kind": "bullets",
+        "items": ["Accounts may be private by default", "Limited visibility options"]
+      },
+      {
+        "title": "Content Restrictions",
+        "kind": "bullets",
+        "items": [
+          "Sensitive content is limited",
+          "Age-appropriate experiences are prioritized"
+        ]
+      },
+      {
+        "title": "Interaction Controls",
+        "kind": "bullets",
+        "items": ["Restricted messaging options", "Safer discovery settings"]
+      },
+      {
+        "title": "Parental Awareness",
+        "kind": "text",
+        "body": "Encourage safe usage and awareness for younger users."
+      },
+      {
+        "title": "FAQ's",
+        "kind": "faq",
+        "items": [
+          {
+            "question": "Are teen accounts private by default?",
+            "answer": "Yes, for added safety."
+          },
+          {
+            "question": "Can teens receive messages from everyone?",
+            "answer": "No, messaging is restricted."
+          },
+          {
+            "question": "What protections are included?",
+            "answer": "Privacy controls, content filters, and limited interactions."
+          }
+        ]
+      }
+    ]
+  }
+}
