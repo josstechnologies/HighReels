@@ -4,6 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {useSelector} from '@legendapp/state/react';
 import Svg, {Path, Circle, Defs, LinearGradient, Stop} from 'react-native-svg';
+import {SVGS} from '@/assets';
 import {authState$} from '@/store';
 import {signOut} from '@/utils';
 
@@ -40,10 +41,18 @@ export default function Home() {
               <Text className="ml-2 font-extrabold text-xl tracking-wider text-white">{t('landing.title')}</Text>
             </View>
 
-            {/* Language Switcher */}
-            <Pressable onPress={toggleLanguage} className="mr-12 rounded-full border border-white/10 bg-white/10 px-4 py-2 active:bg-white/20">
-              <Text className="font-semibold text-xs uppercase tracking-wider text-white">{i18n.language === 'en' ? 'FR' : 'EN'}</Text>
-            </Pressable>
+            <View className="flex-row items-center gap-2">
+              {hasSession ? (
+                <Pressable
+                  onPress={() => navigate('/account-settings')}
+                  className="rounded-full border border-white/10 bg-white/10 p-2 active:bg-white/20">
+                  <SVGS.Menu width={20} height={20} color="#ffffff" />
+                </Pressable>
+              ) : null}
+              <Pressable onPress={toggleLanguage} className="rounded-full border border-white/10 bg-white/10 px-4 py-2 active:bg-white/20">
+                <Text className="font-semibold text-xs uppercase tracking-wider text-white">{i18n.language === 'en' ? 'FR' : 'EN'}</Text>
+              </Pressable>
+            </View>
           </View>
 
           {/* Central Logo & Brand Showcase */}
