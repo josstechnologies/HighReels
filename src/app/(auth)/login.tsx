@@ -8,8 +8,7 @@ import {useMutation} from '@tanstack/react-query';
 import Svg, {Circle, Path} from 'react-native-svg';
 import {AuthMethodTabs, AuthTab, Button, PhoneInputField, SocialAuthButtons} from '@/components';
 import {API_ROUTES} from '@/constants';
-import {authActions} from '@/store';
-import {API, apiErrorMessage, ApiEnvelope, isValidNationalPhone, readEnvelope, toPhoneE164} from '@/utils';
+import {API, apiErrorMessage, ApiEnvelope, completeSession, isValidNationalPhone, readEnvelope, toPhoneE164} from '@/utils';
 import type {ICountry} from 'rn-international-phone-number';
 
 type FormData = {
@@ -51,10 +50,21 @@ export default function Login() {
       if (!data) throw new Error('UNEXPECTED_LOGIN_PASSWORD');
       return {data, email};
     },
-    onSuccess: ({data, email}) => {
+    onSuccess: async ({data, email}) => {
       if (data.accessToken && data.refreshToken) {
-        authActions.setSession({accessToken: data.accessToken, refreshToken: data.refreshToken});
-        replace('/');
+        try {
+          await completeSession({accessToken: data.accessToken, refreshToken: data.refreshToken});
+          replace('/');
+        } catch (error) {
+          if (error instanceof Error && error.message === 'ACCOUNT_CAP_REACHED') {
+            Alert.alert(
+              t('login.errorTitle'),
+              'You can add up to 5 accounts on this device. Log out of one to add another.'
+            );
+            return;
+          }
+          alertLoginError(error);
+        }
         return;
       }
       if (data.requiresOtp && data.sessionId) {

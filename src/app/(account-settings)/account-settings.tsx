@@ -1,7 +1,9 @@
+import {useState} from 'react';
 import {Pressable, Text, View, ScrollView} from 'react-native';
 import {useRouter} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
+import {AccountSwitcherSheet} from '@/components';
 import {signOut} from '@/utils';
 import type {SvgProps} from 'react-native-svg';
 import type {ReactElement} from 'react';
@@ -54,10 +56,13 @@ function SectionSeparator({title}: {title: string}) {
 
 export default function AccountSettings() {
   const {back, replace, navigate} = useRouter();
+  const [switcherOpen, setSwitcherOpen] = useState(false);
+
+  const openSwitcher = () => setSwitcherOpen(true);
 
   const handleSignOut = async () => {
-    await signOut();
-    replace('/');
+    const stillSignedIn = await signOut();
+    if (!stillSignedIn) replace('/');
   };
 
   const sections: SectionDef[] = [
@@ -88,7 +93,7 @@ export default function AccountSettings() {
       title: 'Activity',
       rows: [
         {label: 'Activity center', Icon: SVGS.History},
-        {label: 'Switch account', Icon: SVGS.Replay},
+        {label: 'Switch account', Icon: SVGS.Replay, onPress: openSwitcher},
         {label: 'Share your Feedback', Icon: SVGS.Share},
       ],
     },
@@ -104,7 +109,9 @@ export default function AccountSettings() {
       </View>
 
       <ScrollView className="bg-secondary" contentContainerStyle={{paddingBottom: 32}} showsVerticalScrollIndicator={false}>
-        <Pressable className="mx-4 mt-3 min-h-[70px] flex-row items-center rounded-2xl bg-white px-4 py-5 active:bg-grey-50">
+        <Pressable
+          onPress={openSwitcher}
+          className="mx-4 mt-3 min-h-[70px] flex-row items-center rounded-2xl bg-white px-4 py-5 active:bg-grey-50">
           <View
             style={{
               width: 38,
@@ -143,6 +150,8 @@ export default function AccountSettings() {
           <SettingsRow label="Log out" Icon={SVGS.Delete} danger onPress={() => void handleSignOut()} />
         </View>
       </ScrollView>
+
+      <AccountSwitcherSheet visible={switcherOpen} onClose={() => setSwitcherOpen(false)} />
     </SafeAreaView>
   );
 }

@@ -45,7 +45,7 @@ export default function Home() {
               {hasSession ? (
                 <Pressable
                   onPress={() => navigate('/account-settings')}
-                  className="rounded-full border border-white/10 bg-white/10 p-2 active:bg-white/20">
+                  className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/10 active:bg-white/20">
                   <SVGS.Menu width={20} height={20} color="#ffffff" />
                 </Pressable>
               ) : null}

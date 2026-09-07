@@ -8,8 +8,8 @@ import Svg, {Circle, Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
 import {Button} from '@/components';
 import {API_ROUTES} from '@/constants';
-import {authActions, signupDraft$, signupDraftActions} from '@/store';
-import {API, apiErrorMessage, ApiEnvelope, readEnvelope} from '@/utils';
+import {signupDraft$, signupDraftActions} from '@/store';
+import {API, apiErrorMessage, ApiEnvelope, completeSession, readEnvelope} from '@/utils';
 
 const USERNAME_PATTERN = /^[a-z0-9_]+$/;
 
@@ -47,10 +47,21 @@ export default function Username() {
       if (!tokens?.accessToken || !tokens.refreshToken) throw new Error('UNEXPECTED_SIGNUP_COMPLETE');
       return {accessToken: tokens.accessToken, refreshToken: tokens.refreshToken};
     },
-    onSuccess: (tokens) => {
-      authActions.setSession(tokens);
-      signupDraftActions.clear();
-      replace('/');
+    onSuccess: async (tokens) => {
+      try {
+        await completeSession(tokens);
+        signupDraftActions.clear();
+        replace('/');
+      } catch (error) {
+        Alert.alert(
+          t('signup.errorTitle'),
+          error instanceof Error && error.message === 'ACCOUNT_CAP_REACHED'
+            ? 'You can add up to 5 accounts on this device. Log out of one to add another.'
+            : error instanceof Error && error.message.startsWith('UNEXPECTED_')
+              ? t('errors.unexpectedResponse')
+              : apiErrorMessage(error, t('errors.generic'))
+        );
+      }
     },
     onError: (error) => {
       if (error instanceof Error && error.message === 'INCOMPLETE_SIGNUP_DRAFT') {

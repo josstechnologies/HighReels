@@ -8,8 +8,8 @@ import {useMutation} from '@tanstack/react-query';
 import Svg, {Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
 import {API_ROUTES, AuthOtpFlow, OTP_VERIFY_ROUTE} from '@/constants';
-import {authActions, signupDraftActions} from '@/store';
-import {API, apiErrorMessage, ApiEnvelope, readEnvelope} from '@/utils';
+import {signupDraftActions} from '@/store';
+import {API, apiErrorMessage, ApiEnvelope, completeSession, readEnvelope} from '@/utils';
 
 const OTP_LENGTH = 6;
 const RESEND_SECONDS = 60;
@@ -57,10 +57,23 @@ export default function Otp() {
       if (!tokens?.accessToken || !tokens.refreshToken) throw new Error('UNEXPECTED_LOGIN_OTP_VERIFY');
       return {accessToken: tokens.accessToken, refreshToken: tokens.refreshToken};
     },
-    onSuccess: (tokens) => {
+    onSuccess: async (tokens) => {
       if (flow === 'login' && tokens) {
-        authActions.setSession(tokens);
-        replace('/');
+        try {
+          await completeSession(tokens);
+          replace('/');
+        } catch (error) {
+          didSubmit.current = false;
+          setValue('otp', '');
+          Alert.alert(
+            errorTitle,
+            error instanceof Error && error.message === 'ACCOUNT_CAP_REACHED'
+              ? 'You can add up to 5 accounts on this device. Log out of one to add another.'
+              : error instanceof Error && error.message.startsWith('UNEXPECTED_')
+                ? t('errors.unexpectedResponse')
+                : apiErrorMessage(error, t('errors.generic'))
+          );
+        }
         return;
       }
       if (flow === 'signup') {
