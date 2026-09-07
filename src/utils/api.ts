@@ -22,7 +22,8 @@ export const clearAuthSession = () => {
   queryClient.clear();
 };
 
-export const signOut = async () => {
+/** Revoke active refresh session, drop that account locally, switch to another or guest. Returns true if another account is still active. */
+export const signOut = async (): Promise<boolean> => {
   const refreshToken = authState$.refreshToken.get();
 
   if (refreshToken) {
@@ -33,7 +34,9 @@ export const signOut = async () => {
     }
   }
 
-  clearAuthSession();
+  const stillSignedIn = authActions.removeActiveAccount();
+  queryClient.clear();
+  return stillSignedIn;
 };
 
 let refreshPromise: Promise<string> | null = null;
@@ -56,12 +59,14 @@ const refreshAccessToken = async () => {
 
   if (!refreshToken) throw new Error('No refresh token available');
 
-  const response = await refreshAPI.post<ApiEnvelope<AuthTokensPayload>>(API_ROUTES.REFRESH, null, {headers: {'x-refresh-token': refreshToken}});
+  const response = await refreshAPI.post<ApiEnvelope<AuthTokensPayload>>(API_ROUTES.REFRESH, null, {
+    headers: {'x-refresh-token': refreshToken},
+  });
   const tokens = readEnvelope<AuthTokensPayload>(response.data);
   if (!tokens?.accessToken) throw new Error('UNEXPECTED_REFRESH');
 
   if (tokens.refreshToken) {
-    authActions.setSession({accessToken: tokens.accessToken, refreshToken: tokens.refreshToken});
+    authActions.updateActiveTokens({accessToken: tokens.accessToken, refreshToken: tokens.refreshToken});
   } else {
     authActions.setAccessToken(tokens.accessToken);
   }
@@ -84,7 +89,7 @@ const attachDeviceHeaders = (config: InternalAxiosRequestConfig) => {
   return config;
 };
 
-API.interceptors.request.use((config) => {
+API.interceptors.request.use(config => {
   attachDeviceHeaders(config);
   const accessToken = authState$.accessToken.get();
   if (accessToken) setHeader(config, 'Authorization', `Bearer ${accessToken}`);
@@ -94,7 +99,7 @@ API.interceptors.request.use((config) => {
 refreshAPI.interceptors.request.use(attachDeviceHeaders);
 
 API.interceptors.response.use(
-  (response) => response,
+  response => response,
   async (error: AxiosError) => {
     const request = error.config as RetryableRequestConfig | undefined;
 
@@ -113,7 +118,9 @@ API.interceptors.response.use(
       setHeader(request, 'Authorization', `Bearer ${accessToken}`);
       return API(request);
     } catch (refreshError) {
-      clearAuthSession();
+      // Dead active session — drop that account; keep others if any.
+      authActions.removeActiveAccount();
+      queryClient.clear();
       return Promise.reject(refreshError);
     }
   }

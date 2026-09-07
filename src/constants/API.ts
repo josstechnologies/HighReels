@@ -20,6 +20,7 @@ export const API_ROUTES = {
     COMPLETE: '/api/v1/auth/password-reset/reset-password',
   },
   PROFILE: {
+    ME: '/api/v1/profile',
     PRIVACY: '/api/v1/profile/privacy',
   },
 };
