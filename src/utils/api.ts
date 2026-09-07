@@ -13,9 +13,9 @@ type RetryableRequestConfig = InternalAxiosRequestConfig & {_retry?: boolean};
 const baseURL = BASE_URL;
 if (!baseURL) throw new Error('EXPO_PUBLIC_API_URL is not set');
 
-export const API = create({baseURL});
+export const API = create({baseURL, timeout: 15000});
 
-const refreshAPI = create({baseURL});
+const refreshAPI = create({baseURL, timeout: 15000});
 
 export const clearAuthSession = () => {
   authActions.clearSession();
@@ -69,16 +69,25 @@ const refreshAccessToken = async () => {
   return tokens.accessToken;
 };
 
+const setHeader = (config: InternalAxiosRequestConfig, key: string, value: string) => {
+  const headers = config.headers;
+  if (headers && typeof headers.set === 'function') {
+    headers.set(key, value);
+  } else if (headers) {
+    (headers as Record<string, string>)[key] = value;
+  }
+};
+
 const attachDeviceHeaders = (config: InternalAxiosRequestConfig) => {
-  config.headers['x-device-id'] = getDeviceId();
-  config.headers['x-device-name'] = getDeviceName();
+  setHeader(config, 'x-device-id', getDeviceId());
+  setHeader(config, 'x-device-name', getDeviceName());
   return config;
 };
 
 API.interceptors.request.use((config) => {
   attachDeviceHeaders(config);
   const accessToken = authState$.accessToken.get();
-  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+  if (accessToken) setHeader(config, 'Authorization', `Bearer ${accessToken}`);
   return config;
 });
 
@@ -101,7 +110,7 @@ API.interceptors.response.use(
       });
 
       const accessToken = await refreshPromise;
-      request.headers.Authorization = `Bearer ${accessToken}`;
+      setHeader(request, 'Authorization', `Bearer ${accessToken}`);
       return API(request);
     } catch (refreshError) {
       clearAuthSession();

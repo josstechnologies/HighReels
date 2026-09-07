@@ -77,7 +77,7 @@ export default function AccountSettings() {
         {label: 'Account', Icon: SVGS.Tools},
         {label: 'Messaging and inbox', Icon: SVGS.Messages},
         {label: 'Edit Storefront', Icon: SVGS.Tools},
-        {label: 'Account privacy', Icon: SVGS.Lock},
+        {label: 'Account privacy', Icon: SVGS.Lock, onPress: () => navigate('/account-privacy')},
         {label: 'AI Lab settings', Icon: SVGS.Ai},
         {label: 'AI Studio settings', Icon: SVGS.Ai},
         {label: 'Help center', Icon: SVGS.Info},
