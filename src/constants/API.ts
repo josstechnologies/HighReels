@@ -19,6 +19,9 @@ export const API_ROUTES = {
     OTP_VERIFY: '/api/v1/auth/password-reset/otp-verify',
     COMPLETE: '/api/v1/auth/password-reset/reset-password',
   },
+  PROFILE: {
+    PRIVACY: '/api/v1/profile/privacy',
+  },
 };
 
 export type AuthOtpFlow = 'login' | 'signup' | 'reset';

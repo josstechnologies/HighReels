@@ -4,6 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {SVGS} from '@/assets';
 import {Button} from '@/components/Button';
+import {RadioDot} from '@/components/RadioOption';
 import {APP_LANGUAGES, type LanguageCode} from '@/i18n';
 
 export type PolicyKey =
@@ -83,15 +84,6 @@ function SectionBody({section}: {section: PolicySectionRaw}) {
   );
 }
 
-function LanguageRadio({selected}: {selected: boolean}) {
-  return (
-    <View
-      className={`h-6 w-6 items-center justify-center rounded-full border-2 ${selected ? 'border-primary' : 'border-grey-100'}`}>
-      {selected ? <View className="h-3 w-3 rounded-full bg-primary" /> : null}
-    </View>
-  );
-}
-
 export function PolicyDocument({policyKey, onBack}: PolicyDocumentProps) {
   const {t, i18n} = useTranslation();
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -160,7 +152,7 @@ export function PolicyDocument({policyKey, onBack}: PolicyDocumentProps) {
                     onPress={() => setDraftCode(lang.code)}
                     className="flex-row items-center justify-between py-4 active:opacity-70">
                     <Text className="font-medium text-[16px] text-black">{t(lang.labelKey)}</Text>
-                    <LanguageRadio selected={selected} />
+                    <RadioDot selected={selected} />
                   </Pressable>
                 );
               })}
