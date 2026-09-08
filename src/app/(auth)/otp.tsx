@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {View, Text, Pressable, TextInput, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Alert} from 'react-native';
-import {useLocalSearchParams, useRouter} from 'expo-router';
+import {useLocalSearchParams, useRouter, type Href} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {Controller, useForm} from 'react-hook-form';
@@ -9,7 +9,7 @@ import Svg, {Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
 import {API_ROUTES, AuthOtpFlow, OTP_VERIFY_ROUTE} from '@/constants';
 import {signupDraftActions} from '@/store';
-import {API, apiErrorMessage, ApiEnvelope, completeSession, readEnvelope} from '@/utils';
+import {API, apiErrorMessage, ApiEnvelope, completeSession, queryClient, readEnvelope} from '@/utils';
 
 const OTP_LENGTH = 6;
 const RESEND_SECONDS = 60;
@@ -21,7 +21,9 @@ type FormData = {otp: string};
 type AuthTokensPayload = {accessToken?: string; refreshToken?: string};
 
 function parseFlow(raw: string | undefined): AuthOtpFlow | null {
-  if (raw === 'login' || raw === 'signup' || raw === 'reset') return raw;
+  if (raw === 'login' || raw === 'signup' || raw === 'reset' || raw === 'email_change' || raw === 'phone_change') {
+    return raw;
+  }
   return null;
 }
 
@@ -46,12 +48,21 @@ export default function Otp() {
   const otpCode = watch('otp');
 
   const errorTitle =
-    flow === 'login' ? t('login.errorTitle') : flow === 'reset' ? t('login.forgotPasswordTitle') : t('signup.errorTitle');
+    flow === 'login'
+      ? t('login.errorTitle')
+      : flow === 'reset'
+        ? t('login.forgotPasswordTitle')
+        : flow === 'email_change'
+          ? 'Edit Email'
+          : flow === 'phone_change'
+            ? 'Edit Contact Number'
+            : t('signup.errorTitle');
 
   const verifyMutation = useMutation({
     mutationFn: async (otp: string) => {
       if (!flow) throw new Error('UNEXPECTED_OTP_FLOW');
       const response = await API.post<ApiEnvelope<AuthTokensPayload>>(OTP_VERIFY_ROUTE[flow], {sessionId, otp});
+      if (flow === 'email_change' || flow === 'phone_change') return null;
       if (flow !== 'login') return null;
       const tokens = readEnvelope<AuthTokensPayload>(response.data);
       if (!tokens?.accessToken || !tokens.refreshToken) throw new Error('UNEXPECTED_LOGIN_OTP_VERIFY');
@@ -83,6 +94,11 @@ export default function Otp() {
       }
       if (flow === 'reset') {
         navigate({pathname: '/password', params: {flow: 'reset', sessionId}});
+        return;
+      }
+      if (flow === 'email_change' || flow === 'phone_change') {
+        queryClient.invalidateQueries({queryKey: ['profile', 'me']});
+        replace('/personal-details' as Href);
       }
     },
     onError: (error) => {
