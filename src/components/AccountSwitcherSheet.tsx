@@ -16,14 +16,21 @@ type AccountSwitcherSheetProps = {
   onClose: () => void;
 };
 
-function AccountAvatar({account}: {account: StoredAccount}) {
+function AccountAvatar({account, selected}: {account: StoredAccount; selected?: boolean}) {
+  const ring = selected ? 'border-2 border-primary p-0.5' : '';
   if (account.avatar) {
-    return <Image source={{uri: account.avatar}} className="h-11 w-11 rounded-full bg-grey-50" />;
+    return (
+      <View className={`rounded-full ${ring}`}>
+        <Image key={account.avatar} source={{uri: account.avatar}} className="h-11 w-11 rounded-full bg-grey-50" />
+      </View>
+    );
   }
   const initial = (account.displayName || account.username || '?').charAt(0).toUpperCase();
   return (
-    <View className="h-11 w-11 items-center justify-center rounded-full bg-grey-50">
-      <Text className="font-semibold text-base text-black">{initial}</Text>
+    <View className={`rounded-full ${ring}`}>
+      <View className="h-11 w-11 items-center justify-center rounded-full bg-grey-50">
+        <Text className="font-semibold text-base text-black">{initial}</Text>
+      </View>
     </View>
   );
 }
@@ -82,7 +89,7 @@ export function AccountSwitcherSheet({visible, onClose}: AccountSwitcherSheetPro
                   onPress={() => handleSelectAccount(account.accountId)}
                   className="flex-row items-center py-3 active:opacity-70">
                   <View className="mr-3">
-                    <AccountAvatar account={account} />
+                    <AccountAvatar account={account} selected={isActive} />
                   </View>
                   <View className="flex-1">
                     <Text className="font-semibold text-[16px] text-black" numberOfLines={1}>
@@ -92,7 +99,6 @@ export function AccountSwitcherSheet({visible, onClose}: AccountSwitcherSheetPro
                       @{account.username}
                     </Text>
                   </View>
-                  {isActive ? <SVGS.Tick width={22} height={22} color="#6F41EC" /> : null}
                 </Pressable>
               );
             })}

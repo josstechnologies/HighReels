@@ -33,6 +33,13 @@ export function isValidNationalPhone(
   return toPhoneE164(nationalNumber, country, fallbackIso) !== null;
 }
 
+/** Parses a full international string (e.g. +61412345678) to E.164. */
+export function parsePhoneE164(value: string): string | null {
+  const phone = parsePhoneNumberFromString(value.trim());
+  if (!phone?.isValid()) return null;
+  return phone.format('E.164');
+}
+
 if (__DEV__) {
   const inE164 = toPhoneE164('412345678', {cca2: 'AU'});
   if (inE164 !== '+61412345678') throw new Error(`AU mobile E.164 mismatch: ${inE164}`);

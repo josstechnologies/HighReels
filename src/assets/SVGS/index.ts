@@ -105,6 +105,11 @@ import {PinBG} from './PinBG';
 import {BirthdayBG} from './BirthdayBG';
 import {UserBG} from './UserBG';
 import {CheckBG} from './CheckBG';
+import {WalletAdd} from './WalletAdd';
+import {Subscriptions} from './Subscriptions';
+import {ClipboardText} from './ClipboardText';
+import {FlipCamera} from './FlipCamera';
+import {FlashOff} from './FlashOff';
 
 export const SVGS = {
   Ads,
@@ -214,4 +219,9 @@ export const SVGS = {
   BirthdayBG,
   UserBG,
   CheckBG,
+  WalletAdd,
+  Subscriptions,
+  ClipboardText,
+  FlipCamera,
+  FlashOff,
 };

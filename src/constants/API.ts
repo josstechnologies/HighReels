@@ -22,13 +22,22 @@ export const API_ROUTES = {
   PROFILE: {
     ME: '/api/v1/profile',
     PRIVACY: '/api/v1/profile/privacy',
+    EMAIL: '/api/v1/profile/email',
+    EMAIL_OTP_SEND: '/api/v1/profile/email/otp-send',
+    EMAIL_OTP_VERIFY: '/api/v1/profile/email/otp-verify',
+    PHONE: '/api/v1/profile/phone',
+    PHONE_OTP_SEND: '/api/v1/profile/phone/otp-send',
+    PHONE_OTP_VERIFY: '/api/v1/profile/phone/otp-verify',
+    AVATAR: '/api/v1/profile/avatar',
   },
 };
 
-export type AuthOtpFlow = 'login' | 'signup' | 'reset';
+export type AuthOtpFlow = 'login' | 'signup' | 'reset' | 'email_change' | 'phone_change';
 
 export const OTP_VERIFY_ROUTE: Record<AuthOtpFlow, string> = {
   login: API_ROUTES.LOGIN.OTP_VERIFY,
   signup: API_ROUTES.SIGNUP.OTP_VERIFY,
   reset: API_ROUTES.PASSWORD_RESET.OTP_VERIFY,
+  email_change: API_ROUTES.PROFILE.EMAIL_OTP_VERIFY,
+  phone_change: API_ROUTES.PROFILE.PHONE_OTP_VERIFY,
 };

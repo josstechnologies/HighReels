@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Pressable, Text, View, ScrollView} from 'react-native';
-import {useRouter} from 'expo-router';
+import {useRouter, type Href} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
 import {AccountSwitcherSheet} from '@/components';
@@ -70,10 +70,10 @@ export default function AccountSettings() {
       title: 'Profile',
       rows: [
         {label: 'Password and security', Icon: SVGS.Key},
-        {label: 'Balance', Icon: SVGS.Tools},
-        {label: 'Subscriptions', Icon: SVGS.Bookmark},
+        {label: 'Balance', Icon: SVGS.WalletAdd},
+        {label: 'Subscriptions', Icon: SVGS.Subscriptions, onPress: () => navigate('/subscriptions' as Href)},
         {label: 'QR code', Icon: SVGS.QrCode},
-        {label: 'Personal details', Icon: SVGS.Layout},
+        {label: 'Personal details', Icon: SVGS.ClipboardText, onPress: () => navigate('/personal-details' as Href)},
       ],
     },
     {

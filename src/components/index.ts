@@ -6,3 +6,6 @@ export * from './SocialAuthButtons';
 export * from './PolicyDocument';
 export * from './RadioOption';
 export * from './AccountSwitcherSheet';
+export * from './EditPictureSheet';
+export * from './PhotosSheet';
+export * from './Toast';
