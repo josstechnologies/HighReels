@@ -79,10 +79,10 @@ export default function AccountSettings() {
     {
       title: 'Account Settings',
       rows: [
-        {label: 'Account', Icon: SVGS.Tools},
+        {label: 'Account', Icon: SVGS.Account, onPress: () => navigate('/accounts' as Href)},
         {label: 'Messaging and inbox', Icon: SVGS.Messages},
         {label: 'Edit Storefront', Icon: SVGS.Tools},
-        {label: 'Account privacy', Icon: SVGS.Lock, onPress: () => navigate('/account-privacy')},
+        {label: 'Account privacy', Icon: SVGS.ShieldSecurity, onPress: () => navigate('/account-privacy')},
         {label: 'AI Lab settings', Icon: SVGS.Ai},
         {label: 'AI Studio settings', Icon: SVGS.Ai},
         {label: 'Help center', Icon: SVGS.Info},
