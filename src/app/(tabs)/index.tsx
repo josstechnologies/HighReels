@@ -4,7 +4,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {useSelector} from '@legendapp/state/react';
 import Svg, {Path, Circle, Defs, LinearGradient, Stop} from 'react-native-svg';
-import {SVGS} from '@/assets';
 import {authState$} from '@/store';
 import {signOut} from '@/utils';
 
@@ -25,7 +24,7 @@ export default function Home() {
       <View className="absolute -right-40 top-1/2 h-96 w-96 rounded-full bg-indigo-600/20 blur-[100px]" />
       <View className="absolute -bottom-40 left-10 h-96 w-96 rounded-full bg-violet-600/10 blur-[100px]" />
 
-      <SafeAreaView className="flex-1">
+      <SafeAreaView className="flex-1" edges={['top']}>
         <ScrollView
           contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between', paddingHorizontal: 24, paddingBottom: 24}}
           showsVerticalScrollIndicator={false}>
@@ -41,18 +40,9 @@ export default function Home() {
               <Text className="ml-2 font-extrabold text-xl tracking-wider text-white">{t('landing.title')}</Text>
             </View>
 
-            <View className="flex-row items-center gap-2">
-              {hasSession ? (
-                <Pressable
-                  onPress={() => navigate('/account-settings')}
-                  className="h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/10 active:bg-white/20">
-                  <SVGS.Menu width={20} height={20} color="#ffffff" />
-                </Pressable>
-              ) : null}
-              <Pressable onPress={toggleLanguage} className="rounded-full border border-white/10 bg-white/10 px-4 py-2 active:bg-white/20">
-                <Text className="font-semibold text-xs uppercase tracking-wider text-white">{i18n.language === 'en' ? 'FR' : 'EN'}</Text>
-              </Pressable>
-            </View>
+            <Pressable onPress={toggleLanguage} className="rounded-full border border-white/10 bg-white/10 px-4 py-2 active:bg-white/20">
+              <Text className="font-semibold text-xs uppercase tracking-wider text-white">{i18n.language === 'en' ? 'FR' : 'EN'}</Text>
+            </Pressable>
           </View>
 
           {/* Central Logo & Brand Showcase */}

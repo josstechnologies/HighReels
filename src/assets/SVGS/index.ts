@@ -110,6 +110,9 @@ import {Subscriptions} from './Subscriptions';
 import {ClipboardText} from './ClipboardText';
 import {FlipCamera} from './FlipCamera';
 import {FlashOff} from './FlashOff';
+import {Account} from './Account';
+import {AccountFill} from './AccountFill';
+import {ShieldSecurity} from './ShieldSecurity';
 
 export const SVGS = {
   Ads,
@@ -224,4 +227,7 @@ export const SVGS = {
   ClipboardText,
   FlipCamera,
   FlashOff,
+  Account,
+  AccountFill,
+  ShieldSecurity,
 };

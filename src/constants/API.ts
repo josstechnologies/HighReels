@@ -29,6 +29,7 @@ export const API_ROUTES = {
     PHONE_OTP_SEND: '/api/v1/profile/phone/otp-send',
     PHONE_OTP_VERIFY: '/api/v1/profile/phone/otp-verify',
     AVATAR: '/api/v1/profile/avatar',
+    ACCOUNT_HISTORY: '/api/v1/profile/account-history',
   },
 };
 
