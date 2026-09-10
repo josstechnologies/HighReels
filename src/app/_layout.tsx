@@ -69,6 +69,9 @@ export default function Layout() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="effects" />
         <Stack.Screen name="effect-filters" />
+        <Stack.Screen name="shortvideo" />
+        <Stack.Screen name="shortvideo-result" />
+        <Stack.Screen name="image-to-video" />
         <Stack.Screen name="(account-settings)" />
         {/* Always registered so Add Account can open login/signup while another session is active */}
         <Stack.Screen name="(auth)" />

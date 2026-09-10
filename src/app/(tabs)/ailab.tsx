@@ -57,11 +57,15 @@ export default function AiLab() {
           </View>
 
           <View className="mt-4 flex-row gap-3 px-4">
-            <Pressable className="h-[88px] flex-1 items-center justify-center rounded-2xl bg-[#E7F0FF]">
+            <Pressable
+              className="h-[88px] flex-1 items-center justify-center rounded-2xl bg-[#E7F0FF]"
+              onPress={() => navigate({pathname: '/shortvideo', params: {mode: 'text_video'}} as unknown as Href)}>
               <SVGS.Play width={26} height={26} className="text-black" />
               <Text className="mt-1 font-semibold text-[14px] text-black">AI Video</Text>
             </Pressable>
-            <Pressable className="h-[88px] flex-1 items-center justify-center rounded-2xl bg-[#F3E8FF]">
+            <Pressable
+              className="h-[88px] flex-1 items-center justify-center rounded-2xl bg-[#F3E8FF]"
+              onPress={() => navigate({pathname: '/shortvideo', params: {mode: 'text_image'}} as unknown as Href)}>
               <SVGS.Photo width={26} height={26} className="text-black" />
               <Text className="mt-1 font-semibold text-[14px] text-black">AI Image</Text>
             </Pressable>
