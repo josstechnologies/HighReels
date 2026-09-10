@@ -10,6 +10,7 @@ function AppTabBar() {
   const {navigate} = useRouter();
   const onHome = pathname === '/' || pathname.endsWith('/index');
   const onProfile = pathname.endsWith('/profile');
+  const onAiLab = pathname.endsWith('/ailab');
 
   return (
     <View className="flex-row items-end bg-black px-2 pt-2" style={{paddingBottom: Math.max(insets.bottom, 10)}}>
@@ -24,7 +25,7 @@ function AppTabBar() {
           <SVGS.Plus width={22} height={22} color="#111111" />
         </View>
       </TabItem>
-      <TabItem label="Ai Lab">
+      <TabItem label="Ai Lab" active={onAiLab} onPress={() => !onAiLab && navigate('/ailab' as Href)}>
         <SVGS.Ai width={24} height={24} color="#FFFFFF" />
       </TabItem>
       <TabItem label="Profile" active={onProfile} onPress={() => !onProfile && navigate('/profile' as Href)}>
@@ -61,6 +62,7 @@ export default function TabsLayout() {
   return (
     <Tabs tabBar={() => <AppTabBar />} screenOptions={{headerShown: false}}>
       <Tabs.Screen name="index" />
+      <Tabs.Screen name="ailab" />
       <Tabs.Screen name="profile" />
     </Tabs>
   );
