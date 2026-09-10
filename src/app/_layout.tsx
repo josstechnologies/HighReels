@@ -67,6 +67,8 @@ export default function Layout() {
     <Provider>
       <Stack screenOptions={{headerShown: false}}>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="effects" />
+        <Stack.Screen name="effect-filters" />
         <Stack.Screen name="(account-settings)" />
         {/* Always registered so Add Account can open login/signup while another session is active */}
         <Stack.Screen name="(auth)" />
