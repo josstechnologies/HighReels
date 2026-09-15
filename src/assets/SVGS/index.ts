@@ -113,6 +113,21 @@ import {FlashOff} from './FlashOff';
 import {Account} from './Account';
 import {AccountFill} from './AccountFill';
 import {ShieldSecurity} from './ShieldSecurity';
+import { Category } from './Category';
+import { AiLab } from './AiLab';
+import { AiLabFill } from './AiLabFill';
+import { ArrowRight2 } from './ArrowRight2';
+import { AiVideo } from './AiVideo';
+import { AiImage } from './AiImage';
+import { Draft } from './Draft';
+import { AiLabsTools } from './AiLabsTools';
+import { People } from './People';
+import { TextToImage } from './TextToImage';
+import { TextToVideo } from './TextToVideo';
+import { ImageToVideo } from './ImageToVideo';
+import { ArrowDown } from './ArrowDown';
+import { ImageUpload } from './ImageUpload';
+import { AiInspiration } from './AiInspiration';
 
 export const SVGS = {
   Ads,
@@ -120,6 +135,7 @@ export const SVGS = {
   Apple,
   Archive,
   ArrowRight,
+  ArrowDown,
   Audio,
   Audio1,
   AudioFilled,
@@ -165,6 +181,7 @@ export const SVGS = {
   Interactions,
   Key,
   Layout,
+  Category,
   Link,
   Location,
   Location1,
@@ -230,4 +247,17 @@ export const SVGS = {
   Account,
   AccountFill,
   ShieldSecurity,
+  AiLab,
+  AiLabFill,
+  ArrowRight2,
+  AiVideo,
+  AiImage,
+  Draft,
+  AiLabsTools,
+  People,
+  TextToImage,
+  TextToVideo,
+  ImageToVideo,
+  ImageUpload,
+  AiInspiration,
 };

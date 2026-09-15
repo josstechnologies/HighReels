@@ -3,6 +3,7 @@ import {Image, Pressable, ScrollView, Text, View} from 'react-native';
 import {useRouter, type Href} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
+import {cn} from '@/utils';
 
 const CHIPS = ['Discover', 'Create', 'Stylish', 'New'] as const;
 
@@ -82,8 +83,8 @@ export default function Effects() {
                 <Pressable
                   key={item}
                   onPress={() => setChip(item)}
-                  className={`mr-2 rounded-full px-4 py-2 ${active ? 'bg-black' : 'bg-secondary'}`}>
-                  <Text className={`text-[13px] ${active ? 'font-semibold text-white' : 'text-black'}`}>{item}</Text>
+                  className={cn('mr-2 rounded-full px-4 py-2', active ? 'bg-black' : 'bg-secondary')}>
+                  <Text className={cn('text-[13px]', active ? 'font-semibold text-white' : 'text-black')}>{item}</Text>
                 </Pressable>
               );
             })}
@@ -124,7 +125,7 @@ export default function Effects() {
                   {item.pro ? (
                     <View className="absolute left-2 top-2 flex-row items-center rounded-full bg-black/70 px-2 py-1">
                       <SVGS.Star width={12} height={12} className="text-white" />
-                      <Text className="ml-1 text-[11px] text-white">Pro</Text>
+                      <Text className="ml-1 text-micro text-white">Pro</Text>
                     </View>
                   ) : null}
                   <View className="absolute bottom-2 left-2 h-8 w-8 overflow-hidden rounded-full border-2 border-white">

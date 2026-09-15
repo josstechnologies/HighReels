@@ -3,8 +3,8 @@ import {Pressable, Text, View, ScrollView} from 'react-native';
 import {useRouter, type Href} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
-import {AccountSwitcherSheet} from '@/components';
-import {signOut} from '@/utils';
+import {AccountSwitcherSheet} from '@/modules/account-settings';
+import {cn, signOut} from '@/utils';
 import type {SvgProps} from 'react-native-svg';
 import type {ReactElement} from 'react';
 
@@ -39,7 +39,7 @@ function SettingsRow({label, Icon, danger = false, onPress}: RowDef) {
         <Icon width={ICON_SIZE} height={ICON_SIZE} color={tint} />
       </View>
       <Text
-        className={`flex-1 font-medium ${danger ? 'text-danger-700' : 'text-black'}`}
+        className={cn('flex-1 font-medium', danger ? 'text-danger-700' : 'text-black')}
         style={{fontSize: 16, lineHeight: ICON_SLOT}}>
         {label}
       </Text>

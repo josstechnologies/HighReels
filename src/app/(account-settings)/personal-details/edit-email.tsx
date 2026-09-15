@@ -15,7 +15,7 @@ import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
 import {API_ROUTES} from '@/constants';
-import {API, apiErrorMessage, ApiEnvelope, readEnvelope, showToast} from '@/utils';
+import {API, apiErrorMessage, ApiEnvelope, cn, readEnvelope, showToast} from '@/utils';
 
 type ProfileMePayload = {
   id?: string;
@@ -165,10 +165,7 @@ export default function EditEmail() {
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}>
             <View className="mx-4 mt-4 flex-1">
-              <View
-                className={`rounded-2xl bg-secondary px-4 py-3 ${
-                  canDelete ? '' : 'border border-danger-700'
-                }`}>
+              <View className={cn('rounded-2xl bg-secondary px-4 py-3', !canDelete && 'border border-danger-700')}>
                 <Text className="font-medium text-[12px] text-grey-300">Email</Text>
                 <TextInput
                   value={email}

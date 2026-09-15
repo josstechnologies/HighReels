@@ -1,4 +1,5 @@
 import {ActivityIndicator, Pressable, Text, type PressableProps} from 'react-native';
+import {cn} from '@/utils';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outlined' | 'text';
 
@@ -54,12 +55,12 @@ export function Button({title, onPress, variant = 'primary', disabled = false, l
       accessibilityState={{disabled: isDisabled, busy: loading}}
       disabled={isDisabled}
       onPress={onPress}
-      className={`h-[52px] w-full items-center justify-center rounded-[12px] ${containerClass[variant][state]} ${className}`}
+      className={cn('h-[52px] w-full items-center justify-center rounded-[12px]', containerClass[variant][state], className)}
       {...rest}>
       {loading ? (
         <ActivityIndicator color={spinnerColor[variant]} />
       ) : (
-        <Text className={`font-semibold text-base ${textClass[variant][state]}`}>{title}</Text>
+        <Text className={cn('font-semibold text-base', textClass[variant][state])}>{title}</Text>
       )}
     </Pressable>
   );

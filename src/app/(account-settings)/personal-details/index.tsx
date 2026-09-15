@@ -4,9 +4,9 @@ import {useRouter, type Href} from 'expo-router';
 import {useQuery} from '@tanstack/react-query';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
-import {EditPictureSheet, PhotosSheet} from '@/components';
+import {EditPictureSheet, PhotosSheet} from '@/modules/account-settings';
 import {API_ROUTES} from '@/constants';
-import {API, ApiEnvelope, readEnvelope} from '@/utils';
+import {API, ApiEnvelope, cn, readEnvelope} from '@/utils';
 import {setPendingAvatarUri} from '@/utils/avatarPick';
 
 type ProfileMePayload = {
@@ -43,7 +43,7 @@ function displayOrDash(value: string | null | undefined): string {
 }
 
 function Bone({className}: {className: string}) {
-  return <View className={`bg-grey-75 ${className}`} />;
+  return <View className={cn('bg-grey-75', className)} />;
 }
 
 function PersonalDetailsSkeleton() {

@@ -1,5 +1,5 @@
 import {useRouter} from 'expo-router';
-import {PolicyDocument} from '@/components';
+import {PolicyDocument} from '@/modules/account-settings';
 
 export default function CommunityGuidelines() {
   const {back} = useRouter();

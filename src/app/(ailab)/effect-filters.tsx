@@ -30,7 +30,7 @@ function CardFace({item}: {item: (typeof CARDS)[number]}) {
       <Image source={{uri: item.image}} className="h-full w-full bg-secondary" />
       <View className="absolute left-3 top-3 flex-row items-center rounded-full bg-black/55 px-2.5 py-1">
         <SVGS.Heart width={12} height={12} className="text-white" />
-        <Text className="ml-1 text-[11px] text-white">Pro</Text>
+        <Text className="ml-1 text-micro text-white">Pro</Text>
       </View>
       <Text className="absolute bottom-4 left-4 font-medium text-[16px] text-white">{item.name}</Text>
     </View>

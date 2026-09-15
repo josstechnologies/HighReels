@@ -10,7 +10,7 @@ import {SVGS} from '@/assets';
 import {Button} from '@/components';
 import {API_ROUTES} from '@/constants';
 import {signupDraftActions} from '@/store';
-import {API, apiErrorMessage} from '@/utils';
+import {API, apiErrorMessage, cn} from '@/utils';
 
 type FormData = {password: string};
 
@@ -137,7 +137,9 @@ export default function Password() {
               {rules.map((rule) => (
                 <View key={rule.label} className="flex-row items-center">
                   <RuleIcon checked={rule.checked} />
-                  <Text className={`ml-3 font-medium text-[15px] ${rule.checked ? 'text-[#111111]' : 'text-[#a7a7a7]'}`}>{rule.label}</Text>
+                  <Text className={cn('ml-3 font-medium text-[15px]', rule.checked ? 'text-[#111111]' : 'text-[#a7a7a7]')}>
+                    {rule.label}
+                  </Text>
                 </View>
               ))}
             </View>

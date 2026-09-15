@@ -4,8 +4,8 @@ import {useRouter} from 'expo-router';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
-import {Button, RadioOption} from '@/components';
-import {API_ROUTES} from '@/constants';
+import {Button} from '@/components';
+import {RadioOption} from '@/modules/account-settings';import {API_ROUTES} from '@/constants';
 import {authState$} from '@/store';
 import {API, apiErrorMessage, ApiEnvelope, readEnvelope} from '@/utils';
 

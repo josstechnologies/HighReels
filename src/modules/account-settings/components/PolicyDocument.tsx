@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {SVGS} from '@/assets';
 import {Button} from '@/components/Button';
-import {RadioDot} from '@/components/RadioOption';
+import {RadioDot} from '@/modules/account-settings/components/RadioOption';
 import {APP_LANGUAGES, type LanguageCode} from '@/i18n';
 
 export type PolicyKey =

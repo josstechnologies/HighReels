@@ -2,8 +2,7 @@ import {Pressable, Text, View, ScrollView} from 'react-native';
 import {useRouter, type Href} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
-
-const CHEVRON_SIZE = 16;
+import {cn} from '@/utils';
 
 type PolicyRowDef = {
   label: string;
@@ -58,7 +57,7 @@ export default function PoliciesAndSafety() {
           {SECTIONS.map((section, sectionIndex) => (
             <View key={section.title}>
               <Text
-                className={`px-4 font-medium text-grey-200 ${sectionIndex === 0 ? 'mt-3 mb-1' : 'mt-5 mb-1'}`}
+                className={cn('px-4 font-medium text-grey-200', sectionIndex === 0 ? 'mt-3 mb-1' : 'mt-5 mb-1')}
                 style={{fontSize: 13}}>
                 {section.title}
               </Text>

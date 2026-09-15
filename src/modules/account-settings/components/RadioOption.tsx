@@ -1,4 +1,5 @@
 import {Pressable, Text, View} from 'react-native';
+import {cn} from '@/utils';
 
 type RadioOptionProps = {
   label: string;
@@ -10,7 +11,10 @@ type RadioOptionProps = {
 export function RadioDot({selected}: {selected: boolean}) {
   return (
     <View
-      className={`h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 ${selected ? 'border-primary' : 'border-grey-100'}`}>
+      className={cn(
+        'h-6 w-6 shrink-0 items-center justify-center rounded-full border-2',
+        selected ? 'border-primary' : 'border-grey-100',
+      )}>
       {selected ? <View className="h-3 w-3 rounded-full bg-primary" /> : null}
     </View>
   );

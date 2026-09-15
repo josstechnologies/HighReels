@@ -2,10 +2,11 @@ import '@/i18n';
 import '../../global.css';
 import '../../nativewind-interop';
 import {useEffect, useState} from 'react';
+import {View} from 'react-native';
 import {Stack} from 'expo-router';
 import {useSelector} from '@legendapp/state/react';
-import Provider from '@/provider';
 import * as SplashScreen from 'expo-splash-screen';
+import * as SystemUI from 'expo-system-ui';
 import {
   useFonts,
   PlusJakartaSans_400Regular,
@@ -14,10 +15,19 @@ import {
   PlusJakartaSans_700Bold,
   PlusJakartaSans_800ExtraBold,
 } from '@expo-google-fonts/plus-jakarta-sans';
+import Provider from '@/provider';
 import {accountsSyncState$, authActions, authSyncState$} from '@/store';
 import {completeSession} from '@/utils';
+import {PortalHost} from '@rn-primitives/portal';
 
 SplashScreen.preventAutoHideAsync();
+SystemUI.setBackgroundColorAsync('#000000');
+
+const DARK_CARD = {
+  headerShown: false,
+  contentStyle: {backgroundColor: '#000000'},
+  animation: 'slide_from_right' as const,
+};
 
 export default function Layout() {
   const [fontsLoaded] = useFonts({
@@ -44,9 +54,7 @@ export default function Layout() {
         try {
           await completeSession(result.tokens);
           authActions.clearLegacyAuth();
-        } catch {
-          // Keep mirrored legacy tokens so user can still use the app; retry migration next launch.
-        }
+        } catch {}
       }
       if (!cancelled) setHydrated(true);
     };
@@ -61,21 +69,19 @@ export default function Layout() {
     if (fontsLoaded && authReady && hydrated) SplashScreen.hideAsync();
   }, [fontsLoaded, authReady, hydrated]);
 
-  if (!fontsLoaded || !authReady || !hydrated) return null;
+  if (!fontsLoaded || !authReady || !hydrated) {
+    return <View style={{flex: 1, backgroundColor: '#000000'}} />;
+  }
 
   return (
     <Provider>
-      <Stack screenOptions={{headerShown: false}}>
+      <Stack screenOptions={DARK_CARD}>
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="effects" />
-        <Stack.Screen name="effect-filters" />
-        <Stack.Screen name="shortvideo" />
-        <Stack.Screen name="shortvideo-result" />
-        <Stack.Screen name="image-to-video" />
+        <Stack.Screen name="(ailab)" />
         <Stack.Screen name="(account-settings)" />
-        {/* Always registered so Add Account can open login/signup while another session is active */}
         <Stack.Screen name="(auth)" />
       </Stack>
+      <PortalHost />
     </Provider>
   );
 }
