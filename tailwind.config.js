@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
   content: ['./src/**/*.{js,ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
@@ -23,6 +23,10 @@ module.exports = {
           200: '#A7A7A7',
           300: '#7F7F7F',
           400: '#666666',
+          250: '#9999A6',
+          300: '#7F7F7F',
+          400: '#666666',
+          450: '#666673',
           500: '#404040',
           600: '#3A3A3A',
           700: '#2D2D2D',
@@ -40,6 +44,14 @@ module.exports = {
         semibold: ['PlusJakartaSans_600SemiBold'],
         bold: ['PlusJakartaSans_700Bold'],
         extrabold: ['PlusJakartaSans_800ExtraBold'],
+      },
+      borderRadius: {
+        10: '0.625rem',
+        20: '1.25rem',
+      },
+      fontSize: {
+        micro: ['0.6875rem', {lineHeight: '0.875rem'}],
+        caption: ['0.8125rem', {lineHeight: '1rem'}],
       },
     },
   },

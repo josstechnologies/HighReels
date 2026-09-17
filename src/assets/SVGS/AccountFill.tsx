@@ -1,6 +1,6 @@
 import Svg, { SvgProps, Path } from "react-native-svg"
 export const AccountFill = (props: SvgProps) => (
-    <Svg
+  <Svg
     width={20}
     height={20}
     viewBox="0 0 20 20"

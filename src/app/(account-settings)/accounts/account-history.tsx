@@ -6,7 +6,7 @@ import type {SvgProps} from 'react-native-svg';
 import type {ReactElement} from 'react';
 import {SVGS} from '@/assets';
 import {API_ROUTES} from '@/constants';
-import {API, apiErrorMessage, ApiEnvelope, readEnvelope, showToast} from '@/utils';
+import {API, apiErrorMessage, ApiEnvelope, cn, readEnvelope, showToast} from '@/utils';
 
 type HistoryType = 'account_created' | 'email_verified' | 'phone_verified' | 'password_updated' | 'account_logged_in';
 
@@ -140,7 +140,7 @@ export default function AccountHistory() {
           const Icon = ICONS[item.type] ?? SVGS.Account;
           const last = index === section.data.length - 1;
           return (
-            <View className={`bg-white px-4 ${index === 0 ? 'rounded-t-2xl pt-3' : ''} ${last ? 'rounded-b-2xl pb-3' : ''}`}>
+            <View className={cn('bg-white px-4', index === 0 && 'rounded-t-2xl pt-3', last && 'rounded-b-2xl pb-3')}>
               <View className="flex-row py-2.5">
                 <Icon width={20} height={20} color="#111111" />
                 <View className="ml-3 flex-1">

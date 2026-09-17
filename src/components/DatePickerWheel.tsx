@@ -1,5 +1,6 @@
 import {useEffect, useMemo, useRef} from 'react';
 import {NativeScrollEvent, NativeSyntheticEvent, ScrollView, Text, View} from 'react-native';
+import {cn} from '@/utils';
 
 const ITEM_HEIGHT = 44;
 const VISIBLE_ROWS = 3;
@@ -45,7 +46,7 @@ function Wheel({items, selectedIndex, onChange}: WheelProps) {
           const active = index === selectedIndex;
           return (
             <View key={`${label}-${index}`} style={{height: ITEM_HEIGHT}} className="items-center justify-center">
-              <Text className={`text-xl font-semibold ${active ? 'text-[#111111]' : 'text-[#c4c4c4]'}`}>{label}</Text>
+              <Text className={cn('text-xl font-semibold', active ? 'text-[#111111]' : 'text-[#c4c4c4]')}>{label}</Text>
             </View>
           );
         })}

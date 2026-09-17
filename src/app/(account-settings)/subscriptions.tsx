@@ -3,6 +3,7 @@ import {Alert, Pressable, ScrollView, Text, View} from 'react-native';
 import {useRouter} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
+import {cn} from '@/utils';
 
 type SubStatus = 'active' | 'ending' | 'expired';
 
@@ -88,7 +89,7 @@ export default function Subscriptions() {
         ) : null}
 
         <View className="mx-4 mt-4 rounded-2xl bg-white px-4 py-5">
-          <Text className={`font-semibold text-[13px] ${config.badgeClass}`}>{config.badge}</Text>
+          <Text className={cn('font-semibold text-[13px]', config.badgeClass)}>{config.badge}</Text>
           <Text className="mt-2 font-extrabold text-[20px] text-black">{PLAN_TITLE}</Text>
 
           <Text className="mt-5 font-medium text-[13px] text-grey-300">Details</Text>

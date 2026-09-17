@@ -1,8 +1,11 @@
 import {useState} from 'react';
 import {Image, Pressable, ScrollView, Text, View} from 'react-native';
 import {useRouter, type Href} from 'expo-router';
+import {LinearGradient} from 'expo-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
+import {AiLabTopGlow, AI_LAB_GRADIENT} from '@/modules/ailab';
+import {cn} from '@/utils';
 
 const CHIPS = ['Saved', 'AI Tools', 'Text to video', 'Text to image'] as const;
 
@@ -17,16 +20,23 @@ const TEMPLATES = [
     id: 'sky',
     title: 'Sky Diving',
     stats: '7.4M videos * 12 clips',
-    image: 'https://images.unsplash.com/photo-1521685366472-88f6b8b8d4ef?w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80',
+    
   },
 ];
 
 const SHORTCUTS = [
   {label: 'Effects', Icon: SVGS.Effects, href: '/effects' as Href},
-  {label: 'Tools', Icon: SVGS.Tools},
+  {label: 'Tools', Icon: SVGS.AiLabsTools},
   {label: 'Short Vids', Icon: SVGS.ShortVids},
-  {label: 'Story', Icon: SVGS.Story},
+  {label: 'Story', Icon: SVGS.People},
   {label: 'Ads', Icon: SVGS.Ads},
+];
+
+const CREATORS = [
+  {label: 'AI Video', Icon: SVGS.AiVideo, href: '/generate?mode=text_video' as Href},
+  {label: 'AI Image', Icon: SVGS.AiImage, href: '/generate?mode=text_image' as Href},
+  {label: 'Drafts', Icon: SVGS.Draft},
 ];
 
 export default function AiLab() {
@@ -35,68 +45,75 @@ export default function AiLab() {
 
   return (
     <View className="flex-1 bg-black">
-      <SafeAreaView className="flex-1" edges={['top']}>
-        <View className="flex-row items-center justify-between px-4 py-2">
+      <AiLabTopGlow gradient="wash" />
+      <SafeAreaView className="flex-1 px-4" edges={['top']}>
+        <View className="z-20 flex-row items-center justify-between py-5">
           <Pressable className="h-10 w-10 items-center justify-center rounded-full">
             <SVGS.Back width={22} height={22} className="text-white" />
           </Pressable>
-          <Text className="font-semibold text-[17px] text-white">AI Lab</Text>
+          <Text className="font-bold text-lg text-white">AI Lab</Text>
           <Pressable className="h-10 w-10 items-center justify-center rounded-full bg-white/10">
-            <SVGS.ArrowRight width={18} height={18} className="text-white" />
+            <SVGS.ArrowRight2 width={18} height={18} className="text-white" />
           </Pressable>
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 24}}>
-          <View className="mt-2 flex-row justify-between px-5">
+        <ScrollView showsVerticalScrollIndicator={false} className='pb-6'>
+          <View className="flex-row justify-between">
             {SHORTCUTS.map(({label, Icon, href}) => (
-              <Pressable key={label} className="w-16 items-center" onPress={href ? () => navigate(href) : undefined}>
-                <Icon width={26} height={26} className="text-white" />
-                <Text className="mt-2 text-center text-[12px] text-white">{label}</Text>
+              <Pressable
+                key={label}
+                className="flex-1 items-center"
+                onPress={href ? () => navigate(href) : undefined}>
+                <View className="h-12 w-12 items-center justify-center rounded-xl bg-grey-700">
+                  <Icon width={18} height={18} className="text-white" />
+                </View>
+                <Text className="mt-2 text-center text-xs font-semibold text-white" numberOfLines={1}>
+                  {label}
+                </Text>
               </Pressable>
             ))}
           </View>
 
-          <View className="mt-4 flex-row gap-3 px-4">
-            <Pressable
-              className="h-[88px] flex-1 items-center justify-center rounded-2xl bg-[#E7F0FF]"
-              onPress={() => navigate({pathname: '/shortvideo', params: {mode: 'text_video'}} as unknown as Href)}>
-              <SVGS.Play width={26} height={26} className="text-black" />
-              <Text className="mt-1 font-semibold text-[14px] text-black">AI Video</Text>
-            </Pressable>
-            <Pressable
-              className="h-[88px] flex-1 items-center justify-center rounded-2xl bg-[#F3E8FF]"
-              onPress={() => navigate({pathname: '/shortvideo', params: {mode: 'text_image'}} as unknown as Href)}>
-              <SVGS.Photo width={26} height={26} className="text-black" />
-              <Text className="mt-1 font-semibold text-[14px] text-black">AI Image</Text>
-            </Pressable>
-            <Pressable className="h-[88px] w-[92px] items-center justify-center rounded-2xl bg-[#FDE7D4]">
-              <SVGS.ShortVids width={26} height={26} className="text-black" />
-              <Text className="mt-1 font-semibold text-[14px] text-black">Drafts</Text>
-            </Pressable>
+          <View className="mt-8 flex-row justify-between gap-3">
+            {CREATORS.map(({label, Icon, href}) => (
+              <Pressable
+                key={label}
+                className="h-[4.5rem] flex-1 overflow-hidden rounded-xl"
+                onPress={href ? () => navigate(href) : undefined}>
+                <LinearGradient
+                  colors={AI_LAB_GRADIENT.soft}
+                  start={{x: 0, y: 0}}
+                  end={{x: 1, y: 1}}
+                  style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                  <Icon width={24} height={24} className="text-black" />
+                  <Text className="mt-2 font-medium text-[13px] text-black">{label}</Text>
+                </LinearGradient>
+              </Pressable>
+            ))}
           </View>
 
-          <Text className="mt-6 px-4 font-semibold text-[22px] text-white">Templates</Text>
+          <Text className="mt-6 mb-2 font-bold text-xl text-white">Templates</Text>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 16, paddingTop: 12}}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} className='pt-3'>
             {CHIPS.map(item => {
               const active = item === chip;
               return (
                 <Pressable
                   key={item}
                   onPress={() => setChip(item)}
-                  className={`mr-2 rounded-full px-4 py-2 ${active ? 'bg-white' : 'bg-white/10'}`}>
-                  <Text className={`text-[13px] ${active ? 'font-semibold text-black' : 'text-white'}`}>{item}</Text>
+                  className={cn('mr-2 rounded-full px-4 py-2 border border-gray-700', active ? 'bg-grey-700' : 'bg-transparent')}>
+                  <Text className={cn('text-xs font-medium ', active ? 'text-white' : 'text-grey-200')}>{item}</Text>
                 </Pressable>
               );
             })}
           </ScrollView>
 
-          <View className="mt-4 flex-row flex-wrap justify-between px-4">
+          <View className="mt-4 flex-row flex-wrap justify-between">
             {TEMPLATES.concat(TEMPLATES).map((item, index) => (
               <View key={`${item.id}-${index}`} className="mb-4 w-[48%]">
-                <Image source={{uri: item.image}} className="aspect-[3/4] w-full rounded-2xl bg-white/10" />
-                <Text className="mt-2 font-semibold text-[15px] text-white">{item.title}</Text>
-                <Text className="mt-0.5 text-[12px] text-white/50">{item.stats}</Text>
+                <Image source={{uri: item.image}} className="aspect-[3/4] w-full rounded-10 bg-white/10" />
+                <Text className="mt-2 font-medium text-sm text-white">{item.title}</Text>
+                <Text className="mt-0.5 text-xs text-grey-300">{item.stats}</Text>
               </View>
             ))}
           </View>

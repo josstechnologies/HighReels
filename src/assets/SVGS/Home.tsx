@@ -1,13 +1,17 @@
 import Svg, {Path, SvgProps} from 'react-native-svg';
 
-export const Home = ({color = 'currentColor', fill = 'none', strokeWidth = 1.8, ...props}: SvgProps) => (
-  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
-    <Path
-      fill={fill}
-      stroke={color}
-      strokeWidth={strokeWidth}
-      strokeLinejoin="round"
-      d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z"
-    />
-  </Svg>
+export const Home = (props: SvgProps) => (
+  <Svg
+  width={18}
+  height={20}
+  viewBox="0 0 18 20"
+  fill="none"
+  {...props}
+>
+  <Path
+    d="M9 0.75L16.1064 6.34863V6.34961C16.8282 6.91824 17.2499 7.78593 17.25 8.70508V18.25C17.25 18.5263 17.0263 18.75 16.75 18.75H12.25C11.9737 18.75 11.75 18.5263 11.75 18.25V13.75C11.75 12.7833 10.9667 12 10 12H8C7.03329 12 6.25 12.7833 6.25 13.75V18.25C6.25 18.5263 6.02629 18.75 5.75 18.75H1.25C0.973713 18.75 0.75 18.5263 0.75 18.25V8.70605C0.750136 7.78659 1.17189 6.91828 1.89355 6.34961V6.34863L9 0.75Z"
+    stroke="white"
+    strokeWidth={1.5}
+  />
+</Svg>
 );

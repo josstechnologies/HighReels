@@ -9,7 +9,7 @@ import Svg, {Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
 import {API_ROUTES, AuthOtpFlow, OTP_VERIFY_ROUTE} from '@/constants';
 import {signupDraftActions} from '@/store';
-import {API, apiErrorMessage, ApiEnvelope, completeSession, queryClient, readEnvelope} from '@/utils';
+import {API, apiErrorMessage, ApiEnvelope, cn, completeSession, queryClient, readEnvelope} from '@/utils';
 
 const OTP_LENGTH = 6;
 const RESEND_SECONDS = 60;
@@ -219,9 +219,10 @@ export default function Otp() {
                     <View
                       key={i}
                       style={styles.otpBox}
-                      className={`h-[56px] flex-1 items-center justify-center rounded-2xl border bg-white ${
-                        active ? 'border-[#111111]' : 'border-[#ececec]'
-                      }`}>
+                      className={cn(
+                        'h-[56px] flex-1 items-center justify-center rounded-2xl border bg-white',
+                        active ? 'border-[#111111]' : 'border-[#ececec]',
+                      )}>
                       <Text className="font-bold text-xl text-[#111111]">{char}</Text>
                     </View>
                   );
