@@ -1,5 +1,5 @@
 import {LinearGradient} from 'expo-linear-gradient';
-import {AiLabGradient, AI_LAB_GRADIENT} from '@/modules/ailab/theme';
+import {AiLabGradient, AI_LAB_GRADIENT} from '@/theme/ailab';
 
 const GLOW_HEIGHT = 9 * 16;
 

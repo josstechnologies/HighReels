@@ -3,11 +3,11 @@ import {Image, Pressable, ScrollView, Text, View, useWindowDimensions} from 'rea
 import {useRouter, type Href} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
-import {AiModeDropdown, type AiModeId} from '@/modules/ailab/components/AiModeDropdown';
-import {AiLabTopGlow} from '@/modules/ailab/components/AiLabTopGlow';
-import {ChipGroup} from '@/modules/ailab/components/ChipGroup';
-import {PromptField} from '@/modules/ailab/components/PromptField';
-import {UploadImage, UploadImageModel} from '@/modules/ailab/components/UploadImage';
+import {AiModeDropdown, type AiModeId} from '@/components/AiModeDropdown';
+import {AiLabTopGlow} from '@/components/AiLabTopGlow';
+import {ChipGroup} from '@/components/ChipGroup';
+import {PromptField} from '@/components/PromptField';
+import {UploadImage, UploadImageModel} from '@/components/UploadImage';
 import {cn} from '@/utils';
 
 export type GenMode = AiModeId;

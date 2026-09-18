@@ -49,10 +49,10 @@ export default function ImageToVideo() {
     } as unknown as Href);
   };
 
-  const onPickMode = (id: AiModeId, href: string) => {
+  const onPickMode = (id: AiModeId, href?: string) => {
     setPickerOpen(false);
     if (id === 'image_video') return;
-    replace(href as Href);
+    if (href) replace(href as Href);
   };
 
   return (

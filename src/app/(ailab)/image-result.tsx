@@ -1,8 +1,8 @@
 import {Image, Pressable, ScrollView, Text, View} from 'react-native';
 import {useLocalSearchParams, useRouter, type Href} from 'expo-router';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
-import {SVGS} from '@/assets';
-import {AiLabTopGlow} from '@/modules/ailab';
+import { SVGS } from '@/assets';
+import { AiLabTopGlow } from '@/components';
 
 const DEMO_POSTER = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80';
 

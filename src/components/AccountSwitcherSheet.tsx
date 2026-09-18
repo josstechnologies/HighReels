@@ -9,7 +9,7 @@ import {
   MAX_ACCOUNTS,
   type StoredAccount,
 } from '@/store';
-import {queryClient} from '@/utils';
+import {cn, queryClient} from '@/utils';
 
 type AccountSwitcherSheetProps = {
   visible: boolean;
@@ -20,14 +20,14 @@ function AccountAvatar({account, selected}: {account: StoredAccount; selected?: 
   const ring = selected ? 'border-2 border-primary p-0.5' : '';
   if (account.avatar) {
     return (
-      <View className={`rounded-full ${ring}`}>
+      <View className={cn('rounded-full', ring)}>
         <Image key={account.avatar} source={{uri: account.avatar}} className="h-11 w-11 rounded-full bg-grey-50" />
       </View>
     );
   }
   const initial = (account.displayName || account.username || '?').charAt(0).toUpperCase();
   return (
-    <View className={`rounded-full ${ring}`}>
+    <View className={cn('rounded-full', ring)}>
       <View className="h-11 w-11 items-center justify-center rounded-full bg-grey-50">
         <Text className="font-semibold text-base text-black">{initial}</Text>
       </View>

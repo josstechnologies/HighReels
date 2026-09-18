@@ -1,5 +1,5 @@
 import {useRouter} from 'expo-router';
-import {PolicyDocument} from '@/modules/account-settings';
+import {PolicyDocument} from '@/components';
 
 export default function TermsOfUse() {
   const {back} = useRouter();

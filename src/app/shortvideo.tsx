@@ -110,10 +110,10 @@ export default function ShortVideo() {
     } as unknown as Href);
   };
 
-  const onPickMode = (id: AiModeId, href: string) => {
+  const onPickMode = (id: AiModeId, href?: string) => {
     setPickerOpen(false);
     if (id === 'image_video') {
-      replace(href as Href);
+      if (href) replace(href as Href);
       return;
     }
     if (id !== mode) setMode(id);
