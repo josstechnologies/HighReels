@@ -80,7 +80,7 @@ export function AccountSettingsScreen() {
       title: 'Account Settings',
       rows: [
         { label: 'Account', Icon: SVGS.Account, onPress: () => navigate('/accounts' as Href) },
-        { label: 'Messaging and inbox', Icon: SVGS.Messages },
+        { label: 'Messaging and inbox', Icon: SVGS.Messages, onPress: () => navigate('/messaging-and-inbox' as Href) },
         { label: 'Edit Storefront', Icon: SVGS.Tools },
         { label: 'Account privacy', Icon: SVGS.ShieldSecurity, onPress: () => navigate('/account-privacy') },
         { label: 'AI Lab settings', Icon: SVGS.Ai },
