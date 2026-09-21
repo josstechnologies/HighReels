@@ -57,7 +57,11 @@ export function PrivacyScreen() {
         <View className="mx-4 mt-3 overflow-hidden rounded-2xl bg-white">
           <PrivacyRow label="Online and last seen" Icon={SVGS.Eye} onPress={() => navigate('/online-and-last-seen' as Href)} />
           <View className="ml-[50px] h-[1px] bg-grey-50" />
-          <PrivacyRow label="Who can send messages" Icon={SVGS.Person} />
+          <PrivacyRow
+            label="Who can send messages"
+            Icon={SVGS.Person}
+            onPress={() => navigate('/who-can-send-messages' as Href)}
+          />
           <View className="ml-[50px] h-[1px] bg-grey-50" />
           <PrivacyRow label="Read receipts" Icon={SVGS.CheckCircle} />
           <View className="ml-[50px] h-[1px] bg-grey-50" />

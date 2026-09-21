@@ -5,3 +5,4 @@ export * from './PersonalDetailsScreen';
 export * from './MessagingAndInboxScreen';
 export * from './PrivacyScreen';
 export * from './OnlineAndLastSeenScreen';
+export * from './WhoCanSendMessagesScreen';
