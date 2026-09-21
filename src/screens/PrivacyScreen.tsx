@@ -65,7 +65,11 @@ export function PrivacyScreen() {
           <View className="ml-[50px] h-[1px] bg-grey-50" />
           <PrivacyRow label="Read receipts" Icon={SVGS.CheckCircle} onPress={() => navigate('/read-receipts' as Href)} />
           <View className="ml-[50px] h-[1px] bg-grey-50" />
-          <PrivacyRow label="Disappearing messages" Icon={SVGS.Timer} />
+          <PrivacyRow
+            label="Disappearing messages"
+            Icon={SVGS.Timer}
+            onPress={() => navigate('/disappearing-messages' as Href)}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
