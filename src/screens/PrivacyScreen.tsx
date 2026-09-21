@@ -1,5 +1,5 @@
 import { Pressable, Text, View, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SVGS } from '@/assets';
 import type { SvgProps } from 'react-native-svg';
@@ -39,7 +39,7 @@ function PrivacyRow({ label, Icon, onPress }: RowProps) {
 }
 
 export function PrivacyScreen() {
-  const { back } = useRouter();
+  const { back, navigate } = useRouter();
 
   return (
     <SafeAreaView className="flex-1 bg-secondary">
@@ -55,7 +55,7 @@ export function PrivacyScreen() {
         contentContainerStyle={{ paddingBottom: 24 }}
         showsVerticalScrollIndicator={false}>
         <View className="mx-4 mt-3 overflow-hidden rounded-2xl bg-white">
-          <PrivacyRow label="Online and last seen" Icon={SVGS.Eye} />
+          <PrivacyRow label="Online and last seen" Icon={SVGS.Eye} onPress={() => navigate('/online-and-last-seen' as Href)} />
           <View className="ml-[50px] h-[1px] bg-grey-50" />
           <PrivacyRow label="Who can send messages" Icon={SVGS.Person} />
           <View className="ml-[50px] h-[1px] bg-grey-50" />
