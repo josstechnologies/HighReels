@@ -95,7 +95,7 @@ export default function Layout() {
       <Stack screenOptions={DARK_CARD}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="(ailab)" />
-        <Stack.Screen name="(account-settings)" />
+        <Stack.Screen name="(account-settings)" options={{ animation: 'slide_from_left' }} />
         <Stack.Screen name="(auth)" />
       </Stack>
       <PortalHost />
