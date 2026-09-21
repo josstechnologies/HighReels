@@ -1,5 +1,5 @@
 import { Pressable, Text, View, ScrollView } from 'react-native';
-import { useRouter, type Href } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SVGS } from '@/assets';
 import type { SvgProps } from 'react-native-svg';
@@ -15,7 +15,7 @@ type RowProps = {
   onPress?: () => void;
 };
 
-function MessagingRow({ label, Icon, onPress }: RowProps) {
+function PrivacyRow({ label, Icon, onPress }: RowProps) {
   return (
     <Pressable onPress={onPress} className="flex-row items-center px-4 py-3.5 active:bg-grey-50">
       <View
@@ -38,8 +38,8 @@ function MessagingRow({ label, Icon, onPress }: RowProps) {
   );
 }
 
-export function MessagingAndInboxScreen() {
-  const { back, navigate } = useRouter();
+export function PrivacyScreen() {
+  const { back } = useRouter();
 
   return (
     <SafeAreaView className="flex-1 bg-secondary">
@@ -47,7 +47,7 @@ export function MessagingAndInboxScreen() {
         <Pressable onPress={back} className="absolute left-4 rounded-full p-1 active:bg-grey-50">
           <SVGS.Back width={24} height={24} color="#111111" />
         </Pressable>
-        <Text className="font-extrabold text-xl text-black">Messaging and inbox</Text>
+        <Text className="font-extrabold text-xl text-black">Privacy</Text>
       </View>
 
       <ScrollView
@@ -55,9 +55,13 @@ export function MessagingAndInboxScreen() {
         contentContainerStyle={{ paddingBottom: 24 }}
         showsVerticalScrollIndicator={false}>
         <View className="mx-4 mt-3 overflow-hidden rounded-2xl bg-white">
-          <MessagingRow label="Privacy" Icon={SVGS.Lock} onPress={() => navigate('/privacy' as Href)} />
+          <PrivacyRow label="Online and last seen" Icon={SVGS.Eye} />
           <View className="ml-[50px] h-[1px] bg-grey-50" />
-          <MessagingRow label="Chats" Icon={SVGS.Chat} />
+          <PrivacyRow label="Who can send messages" Icon={SVGS.Person} />
+          <View className="ml-[50px] h-[1px] bg-grey-50" />
+          <PrivacyRow label="Read receipts" Icon={SVGS.CheckCircle} />
+          <View className="ml-[50px] h-[1px] bg-grey-50" />
+          <PrivacyRow label="Disappearing messages" Icon={SVGS.Timer} />
         </View>
       </ScrollView>
     </SafeAreaView>

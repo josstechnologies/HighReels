@@ -128,6 +128,10 @@ import { ImageToVideo } from './ImageToVideo';
 import { ArrowDown } from './ArrowDown';
 import { ImageUpload } from './ImageUpload';
 import { AiInspiration } from './AiInspiration';
+import { Eye } from './Eye';
+import { Person } from './Person';
+import { CheckCircle } from './CheckCircle';
+import { Timer } from './Timer';
 
 export const SVGS = {
   Ads,
@@ -260,4 +264,8 @@ export const SVGS = {
   ImageToVideo,
   ImageUpload,
   AiInspiration,
+  Eye,
+  Person,
+  CheckCircle,
+  Timer,
 };
