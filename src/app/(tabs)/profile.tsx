@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector} from '@legendapp/state/react';
 import {SVGS} from '@/assets';
 import {Button} from '@/components';
-import {API_ROUTES} from '@/constants';
+import {API_ROUTES, BYPASS_AUTH} from '@/constants';
 import {authState$} from '@/store';
 import {API, ApiEnvelope, cn, readEnvelope} from '@/utils';
 
@@ -83,6 +83,7 @@ function ProfileSkeleton() {
 export default function Profile() {
   const {navigate} = useRouter();
   const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
+  const canOpenMenu = hasSession || BYPASS_AUTH;
 
   const profileQuery = useQuery({
     queryKey: ['profile', 'me'],
@@ -107,7 +108,7 @@ export default function Profile() {
   return (
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1" edges={['top']}>
-        <ProfileHeader onMenu={hasSession ? () => navigate('/account-settings' as Href) : undefined} />
+        <ProfileHeader onMenu={canOpenMenu ? () => navigate('/account-settings' as Href) : undefined} />
 
         {!hasSession ? (
           <View className="flex-1 items-center justify-center px-8">

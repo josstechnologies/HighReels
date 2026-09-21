@@ -1,5 +1,7 @@
 export const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
+export const BYPASS_AUTH = process.env.EXPO_PUBLIC_BYPASS_AUTH === 'true';
+
 export const API_ROUTES = {
   LOGIN: {
     PASSWORD: '/api/v1/auth/login/password',
