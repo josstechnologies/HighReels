@@ -1,5 +1,5 @@
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SVGS } from '@/assets';
 import { CHEVRON_COLOR } from '@/theme/colors';
@@ -26,12 +26,11 @@ function ChatsRow({ label, Icon, onPress, danger, showChevron = true }: RowProps
   const isClearRow = label === 'Clear all chats';
 
   return (
-    <Pressable onPress={onPress} className="flex-row items-center px-4 py-3.5 active:bg-grey-50">
+    <Pressable onPress={onPress} className="flex-row items-center px-4 py-3.5 active:bg-grey-50" style={{ gap: 12 }}>
       <View
         style={{
           width: ICON_SLOT,
           height: ICON_SLOT,
-          marginRight: 12,
           alignItems: 'center',
           justifyContent: 'center',
         }}>
@@ -59,9 +58,7 @@ function ChatsRow({ label, Icon, onPress, danger, showChevron = true }: RowProps
         <View style={{ width: ICON_SLOT, height: ICON_SLOT, alignItems: 'center', justifyContent: 'center' }}>
           <SVGS.ArrowRight width={CHEVRON_SIZE} height={CHEVRON_SIZE} color={CHEVRON_COLOR} strokeWidth={2.2} />
         </View>
-      ) : (
-        <View style={{ width: ICON_SLOT, height: ICON_SLOT }} />
-      )}
+      ) : null}
     </Pressable>
   );
 }
@@ -71,7 +68,7 @@ function Divider() {
 }
 
 export function ChatsScreen() {
-  const { back } = useRouter();
+  const { back, navigate } = useRouter();
 
   const handleComingSoon = (label: string) => {
     Alert.alert(label, 'Coming soon');
@@ -99,7 +96,7 @@ export function ChatsScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-secondary">
+    <SafeAreaView edges={['top']} className="flex-1 bg-secondary">
       <View className="flex-row items-center justify-center bg-secondary px-4 py-3">
         <Pressable onPress={back} className="absolute left-4 rounded-full p-1 active:bg-grey-50">
           <SVGS.Back width={24} height={24} color="#111111" />
@@ -109,10 +106,10 @@ export function ChatsScreen() {
 
       <ScrollView
         className="flex-1 bg-secondary"
-        contentContainerStyle={{ paddingBottom: 24 }}
+        contentContainerStyle={{ paddingBottom: 24, paddingHorizontal: 8 }}
         showsVerticalScrollIndicator={false}>
-        <View className="mx-4 mt-3 overflow-hidden rounded-2xl bg-white">
-          <ChatsRow label="Custom chat theme" Icon={SVGS.Colors} onPress={() => handleComingSoon('Custom chat theme')} />
+        <View className="mt-3 overflow-hidden rounded-2xl bg-white" style={{ width: '100%', flex: 1 }}>
+          <ChatsRow label="Custom chat theme" Icon={SVGS.Colors} onPress={() => navigate('/custom-chat-theme' as Href)} />
           <Divider />
           <ChatsRow label="Inbox backup" Icon={SVGS.Replay} onPress={() => handleComingSoon('Inbox backup')} />
           <Divider />

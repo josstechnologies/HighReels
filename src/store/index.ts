@@ -2,6 +2,7 @@ import storage from 'expo-sqlite/kv-store';
 import {observable} from '@legendapp/state';
 import {configureSynced, syncObservable} from '@legendapp/state/sync';
 import {observablePersistSqlite} from '@legendapp/state/persist-plugins/expo-sqlite';
+import {observablePersistMMKV} from '@legendapp/state/persist-plugins/mmkv';
 
 export const MAX_ACCOUNTS = 5;
 
@@ -22,6 +23,10 @@ type AccountsState = {
 };
 
 const persistOptions = configureSynced({persist: {plugin: observablePersistSqlite(storage)}});
+
+// MMKV – fast sync JSI storage for UI prefs (theme). Separate from sqlite auth storage.
+// Uses default MMKV instance via plugin config (id-based). Sync, no bridge → instant startup + realtime switch.
+const mmkvPersistOptions = configureSynced({persist: {plugin: observablePersistMMKV({ id: 'highreels-prefs' })}});
 
 /** Multi-account list (persisted). */
 export const accountsState$ = observable<AccountsState>({
@@ -47,6 +52,29 @@ const legacyAuthState$ = observable<{accessToken: string | null; refreshToken: s
 });
 
 export const authSyncState$ = syncObservable(legacyAuthState$, persistOptions({persist: {name: 'AUTH'}}));
+
+export type ChatThemeId =
+  | 'default-dark'
+  | 'dark-crack'
+  | 'dark-blue'
+  | 'swirl'
+  | 'petals'
+  | 'gold'
+  | 'sunset';
+
+export const chatThemeState$ = observable<{selectedThemeId: ChatThemeId}>({
+  selectedThemeId: 'default-dark',
+});
+
+export const chatThemeSyncState$ = syncObservable(
+  chatThemeState$,
+  mmkvPersistOptions({persist: {name: 'CHAT_THEME'}}),
+);
+
+export const chatThemeActions = {
+  select: (id: ChatThemeId) => chatThemeState$.selectedThemeId.set(id),
+  getSelected: () => chatThemeState$.selectedThemeId.get(),
+};
 
 /** In-memory: user started "Add Account" from the switcher (keeps other accounts). */
 export const addAccountFlow$ = observable({active: false});

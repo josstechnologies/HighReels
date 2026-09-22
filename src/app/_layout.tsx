@@ -16,7 +16,7 @@ import {
   PlusJakartaSans_800ExtraBold,
 } from '@expo-google-fonts/plus-jakarta-sans';
 import Provider from '@/provider';
-import {accountsSyncState$, authActions, authSyncState$} from '@/store';
+import {accountsSyncState$, authActions, authSyncState$, chatThemeSyncState$} from '@/store';
 import {completeSession} from '@/utils';
 import {PortalHost} from '@rn-primitives/portal';
 
@@ -40,7 +40,8 @@ export default function Layout() {
 
   const accountsReady = useSelector(() => accountsSyncState$.isLoaded.get());
   const legacyAuthReady = useSelector(() => authSyncState$.isLoaded.get());
-  const authReady = accountsReady && legacyAuthReady;
+  const chatThemeReady = useSelector(() => chatThemeSyncState$.isLoaded.get());
+  const authReady = accountsReady && legacyAuthReady && chatThemeReady;
   const [hydrated, setHydrated] = useState(false);
   const [hydrateTimeout, setHydrateTimeout] = useState(false);
 
