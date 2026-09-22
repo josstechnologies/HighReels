@@ -10,3 +10,4 @@ export * from './ReadReceiptsScreen';
 export * from './DisappearingMessagesScreen';
 export * from './ChatsScreen';
 export * from './CustomChatThemeScreen';
+export * from './InboxBackupScreen';

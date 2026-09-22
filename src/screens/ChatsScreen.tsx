@@ -111,7 +111,7 @@ export function ChatsScreen() {
         <View className="mt-3 overflow-hidden rounded-2xl bg-white" style={{ width: '100%', flex: 1 }}>
           <ChatsRow label="Custom chat theme" Icon={SVGS.Colors} onPress={() => navigate('/custom-chat-theme' as Href)} />
           <Divider />
-          <ChatsRow label="Inbox backup" Icon={SVGS.Replay} onPress={() => handleComingSoon('Inbox backup')} />
+          <ChatsRow label="Inbox backup" Icon={SVGS.Replay} onPress={() => navigate('/inbox-backup' as Href)} />
           <Divider />
           <ChatsRow label="Transfer chat" Icon={SVGS.Repost1} onPress={() => handleComingSoon('Transfer chat')} />
           <Divider />

@@ -37,18 +37,18 @@ function ThemePreview({ item, selected, onPress }: { item: ThemeItem; selected: 
       <Pressable
         onPress={onPress}
         style={{
-          width: '23%',
+          flex: 1,
           aspectRatio: 0.72,
           borderRadius: 16,
           overflow: 'hidden',
-          borderWidth: selected ? 3 : 0,
+          borderWidth: 2,
           borderColor,
         }}>
         <LinearGradient
           colors={item.gradient as unknown as [string, string, ...string[]]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={{ flex: 1, padding: 8, alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+          style={{ flex: 1, padding: 8, paddingBottom: 12, alignItems: 'center', justifyContent: 'center', gap: 8 }}>
           <SVGS.Ai width={28} height={28} color="#FFFFFF" />
           <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: '700', textAlign: 'center', lineHeight: 14 }}>
             Create{'\n'}with AI
@@ -63,15 +63,15 @@ function ThemePreview({ item, selected, onPress }: { item: ThemeItem; selected: 
     <Pressable
       onPress={onPress}
       style={{
-        width: '23%',
+        flex: 1,
         aspectRatio: 0.72,
         borderRadius: 16,
         overflow: 'hidden',
-        borderWidth: selected ? 3 : 0,
+        borderWidth: 2,
         borderColor,
         backgroundColor: item.bg,
       }}>
-      <View style={{ flex: 1, padding: 8, flexDirection: 'column', justifyContent: 'space-between' }}>
+      <View style={{ flex: 1, padding: 8, paddingBottom: 10, flexDirection: 'column', justifyContent: 'space-between' }}>
         {/* top bubble */}
         <View
           style={{
@@ -82,7 +82,7 @@ function ThemePreview({ item, selected, onPress }: { item: ThemeItem; selected: 
             backgroundColor: item.topBubble,
           }}
         />
-        {/* bottom bubble */}
+        {/* bottom bubble – consistent spacing for equal card heights */}
         <View
           style={{
             alignSelf: item.id === 'default-dark' ? 'center' : item.id === 'dark-blue' ? 'flex-end' : 'center',
@@ -90,10 +90,9 @@ function ThemePreview({ item, selected, onPress }: { item: ThemeItem; selected: 
             height: 20,
             borderRadius: 7,
             backgroundColor: item.bottomBubble,
-            marginBottom: item.id === 'dark-crack' || item.id === 'dark-blue' ? 18 : 22,
           }}
         />
-        {/* checkmark for selected */}
+        {/* checkmark for selected – fixed 28pt slot so height stays consistent, extra bottom padding prevents cutout */}
         {selected ? (
           <View
             style={{
@@ -105,12 +104,11 @@ function ThemePreview({ item, selected, onPress }: { item: ThemeItem; selected: 
               borderColor: '#FFFFFF',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 6,
             }}>
             <SVGS.Tick width={14} height={14} color="#FFFFFF" />
           </View>
         ) : (
-          <View style={{ height: 28, marginBottom: 6 }} />
+          <View style={{ height: 28 }} />
         )}
       </View>
     </Pressable>
@@ -140,17 +138,19 @@ export function CustomChatThemeScreen() {
           Themes
         </Text>
 
-        <View className="mx-4 mt-2 rounded-2xl bg-white p-3">
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'flex-start' }}>
-            {THEMES.map(item => {
-              const isSelected = selectedId === item.id;
-              const handlePress = () => {
-                if (item.isAI) return;
-                chatThemeActions.select(item.id as ChatThemeId);
-              };
-              return <ThemePreview key={item.id} item={item} selected={isSelected} onPress={handlePress} />;
-            })}
-          </View>
+        <View className="mx-4 mt-2 rounded-2xl bg-white p-3" style={{ gap: 12 }}>
+          {[0, 1].map(rowIndex => (
+            <View key={rowIndex} style={{ flexDirection: 'row', gap: 12 }}>
+              {THEMES.slice(rowIndex * 4, rowIndex * 4 + 4).map(item => {
+                const isSelected = selectedId === item.id;
+                const handlePress = () => {
+                  if (item.isAI) return;
+                  chatThemeActions.select(item.id as ChatThemeId);
+                };
+                return <ThemePreview key={item.id} item={item} selected={isSelected} onPress={handlePress} />;
+              })}
+            </View>
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
