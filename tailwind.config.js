@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         black: '#111111',
+        chevron: '#666666',
         primary: {
           DEFAULT: '#6F41EC',
           disabled: '#F0ECFB',
@@ -52,6 +53,14 @@ module.exports = {
       fontSize: {
         micro: ['0.6875rem', {lineHeight: '0.875rem'}],
         caption: ['0.8125rem', {lineHeight: '1rem'}],
+      },
+      width: {
+        toggle: '51px',
+        thumb: '21px',
+      },
+      height: {
+        toggle: '25px',
+        thumb: '21px',
       },
     },
   },

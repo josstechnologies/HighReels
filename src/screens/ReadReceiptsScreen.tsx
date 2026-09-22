@@ -2,9 +2,9 @@ import {useEffect, useState} from 'react';
 import {Pressable, ScrollView, Text, View} from 'react-native';
 import {useRouter} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Animated, {Easing, interpolateColor, useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
 import storage from 'expo-sqlite/kv-store';
 import {SVGS} from '@/assets';
+import {Toggle} from '@/components/ui/Toggle';
 
 // AsyncStorage key for local persistence. Currently local-only; later this will be synced with the
 // backend API (e.g., GET/PATCH /privacy or /settings) — server becomes source of truth and local
@@ -28,15 +28,6 @@ export function ReadReceiptsScreen() {
     return true;
   });
 
-  const progress = useSharedValue(enabled ? 1 : 0);
-
-  useEffect(() => {
-    progress.value = withTiming(enabled ? 1 : 0, {
-      duration: 200,
-      easing: Easing.bezier(0.4, 0, 0.2, 1),
-    });
-  }, [enabled, progress]);
-
   // Persist locally via expo-sqlite/kv-store (AsyncStorage-compatible).
   // TODO(API): Future API sync — replace/augment with remote persistence. Example:
   //   query: GET /privacy -> { readReceipts: boolean }
@@ -49,14 +40,6 @@ export function ReadReceiptsScreen() {
       console.warn('[ReadReceipts] failed to persist', String(e));
     }
   }, [enabled]);
-
-  const trackAnimatedStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(progress.value, [0, 1], ['#DFDFDF', '#6F41EC']),
-  }));
-
-  const thumbAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{translateX: progress.value * 20}],
-  }));
 
   return (
     <SafeAreaView className="flex-1 bg-secondary">
@@ -73,16 +56,7 @@ export function ReadReceiptsScreen() {
           <Text className="flex-1 font-medium text-black" style={{fontSize: 16}}>
             Read receipts
           </Text>
-          <Pressable
-            onPress={() => setEnabled((prev) => !prev)}
-            accessibilityRole="switch"
-            accessibilityState={{checked: enabled}}
-            hitSlop={8}
-            className="rounded-full active:opacity-90">
-            <Animated.View className="h-8 w-[52px] justify-center rounded-full p-1" style={trackAnimatedStyle}>
-              <Animated.View className="h-6 w-6 rounded-full bg-white shadow-sm" style={thumbAnimatedStyle} />
-            </Animated.View>
-          </Pressable>
+          <Toggle checked={enabled} onCheckedChange={setEnabled} accessibilityLabel="Read receipts" />
         </View>
 
         <Text className="mx-4 mt-2 font-medium text-[14px] leading-5 text-grey-300">

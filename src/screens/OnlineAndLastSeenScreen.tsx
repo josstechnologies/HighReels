@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { SVGS } from '@/assets';
+import { Toggle } from '@/components/ui/Toggle';
 
 type LastSeenOption = 'everyone' | 'contacts' | 'nobody';
 
@@ -11,23 +11,6 @@ export function OnlineAndLastSeenScreen() {
   const { back } = useRouter();
   const [onlineStatus, setOnlineStatus] = useState(true);
   const [lastSeen, setLastSeen] = useState<LastSeenOption>('everyone');
-
-  const progress = useSharedValue(onlineStatus ? 1 : 0);
-
-  useEffect(() => {
-    progress.value = withTiming(onlineStatus ? 1 : 0, {
-      duration: 200,
-      easing: Easing.bezier(0.4, 0, 0.2, 1),
-    });
-  }, [onlineStatus, progress]);
-
-  const trackAnimatedStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(progress.value, [0, 1], ['#DFDFDF', '#6F41EC']),
-  }));
-
-  const thumbAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: progress.value * 20 }],
-  }));
 
   const options: { value: LastSeenOption; label: string }[] = [
     { value: 'everyone', label: 'Everyone' },
@@ -54,18 +37,7 @@ export function OnlineAndLastSeenScreen() {
           <Text className="flex-1 font-medium text-black" style={{ fontSize: 16 }}>
             Online status
           </Text>
-          <Pressable
-            onPress={() => setOnlineStatus(prev => !prev)}
-            accessibilityRole="switch"
-            accessibilityState={{ checked: onlineStatus }}
-            hitSlop={8}
-            className="rounded-full active:opacity-90">
-            <Animated.View
-              className="h-8 w-[52px] justify-center rounded-full p-1"
-              style={trackAnimatedStyle}>
-              <Animated.View className="h-6 w-6 rounded-full bg-white shadow-sm" style={thumbAnimatedStyle} />
-            </Animated.View>
-          </Pressable>
+          <Toggle checked={onlineStatus} onCheckedChange={setOnlineStatus} accessibilityLabel="Online status" />
         </View>
 
         <Text className="mx-4 mt-2 font-medium text-[14px] leading-5 text-grey-300">

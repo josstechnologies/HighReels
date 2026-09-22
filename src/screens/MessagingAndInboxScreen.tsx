@@ -57,7 +57,7 @@ export function MessagingAndInboxScreen() {
         <View className="mx-4 mt-3 overflow-hidden rounded-2xl bg-white">
           <MessagingRow label="Privacy" Icon={SVGS.Lock} onPress={() => navigate('/privacy' as Href)} />
           <View className="ml-[50px] h-[1px] bg-grey-50" />
-          <MessagingRow label="Chats" Icon={SVGS.Chat} />
+          <MessagingRow label="Chats" Icon={SVGS.Chat} onPress={() => navigate('/chats' as Href)} />
         </View>
       </ScrollView>
     </SafeAreaView>
