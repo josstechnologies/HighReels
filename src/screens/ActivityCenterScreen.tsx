@@ -12,7 +12,7 @@ const CHEVRON_SIZE = 16;
 const ROWS: { label: string; Icon: (props: SvgProps) => ReactElement; href?: Href }[] = [
   { label: 'Watch history', Icon: SVGS.Play },
   { label: 'Comment history', Icon: SVGS.Comment },
-  { label: 'Search history', Icon: SVGS.Search },
+  { label: 'Search history', Icon: SVGS.Search, href: '/search-history' as Href },
   { label: 'Add link history', Icon: SVGS.Link },
   { label: 'Mention history', Icon: SVGS.Contact },
   { label: 'Account history', Icon: SVGS.Account, href: '/accounts/account-history' as Href },

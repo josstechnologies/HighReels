@@ -13,3 +13,4 @@ export * from './CustomChatThemeScreen';
 export * from './InboxBackupScreen';
 export * from './ExportChatScreen';
 export * from './ActivityCenterScreen';
+export * from './SearchHistoryScreen';
