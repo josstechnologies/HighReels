@@ -92,7 +92,7 @@ export function AccountSettingsScreen() {
     {
       title: 'Activity',
       rows: [
-        { label: 'Activity center', Icon: SVGS.History },
+        { label: 'Activity center', Icon: SVGS.History, onPress: () => navigate('/activity-center' as Href) },
         { label: 'Switch account', Icon: SVGS.Replay, onPress: openSwitcher },
         { label: 'Share your Feedback', Icon: SVGS.Share },
       ],
