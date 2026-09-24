@@ -1,8 +1,14 @@
+import { useState } from 'react';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { useRouter, type Href } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SVGS } from '@/assets';
+import { ArchiveAllChatsSheet } from '@/components/ArchiveAllChatsSheet';
 import { CHEVRON_COLOR } from '@/theme/colors';
+import { API_ROUTES } from '@/constants';
+import { archiveChatsActions } from '@/store';
+import { API, apiErrorMessage, showToast } from '@/utils';
 import type { SvgProps } from 'react-native-svg';
 import type { ReactElement } from 'react';
 
@@ -68,18 +74,43 @@ function Divider() {
 }
 
 export function ChatsScreen() {
-  const { back, navigate } = useRouter();
+  const { back } = useRouter();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const [archiveVisible, setArchiveVisible] = useState(false);
 
   const handleComingSoon = (label: string) => {
     Alert.alert(label, 'Coming soon');
   };
 
-  const handleArchive = () => {
-    Alert.alert('Archive all chats', 'Are you sure you want to archive all chats?', [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Archive', onPress: () => handleComingSoon('Archive all chats') },
-    ]);
-  };
+  const archiveMutation = useMutation({
+    mutationFn: async () => {
+      const response = await API.post(API_ROUTES.CHATS.ARCHIVE_ALL);
+      return response.data;
+    },
+    onSuccess: () => {
+      // Sync to expo-sqlite via legend persisted observable
+      archiveChatsActions.markArchived();
+      queryClient.invalidateQueries({ queryKey: ['chats'] });
+      queryClient.invalidateQueries({ queryKey: ['chats', 'archived'] });
+      setArchiveVisible(false);
+      showToast('All chats archived');
+      // Navigate to archive screen — staged: will be provided later
+      setTimeout(() => {
+        try {
+          router.push('/archive' as Href);
+        } catch {
+          // ignore if route not yet registered
+        }
+      }, 150);
+    },
+    onError: (error: unknown) => {
+      // Keep sheet open on error so user can retry; surface via toast
+      showToast(apiErrorMessage(error, 'Could not archive chats. Please try again.'));
+    },
+  });
+
+  const handleArchive = () => setArchiveVisible(true);
 
   const handleClear = () => {
     Alert.alert('Clear all chats', 'Are you sure you want to clear all chats? This will clear messages but keep chats in the list.', [
@@ -109,19 +140,28 @@ export function ChatsScreen() {
         contentContainerStyle={{ paddingBottom: 24, paddingHorizontal: 8 }}
         showsVerticalScrollIndicator={false}>
         <View className="mt-3 overflow-hidden rounded-2xl bg-white" style={{ width: '100%', flex: 1 }}>
-          <ChatsRow label="Custom chat theme" Icon={SVGS.Colors} onPress={() => navigate('/custom-chat-theme' as Href)} />
+          <ChatsRow label="Custom chat theme" Icon={SVGS.Colors} onPress={() => router.push('/custom-chat-theme' as Href)} />
           <Divider />
-          <ChatsRow label="Inbox backup" Icon={SVGS.Replay} onPress={() => navigate('/inbox-backup' as Href)} />
+          <ChatsRow label="Inbox backup" Icon={SVGS.Replay} onPress={() => router.push('/inbox-backup' as Href)} />
           <Divider />
           <ChatsRow label="Transfer chat" Icon={SVGS.Repost1} onPress={() => handleComingSoon('Transfer chat')} />
           <Divider />
-          <ChatsRow label="Export chat" Icon={SVGS.Upload} onPress={() => handleComingSoon('Export chat')} />
+          <ChatsRow label="Export chat" Icon={SVGS.Upload} onPress={() => router.push('/export-chat' as Href)} />
           <Divider />
           <ChatsRow label="Archive all chats" Icon={SVGS.Archive} showChevron={false} onPress={handleArchive} />
           <ChatsRow label="Clear all chats" Icon={SVGS.Close} danger showChevron={false} onPress={handleClear} />
           <ChatsRow label="Delete all chats" Icon={SVGS.Delete} danger showChevron={false} onPress={handleDelete} />
         </View>
       </ScrollView>
+
+      <ArchiveAllChatsSheet
+        visible={archiveVisible}
+        onClose={() => {
+          if (!archiveMutation.isPending) setArchiveVisible(false);
+        }}
+        onArchive={() => archiveMutation.mutate()}
+        isPending={archiveMutation.isPending}
+      />
     </SafeAreaView>
   );
 }

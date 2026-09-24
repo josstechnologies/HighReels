@@ -1,11 +1,12 @@
-import {useEffect, useMemo, useState, type ReactNode} from 'react';
-import {Modal, Pressable, ScrollView, Text, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useTranslation} from 'react-i18next';
-import {SVGS} from '@/assets';
-import {Button} from '@/components/Button';
-import {RadioDot} from '@/components/RadioOption';
-import {APP_LANGUAGES, type LanguageCode} from '@/i18n';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
+import { SVGS } from '@/assets';
+import { Button } from '@/components/Button';
+import { RadioDot } from '@/components/RadioOption';
+import { APP_LANGUAGES, type LanguageCode } from '@/i18n';
+import { AppBottomSheet } from '@/components/ui/AppBottomSheet';
 
 export type PolicyKey =
   | 'communityGuidelines'
@@ -16,7 +17,7 @@ export type PolicyKey =
   | 'digitalAssetsPolicy'
   | 'teenSafetyPolicy';
 
-type PolicyFaq = {question: string; answer: string};
+type PolicyFaq = { question: string; answer: string };
 
 type PolicySectionRaw = {
   title: string;
@@ -36,15 +37,15 @@ type PolicyDocumentProps = {
   onBack: () => void;
 };
 
-function Card({children}: {children: ReactNode}) {
+function Card({ children }: { children: ReactNode }) {
   return <View className="rounded-2xl bg-white px-4 py-4">{children}</View>;
 }
 
-function Paragraph({text}: {text: string}) {
+function Paragraph({ text }: { text: string }) {
   return <Text className="font-medium text-[15px] leading-6 text-black">{text}</Text>;
 }
 
-function BulletList({items}: {items: string[]}) {
+function BulletList({ items }: { items: string[] }) {
   return (
     <View>
       {items.map(item => (
@@ -57,7 +58,7 @@ function BulletList({items}: {items: string[]}) {
   );
 }
 
-function FaqList({items}: {items: PolicyFaq[]}) {
+function FaqList({ items }: { items: PolicyFaq[] }) {
   return (
     <View>
       {items.map((item, index) => (
@@ -70,7 +71,7 @@ function FaqList({items}: {items: PolicyFaq[]}) {
   );
 }
 
-function SectionBody({section}: {section: PolicySectionRaw}) {
+function SectionBody({ section }: { section: PolicySectionRaw }) {
   if (section.kind === 'text') return <Paragraph text={section.body ?? ''} />;
   if (section.kind === 'bullets') return <BulletList items={(section.items as string[]) ?? []} />;
   if (section.kind === 'faq') return <FaqList items={(section.items as PolicyFaq[]) ?? []} />;
@@ -84,13 +85,13 @@ function SectionBody({section}: {section: PolicySectionRaw}) {
   );
 }
 
-export function PolicyDocument({policyKey, onBack}: PolicyDocumentProps) {
-  const {t, i18n} = useTranslation();
+export function PolicyDocument({ policyKey, onBack }: PolicyDocumentProps) {
+  const { t, i18n } = useTranslation();
   const [pickerOpen, setPickerOpen] = useState(false);
   const [draftCode, setDraftCode] = useState<LanguageCode>('en');
 
   const doc = useMemo(() => {
-    const value = t(`policies.${policyKey}`, {returnObjects: true});
+    const value = t(`policies.${policyKey}`, { returnObjects: true });
     return value as PolicyDocRaw;
   }, [t, i18n.language, policyKey]);
 
@@ -117,7 +118,7 @@ export function PolicyDocument({policyKey, onBack}: PolicyDocumentProps) {
         </Pressable>
       </View>
 
-      <ScrollView className="bg-secondary" contentContainerStyle={{paddingBottom: 32}} showsVerticalScrollIndicator={false}>
+      <ScrollView className="bg-secondary" contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
         {doc.intro ? <Text className="mx-4 mt-4 font-medium text-[15px] leading-6 text-grey-300">{doc.intro}</Text> : null}
 
         {doc.sections.map(section => (
@@ -130,38 +131,29 @@ export function PolicyDocument({policyKey, onBack}: PolicyDocumentProps) {
         ))}
       </ScrollView>
 
-      <Modal visible={pickerOpen} transparent animationType="slide" onRequestClose={() => setPickerOpen(false)}>
-        <View className="flex-1 justify-end">
-          <Pressable className="absolute inset-0 bg-black/40" onPress={() => setPickerOpen(false)} />
-          <View className="rounded-t-[28px] bg-white px-5 pb-8 pt-3">
-            <View className="mb-4 items-center">
-              <View className="h-1 w-10 rounded-full bg-grey-75" />
-            </View>
+      <AppBottomSheet visible={pickerOpen} onClose={() => setPickerOpen(false)}>
+        <Text className="text-center font-extrabold text-[22px] text-black">{t('policies.languagePickerTitle')}</Text>
+        <Text className="mt-2 text-center font-medium text-[14px] leading-5 text-black">
+          {t('policies.languagePickerSubtitle')}
+        </Text>
 
-            <Text className="text-center font-extrabold text-[22px] text-black">{t('policies.languagePickerTitle')}</Text>
-            <Text className="mt-2 text-center font-medium text-[14px] leading-5 text-black">
-              {t('policies.languagePickerSubtitle')}
-            </Text>
-
-            <View className="mt-6">
-              {APP_LANGUAGES.map(lang => {
-                const selected = lang.code === draftCode;
-                return (
-                  <Pressable
-                    key={lang.code}
-                    onPress={() => setDraftCode(lang.code)}
-                    className="flex-row items-center justify-between py-4 active:opacity-70">
-                    <Text className="font-medium text-[16px] text-black">{t(lang.labelKey)}</Text>
-                    <RadioDot selected={selected} />
-                  </Pressable>
-                );
-              })}
-            </View>
-
-            <Button title={t('policies.languagePickerDone')} onPress={confirmLanguage} className="mt-4" />
-          </View>
+        <View className="mt-6">
+          {APP_LANGUAGES.map(lang => {
+            const selected = lang.code === draftCode;
+            return (
+              <Pressable
+                key={lang.code}
+                onPress={() => setDraftCode(lang.code)}
+                className="flex-row items-center justify-between py-4 active:opacity-70">
+                <Text className="font-medium text-[16px] text-black">{t(lang.labelKey)}</Text>
+                <RadioDot selected={selected} />
+              </Pressable>
+            );
+          })}
         </View>
-      </Modal>
+
+        <Button title={t('policies.languagePickerDone')} onPress={confirmLanguage} className="mt-4" />
+      </AppBottomSheet>
     </SafeAreaView>
   );
 }

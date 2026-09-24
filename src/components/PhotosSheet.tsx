@@ -1,16 +1,9 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
-  Image,
-  Modal,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Dimensions, Image, Pressable, Text, View } from 'react-native';
+import { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import * as MediaLibrary from 'expo-media-library/legacy';
-import {SVGS} from '@/assets';
+import { SVGS } from '@/assets';
+import { AppBottomSheet } from '@/components/ui/AppBottomSheet';
 
 const COLS = 3;
 const GAP = 2;
@@ -23,11 +16,9 @@ type PhotosSheetProps = {
   onSelectUri: (uri: string) => void;
 };
 
-type GridItem =
-  | {kind: 'camera'; id: 'camera'}
-  | {kind: 'asset'; id: string; uri: string};
+type GridItem = { kind: 'camera'; id: 'camera' } | { kind: 'asset'; id: string; uri: string };
 
-export function PhotosSheet({visible, onClose, onOpenCamera, onSelectUri}: PhotosSheetProps) {
+export function PhotosSheet({ visible, onClose, onOpenCamera, onSelectUri }: PhotosSheetProps) {
   const [permission, requestPermission] = MediaLibrary.usePermissions({
     granularPermissions: ['photo'],
   });
@@ -57,7 +48,7 @@ export function PhotosSheet({visible, onClose, onOpenCamera, onSelectUri}: Photo
         setLoading(false);
       }
     },
-    [loading]
+    [loading],
   );
 
   useEffect(() => {
@@ -81,14 +72,10 @@ export function PhotosSheet({visible, onClose, onOpenCamera, onSelectUri}: Photo
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
-  const data: GridItem[] = [
-    {kind: 'camera', id: 'camera'},
-    ...assets.map(a => ({kind: 'asset' as const, id: a.id, uri: a.uri})),
-  ];
+  const data: GridItem[] = [{ kind: 'camera', id: 'camera' }, ...assets.map(a => ({ kind: 'asset' as const, id: a.id, uri: a.uri }))];
 
   const handleAssetPress = async (asset: MediaLibrary.Asset) => {
     const request = ++pickRequest.current;
-    // Single selection only — replace any previous check immediately.
     setSelectedId(asset.id);
     setSelectedUri(asset.uri || null);
 
@@ -98,7 +85,6 @@ export function PhotosSheet({visible, onClose, onOpenCamera, onSelectUri}: Photo
       const uri = info.localUri || info.uri || asset.uri;
       if (uri) setSelectedUri(uri);
     } catch {
-      // Keep the thumbnail uri. Some library photos reject getAssetInfoAsync (limited access / iCloud).
       if (request !== pickRequest.current) return;
       if (!asset.uri) {
         setSelectedId(null);
@@ -114,87 +100,72 @@ export function PhotosSheet({visible, onClose, onOpenCamera, onSelectUri}: Photo
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-      <View className="flex-1 justify-end">
-        <Pressable className="absolute inset-0 bg-black/50" onPress={onClose} />
-        <View className="h-[72%] rounded-t-[28px] bg-white pt-3">
-          <View className="mb-3 items-center">
-            <View className="h-1 w-10 rounded-full bg-grey-75" />
-          </View>
-
-          <View className="mb-3 flex-row items-center justify-between px-5">
-            <Text className="font-extrabold text-[22px] text-black">Photos</Text>
-            <Pressable
-              onPress={handleDone}
-              disabled={!selectedUri}
-              style={{opacity: selectedUri ? 1 : 0.35}}
-              className="active:opacity-70">
-              <Text className="font-semibold text-[15px] text-primary">Done</Text>
-            </Pressable>
-          </View>
-
-          {!permission?.granted ? (
-            <View className="flex-1 items-center justify-center px-8">
-              <Text className="text-center font-medium text-[15px] text-grey-300">
-                Allow photo access to choose a profile picture.
-              </Text>
-              <Pressable onPress={() => requestPermission()} className="mt-4 active:opacity-70">
-                <Text className="font-semibold text-[15px] text-primary">Grant permission</Text>
-              </Pressable>
-            </View>
-          ) : (
-            <FlatList
-              data={data}
-              keyExtractor={item => item.id}
-              numColumns={COLS}
-              onEndReached={() => {
-                if (hasNext && endCursor && !loading) loadPage(endCursor);
-              }}
-              onEndReachedThreshold={0.4}
-              ListFooterComponent={
-                loading ? (
-                  <View className="py-4">
-                    <ActivityIndicator color="#6F41EC" />
-                  </View>
-                ) : null
-              }
-              renderItem={({item, index}) => {
-                const marginRight = (index + 1) % COLS === 0 ? 0 : GAP;
-                if (item.kind === 'camera') {
-                  return (
-                    <Pressable
-                      onPress={() => {
-                        onClose();
-                        onOpenCamera();
-                      }}
-                      style={{width: TILE, height: TILE, marginRight, marginBottom: GAP}}
-                      className="items-center justify-center bg-grey-500 active:opacity-80">
-                      <SVGS.Camera width={28} height={28} color="#FFFFFF" />
-                    </Pressable>
-                  );
-                }
-                const selected = selectedId === item.id;
-                return (
-                  <Pressable
-                    onPress={() => {
-                      const asset = assets.find(a => a.id === item.id);
-                      if (asset) handleAssetPress(asset);
-                    }}
-                    style={{width: TILE, height: TILE, marginRight, marginBottom: GAP}}
-                    className="overflow-hidden bg-grey-50">
-                    <Image source={{uri: item.uri}} style={{width: TILE, height: TILE}} />
-                    {selected ? (
-                      <View className="absolute right-1.5 top-1.5 h-6 w-6 items-center justify-center rounded-full bg-primary">
-                        <SVGS.Tick width={14} height={14} color="#FFFFFF" />
-                      </View>
-                    ) : null}
-                  </Pressable>
-                );
-              }}
-            />
-          )}
-        </View>
+    <AppBottomSheet visible={visible} onClose={onClose} snapPoints={['72%']} enablePanDownToClose>
+      <View className="mb-3 flex-row items-center justify-between px-5 pt-3">
+        <Text className="font-extrabold text-[22px] text-black">Photos</Text>
+        <Pressable onPress={handleDone} disabled={!selectedUri} style={{ opacity: selectedUri ? 1 : 0.35 }} className="active:opacity-70">
+          <Text className="font-semibold text-[15px] text-primary">Done</Text>
+        </Pressable>
       </View>
-    </Modal>
+
+      {!permission?.granted ? (
+        <View className="items-center justify-center px-2 py-12">
+          <Text className="text-center font-medium text-[15px] text-grey-300">Allow photo access to choose a profile picture.</Text>
+          <Pressable onPress={() => requestPermission()} className="mt-4 active:opacity-70">
+            <Text className="font-semibold text-[15px] text-primary">Grant permission</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <BottomSheetFlatList
+          data={data}
+          keyExtractor={item => item.id}
+          numColumns={COLS}
+          onEndReached={() => {
+            if (hasNext && endCursor && !loading) loadPage(endCursor);
+          }}
+          onEndReachedThreshold={0.4}
+          ListFooterComponent={
+            loading ? (
+              <View className="py-4">
+                <ActivityIndicator color="#6F41EC" />
+              </View>
+            ) : null
+          }
+          renderItem={({ item, index }) => {
+            const marginRight = (index + 1) % COLS === 0 ? 0 : GAP;
+            if (item.kind === 'camera') {
+              return (
+                <Pressable
+                  onPress={() => {
+                    onClose();
+                    onOpenCamera();
+                  }}
+                  style={{ width: TILE, height: TILE, marginRight, marginBottom: GAP }}
+                  className="items-center justify-center bg-grey-500 active:opacity-80">
+                  <SVGS.Camera width={28} height={28} color="#FFFFFF" />
+                </Pressable>
+              );
+            }
+            const selected = selectedId === item.id;
+            return (
+              <Pressable
+                onPress={() => {
+                  const asset = assets.find(a => a.id === item.id);
+                  if (asset) handleAssetPress(asset);
+                }}
+                style={{ width: TILE, height: TILE, marginRight, marginBottom: GAP }}
+                className="overflow-hidden bg-grey-50">
+                <Image source={{ uri: item.uri }} style={{ width: TILE, height: TILE }} />
+                {selected ? (
+                  <View className="absolute right-1.5 top-1.5 h-6 w-6 items-center justify-center rounded-full bg-primary">
+                    <SVGS.Tick width={14} height={14} color="#FFFFFF" />
+                  </View>
+                ) : null}
+              </Pressable>
+            );
+          }}
+        />
+      )}
+    </AppBottomSheet>
   );
 }

@@ -11,3 +11,4 @@ export * from './DisappearingMessagesScreen';
 export * from './ChatsScreen';
 export * from './CustomChatThemeScreen';
 export * from './InboxBackupScreen';
+export * from './ExportChatScreen';

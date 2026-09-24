@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import '@/i18n';
 import '../../global.css';
 import '../../nativewind-interop';
@@ -16,7 +17,7 @@ import {
   PlusJakartaSans_800ExtraBold,
 } from '@expo-google-fonts/plus-jakarta-sans';
 import Provider from '@/provider';
-import {accountsSyncState$, authActions, authSyncState$, chatThemeSyncState$} from '@/store';
+import {accountsSyncState$, archiveChatsSyncState$, authActions, authSyncState$, chatThemeSyncState$} from '@/store';
 import {completeSession} from '@/utils';
 import {PortalHost} from '@rn-primitives/portal';
 
@@ -41,7 +42,8 @@ export default function Layout() {
   const accountsReady = useSelector(() => accountsSyncState$.isLoaded.get());
   const legacyAuthReady = useSelector(() => authSyncState$.isLoaded.get());
   const chatThemeReady = useSelector(() => chatThemeSyncState$.isLoaded.get());
-  const authReady = accountsReady && legacyAuthReady && chatThemeReady;
+  const archiveReady = useSelector(() => archiveChatsSyncState$.isLoaded.get());
+  const authReady = accountsReady && legacyAuthReady && chatThemeReady && archiveReady;
   const [hydrated, setHydrated] = useState(false);
   const [hydrateTimeout, setHydrateTimeout] = useState(false);
 

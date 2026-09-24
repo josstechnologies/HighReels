@@ -33,6 +33,11 @@ export const API_ROUTES = {
     AVATAR: '/api/v1/profile/avatar',
     ACCOUNT_HISTORY: '/api/v1/profile/account-history',
   },
+  CHATS: {
+    ARCHIVE_ALL: '/api/v1/chats/archive-all',
+    LIST: '/api/v1/chats',
+    ARCHIVED: '/api/v1/chats/archived',
+  },
 };
 
 export type AuthOtpFlow = 'login' | 'signup' | 'reset' | 'email_change' | 'phone_change';

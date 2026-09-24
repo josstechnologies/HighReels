@@ -76,6 +76,34 @@ export const chatThemeActions = {
   getSelected: () => chatThemeState$.selectedThemeId.get(),
 };
 
+export type ArchiveChatsState = {
+  isArchived: boolean;
+  archivedAt: string | null;
+  archivedCount: number | null;
+};
+
+export const archiveChatsState$ = observable<ArchiveChatsState>({
+  isArchived: false,
+  archivedAt: null,
+  archivedCount: null,
+});
+
+export const archiveChatsSyncState$ = syncObservable(
+  archiveChatsState$,
+  persistOptions({persist: {name: 'ARCHIVE_CHATS'}}),
+);
+
+export const archiveChatsActions = {
+  markArchived: (count?: number) =>
+    archiveChatsState$.assign({
+      isArchived: true,
+      archivedAt: new Date().toISOString(),
+      archivedCount: count ?? null,
+    }),
+  clear: () => archiveChatsState$.assign({isArchived: false, archivedAt: null, archivedCount: null}),
+  get: () => archiveChatsState$.get(),
+};
+
 /** In-memory: user started "Add Account" from the switcher (keeps other accounts). */
 export const addAccountFlow$ = observable({active: false});
 
