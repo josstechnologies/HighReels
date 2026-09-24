@@ -1,14 +1,24 @@
-import { useEffect, useState } from 'react';
-import { Alert, ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { SVGS } from '@/assets';
-import { Button } from '@/components';
-import { RadioOption } from '@/components/RadioOption';
-import { API_ROUTES } from '@/constants';
-import { authState$ } from '@/store';
-import { API, apiErrorMessage, ApiEnvelope, readEnvelope } from '@/utils';
+import {useEffect, useState} from 'react';
+import {Alert, ActivityIndicator, Pressable, ScrollView, Text, View} from 'react-native';
+import {useRouter} from 'expo-router';
+import {useMutation, useQuery} from '@tanstack/react-query';
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeOut,
+  interpolate,
+  LinearTransition,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {SVGS} from '@/assets';
+import {Button} from '@/components';
+import {RadioOption} from '@/components/RadioOption';
+import {API_ROUTES} from '@/constants';
+import {authState$} from '@/store';
+import {API, apiErrorMessage, ApiEnvelope, readEnvelope} from '@/utils';
 
 type SectionId = 'stories' | 'savedPosts' | 'messages';
 
@@ -31,8 +41,8 @@ const SECTIONS: PrivacySection[] = [
     title: 'Stories Privacy',
     description: 'Manage who can view and interact with your stories',
     options: [
-      { value: 'followers', label: 'Followers', description: 'Only your followers can view your stories' },
-      { value: 'everyone', label: 'Everyone', description: 'Your stories are visible to all users' },
+      {value: 'followers', label: 'Followers', description: 'Only your followers can view your stories'},
+      {value: 'everyone', label: 'Everyone', description: 'Your stories are visible to all users'},
     ],
   },
   {
@@ -40,7 +50,7 @@ const SECTIONS: PrivacySection[] = [
     title: 'Saved Posts',
     description: 'Control who can see the posts you’ve saved.',
     options: [
-      { value: 'only_me', label: 'Only Me', description: 'Your saved posts are private and visible only to you' },
+      {value: 'only_me', label: 'Only Me', description: 'Your saved posts are private and visible only to you'},
       {
         value: 'followers',
         label: 'Followers',
@@ -53,9 +63,9 @@ const SECTIONS: PrivacySection[] = [
     title: 'Messages',
     description: 'Who can message you?',
     options: [
-      { value: 'followers', label: 'Followers', description: 'Only people who follow you can send messages' },
-      { value: 'everyone', label: 'Everyone', description: 'Anyone on the platform can message you' },
-      { value: 'no_one', label: 'No One', description: 'Selecting this setting will disable incoming messages' },
+      {value: 'followers', label: 'Followers', description: 'Only people who follow you can send messages'},
+      {value: 'everyone', label: 'Everyone', description: 'Anyone on the platform can message you'},
+      {value: 'no_one', label: 'No One', description: 'Selecting this setting will disable incoming messages'},
     ],
   },
 ];
@@ -71,6 +81,10 @@ const DEFAULT_VALUES: PrivacyValues = {
   savedPosts: 'only_me',
   messages: 'followers',
 };
+
+const ACCORDION_LAYOUT = LinearTransition.duration(220).easing(Easing.bezier(0.4, 0, 0.2, 1));
+const ACCORDION_ENTER = FadeIn.duration(180);
+const ACCORDION_EXIT = FadeOut.duration(160);
 
 function isPrivacyValues(value: unknown): value is PrivacyValues {
   if (!value || typeof value !== 'object') return false;
@@ -88,8 +102,33 @@ function privacyErrorMessage(error: unknown) {
   return apiErrorMessage(error, 'Something went wrong. Please try again.');
 }
 
+type ChevronProps = {
+  open: boolean;
+};
+
+function Chevron({open}: ChevronProps) {
+  const progress = useSharedValue(open ? 1 : 0);
+
+  useEffect(() => {
+    progress.value = withTiming(open ? 1 : 0, {
+      duration: 220,
+      easing: Easing.bezier(0.4, 0, 0.2, 1),
+    });
+  }, [open, progress]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{rotate: `${interpolate(progress.value, [0, 1], [0, 180])}deg`}],
+  }));
+
+  return (
+    <Animated.View style={animatedStyle}>
+      <SVGS.Down width={20} height={20} color="#111111" />
+    </Animated.View>
+  );
+}
+
 export function AccountPrivacyScreen() {
-  const { back } = useRouter();
+  const {back} = useRouter();
   const [expanded, setExpanded] = useState<Record<SectionId, boolean>>({
     stories: false,
     savedPosts: false,
@@ -129,21 +168,21 @@ export function AccountPrivacyScreen() {
       if (!isPrivacyValues(data)) throw new Error('UNEXPECTED_PRIVACY');
       return data;
     },
-    onSuccess: data => {
+    onSuccess: (data) => {
       setDraft(data);
       setSaved(data);
     },
-    onError: error => {
+    onError: (error) => {
       Alert.alert('Account Privacy', privacyErrorMessage(error));
     },
   });
 
   const toggleSection = (id: SectionId) => {
-    setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
+    setExpanded((prev) => ({...prev, [id]: !prev[id]}));
   };
 
   const selectOption = (sectionId: SectionId, value: string) => {
-    setDraft(prev => ({ ...prev, [sectionId]: value }));
+    setDraft((prev) => ({...prev, [sectionId]: value}));
   };
 
   const handleSave = () => {
@@ -153,57 +192,55 @@ export function AccountPrivacyScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-secondary">
-      <View className="flex-row items-center justify-center bg-secondary px-4 py-3">
-        <Pressable onPress={back} className="absolute left-4 rounded-full p-1 active:bg-grey-50">
+      <View className="flex-row items-center bg-secondary px-4 py-3">
+        <Pressable
+          onPress={back}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          className="h-8 w-8 items-center justify-center rounded-full active:bg-grey-50">
           <SVGS.Back width={24} height={24} color="#111111" />
         </Pressable>
-        <Text className="font-extrabold text-xl text-black">Account Privacy</Text>
-        {privacyQuery.isFetching ? (
-          <View className="absolute right-4">
-            <ActivityIndicator color="#6F41EC" />
-          </View>
-        ) : null}
+        <Text className="flex-1 text-center font-extrabold text-xl text-black">Account Privacy</Text>
+        <View className="h-8 w-8 items-center justify-center">{privacyQuery.isFetching ? <ActivityIndicator color="#6F41EC" /> : null}</View>
       </View>
 
-      <ScrollView
-        className="flex-1 bg-secondary"
-        contentContainerStyle={{ paddingBottom: 24 }}
-        showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1 bg-secondary" contentContainerStyle={{paddingBottom: 24}} showsVerticalScrollIndicator={false}>
         <Text className="mx-4 mt-2 font-medium text-[14px] leading-5 text-grey-300">
           Manage who can see your content, interact with you, and access your activity
         </Text>
 
         <View className="mx-4 mt-5 gap-3">
-          {SECTIONS.map(section => {
+          {SECTIONS.map((section) => {
             const isOpen = expanded[section.id];
             return (
-              <View key={section.id} className="overflow-hidden rounded-2xl bg-white">
+              <Animated.View key={section.id} layout={ACCORDION_LAYOUT} className="overflow-hidden rounded-2xl bg-white">
                 <Pressable
                   onPress={() => toggleSection(section.id)}
+                  accessibilityRole="button"
+                  accessibilityLabel={section.title}
+                  accessibilityState={{expanded: isOpen}}
                   className="flex-row items-center justify-between px-4 py-4 active:bg-grey-50">
                   <Text className="flex-1 font-semibold text-[16px] text-black">{section.title}</Text>
-                  {isOpen ? (
-                    <SVGS.Up width={20} height={20} color="#111111" />
-                  ) : (
-                    <SVGS.Down width={20} height={20} color="#111111" />
-                  )}
+                  <Chevron open={isOpen} />
                 </Pressable>
 
                 {isOpen ? (
-                  <View className="border-t border-grey-50 px-4 pb-3 pt-3">
-                    <Text className="mb-2 font-medium text-[13px] leading-5 text-grey-300">{section.description}</Text>
-                    {section.options.map(option => (
-                      <RadioOption
-                        key={option.value}
-                        label={option.label}
-                        description={option.description}
-                        selected={draft[section.id] === option.value}
-                        onPress={() => selectOption(section.id, option.value)}
-                      />
-                    ))}
-                  </View>
+                  <Animated.View entering={ACCORDION_ENTER} exiting={ACCORDION_EXIT}>
+                    <View className="border-t border-grey-50 px-4 pb-3 pt-3">
+                      <Text className="mb-2 font-medium text-[13px] leading-5 text-grey-300">{section.description}</Text>
+                      {section.options.map((option) => (
+                        <RadioOption
+                          key={option.value}
+                          label={option.label}
+                          description={option.description}
+                          selected={draft[section.id] === option.value}
+                          onPress={() => selectOption(section.id, option.value)}
+                        />
+                      ))}
+                    </View>
+                  </Animated.View>
                 ) : null}
-              </View>
+              </Animated.View>
             );
           })}
         </View>

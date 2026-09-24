@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, Text, View, ScrollView } from 'react-native';
+import { Alert, Pressable, Text, View, ScrollView } from 'react-native';
 import { useRouter, type Href } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SVGS } from '@/assets';
@@ -26,8 +26,9 @@ const CHEVRON_SIZE = 16;
 
 function SettingsRow({ label, Icon, danger = false, onPress }: RowDef) {
   const tint = danger ? '#EC2727' : '#111111';
+  const handlePress = onPress ?? (() => Alert.alert(label, 'Coming soon'));
   return (
-    <Pressable onPress={onPress} className="flex-row items-center px-4 py-3.5 active:bg-grey-50">
+    <Pressable onPress={handlePress} className="flex-row items-center px-4 py-3.5 active:bg-grey-50">
       <View
         style={{
           width: ICON_SLOT,
@@ -79,7 +80,7 @@ export function AccountSettingsScreen() {
     {
       title: 'Account Settings',
       rows: [
-        { label: 'Account', Icon: SVGS.Account, onPress: () => navigate('/accounts' as Href) },
+        { label: 'Account', Icon: SVGS.Account, onPress: () => Alert.alert('Account', 'Coming soon') },
         { label: 'Messaging and inbox', Icon: SVGS.Messages, onPress: () => navigate('/messaging-and-inbox' as Href) },
         { label: 'Edit Storefront', Icon: SVGS.Tools },
         { label: 'Account privacy', Icon: SVGS.ShieldSecurity, onPress: () => navigate('/account-privacy') },
