@@ -14,3 +14,4 @@ export * from './InboxBackupScreen';
 export * from './ExportChatScreen';
 export * from './ActivityCenterScreen';
 export * from './SearchHistoryScreen';
+export * from './AccountHistoryScreen';

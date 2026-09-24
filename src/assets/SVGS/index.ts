@@ -97,9 +97,11 @@ import {Upload} from './Upload';
 import {Views} from './Views';
 import {Voice} from './Voice';
 import {Work} from './Work';
+import {Phone} from './Phone';
 import {PhoneBG} from './PhoneBG';
 import {Resend} from './Resend';
 import {PasswordBG} from './PasswordBG';
+import {Email} from './Email';
 import {EmailBG} from './EmailBG';
 import {PinBG} from './PinBG';
 import {BirthdayBG} from './BirthdayBG';
@@ -235,6 +237,8 @@ export const SVGS = {
   Views,
   Voice,
   Work,
+  Phone,
+  Email,
   PhoneBG,
   Resend,
   PasswordBG,
