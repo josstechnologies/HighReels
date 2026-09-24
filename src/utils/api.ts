@@ -1,8 +1,7 @@
 import {AxiosError, InternalAxiosRequestConfig, create, isAxiosError} from 'axios';
 import {API_ROUTES, BASE_URL} from '@/constants';
 import {authActions, authState$} from '@/store';
-import {getDeviceId, getDeviceName} from '@/utils/device';
-import {queryClient} from '@/utils/queryClient';
+import {queryClient,getDeviceId, getDeviceName} from '@/utils';
 
 export type ApiEnvelope<T> = {success?: boolean; data?: T; message?: string; code?: string};
 

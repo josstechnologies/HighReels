@@ -1,0 +1,105 @@
+patelchirag@patels-MacBook-Pro HighReels % eas build --auto-submit
+An Expo user account is required to proceed.
+
+Log in to EAS with email or username (exit and run eas login --help to see other login options)
+✔ Email or username … chiraghpatel03@gmail.com
+✔ Password … ************************
+One-time password from authenticator required.
+✔ One-time password or backup code (press Enter to cancel): … 287142
+✔ Select platform › Android
+Resolved "production" environment for the build. Learn more
+No environment variables with visibility "Plain text" and "Sensitive" found for the "production" environment on EAS.
+
+✔ Incremented versionCode from 6 to 7.
+
+
+✔ Using remote Android credentials (Expo server)
+✔ Using Keystore from configuration: Build Credentials BJ8omhSlZM (default)
+
+Compressing project files and uploading to EAS Build. Learn more
+✔ Uploaded to EAS 1s
+✔ Computed project fingerprint
+
+See logs: https://expo.dev/accounts/joss-technologies/projects/highreels/builds/4490c15a-cf80-44a7-9a84-3ac4e8753e6a
+
+Looking up credentials configuration for com.highreels...
+✔ Google Service Account Key already set up.
+
+Project ID:                     88a2f948-4ba4-4eb1-a1e0-5ce65ead8f71
+Release track:                  internal
+Changes not sent for a review:  false
+Release status:                 COMPLETED
+Google Service Account Key:     
+    Key Source   :  EAS servers
+    Account Email:  expo-deploy@highreels-app.iam.gserviceaccount.com
+Rollout:                        undefined
+Build:                          
+    Build ID    :  4490c15a-cf80-44a7-9a84-3ac4e8753e6a
+    Build Date  :  9/11/2026, 1:27:17 AM
+    App Version :  1.0.0
+    Version code:  7
+
+✔ Scheduled Android submission
+
+Submission details: https://expo.dev/accounts/joss-technologies/projects/highreels/submissions/5f8f484b-309e-4b64-951c-130f12a1a588
+
+Waiting for build to complete. You can press Ctrl+C to exit.
+✔ Build finished
+
+🤖 Android app:
+https://expo.dev/artifacts/eas/t5tbed8-aWIHUSZ1gz2Oaw23_c0YNKT2m7t1jUVnvj8.aab
+
+Waiting for submission to complete. You can press Ctrl+C to exit.
+✖ Something went wrong when submitting your app to Google Play Store.
+
+Fastlane supply failed
+We couldn't figure out what went wrong. See logs to learn more.
+
+[logs] Start phase: SPIN_UP_SUBMISSION_WORKER
+[logs] Creating new worker instance
+[logs] End phase: SPIN_UP_SUBMISSION_WORKER
+
+[logs] Start phase: SUBMIT_TO_PLAY_STORE
+[logs] Starting the submit process
+[logs] Downloading archive
+[logs] Preparing artifact
+[logs] Submitting Android app to Play Store...
+[logs] Submitting the app with fastlane supply
+[logs] +--------------------------------------------------------------------------------------------------------------------------------------------+
+[logs] |                                                         Summary for supply 2.220.0                                                         |
+[logs] +------------------------------------+-------------------------------------------------------------------------------------------------------+
+[logs] | aab                                | /tmp/submissions/14caa115-b103-43ac-86c2-c36c531693fe/t5tbed8_aWIHUSZ1gz2Oaw23_c0YNKT2m7t1jUVnvj8.aab |
+[logs] | track                              | internal                                                                                              |
+[logs] | json_key                           | /tmp/submissions/14caa115-b103-43ac-86c2-c36c531693fe/service-account.json                            |
+[logs] | package_name                       | com.highreels                                                                                         |
+[logs] | changes_not_sent_for_review        | false                                                                                                 |
+[logs] | release_status                     | completed                                                                                             |
+[logs] | skip_upload_apk                    | false                                                                                                 |
+[logs] | skip_upload_aab                    | false                                                                                                 |
+[logs] | skip_upload_metadata               | false                                                                                                 |
+[logs] | skip_upload_changelogs             | false                                                                                                 |
+[logs] | skip_upload_images                 | false                                                                                                 |
+[logs] | skip_upload_screenshots            | false                                                                                                 |
+[logs] | sync_image_upload                  | false                                                                                                 |
+[logs] | track_promote_release_status       | completed                                                                                             |
+[logs] | validate_only                      | false                                                                                                 |
+[logs] | check_superseded_tracks            | false                                                                                                 |
+[logs] | timeout                            | 300                                                                                                   |
+[logs] | deactivate_on_promote              | true                                                                                                  |
+[logs] | rescue_changes_not_sent_for_review | true                                                                                                  |
+[logs] | ack_bundle_installation_warning    | false                                                                                                 |
+[logs] +------------------------------------+-------------------------------------------------------------------------------------------------------+
+[logs] 
+[logs] Preparing aab at path '/tmp/submissions/14caa115-b103-43ac-86c2-c36c531693fe/t5tbed8_aWIHUSZ1gz2Oaw23_c0YNKT2m7t1jUVnvj8.aab' for upload...
+[logs] Updating track 'internal'...
+[logs] Uploading all changes to Google Play...
+[logs] Google Api Error: Invalid request - All developers requesting access to the photo and video permissions are required to tell Google Play about the core functionality of their app - Retrying...
+[logs] Google Api Error: Invalid request - All developers requesting access to the photo and video permissions are required to tell Google Play about the core functionality of their app - Retrying...
+[logs] Google Api Error: Invalid request - All developers requesting access to the photo and video permissions are required to tell Google Play about the core functionality of their app - Retrying...
+[logs] Google Api Error: Invalid request - All developers requesting access to the photo and video permissions are required to tell Google Play about the core functionality of their app - Retrying...
+[logs] Google Api Error: Invalid request - All developers requesting access to the photo and video permissions are required to tell Google Play about the core functionality of their app - Retrying...
+[logs] [!] Google Api Error: Invalid request - All developers requesting access to the photo and video permissions are required to tell Google Play about the core functionality of their app
+[logs] Fastlane supply failed
+[logs] Failed to submit the app to the store
+[logs] End phase: SUBMIT_TO_PLAY_STORE
+patelchirag@patels-MacBook-Pro HighReels % 
