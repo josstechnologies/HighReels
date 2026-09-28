@@ -17,6 +17,8 @@ const ICON_SLOT = 22;
 const CHEVRON_SIZE = 16;
 const DANGER = '#EC2727';
 
+type SheetType = 'archive' | 'clear' | 'delete';
+
 type RowProps = {
   label: string;
   Icon: (props: SvgProps) => ReactElement;
@@ -77,7 +79,8 @@ export function ChatsScreen() {
   const { back } = useRouter();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [archiveVisible, setArchiveVisible] = useState(false);
+  const [sheet, setSheet] = useState<SheetType>('archive');
+  const [sheetVisible, setSheetVisible] = useState(false);
 
   const handleComingSoon = (label: string) => {
     Alert.alert(label, 'Coming soon');
@@ -93,7 +96,7 @@ export function ChatsScreen() {
       archiveChatsActions.markArchived();
       queryClient.invalidateQueries({ queryKey: ['chats'] });
       queryClient.invalidateQueries({ queryKey: ['chats', 'archived'] });
-      setArchiveVisible(false);
+      setSheetVisible(false);
       showToast('All chats archived');
       // Navigate to archive screen — staged: will be provided later
       setTimeout(() => {
@@ -110,21 +113,46 @@ export function ChatsScreen() {
     },
   });
 
-  const handleArchive = () => setArchiveVisible(true);
-
-  const handleClear = () => {
-    Alert.alert('Clear all chats', 'Are you sure you want to clear all chats? This will clear messages but keep chats in the list.', [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Clear', style: 'destructive', onPress: () => handleComingSoon('Clear all chats') },
-    ]);
+  const openSheet = (type: SheetType) => {
+    setSheet(type);
+    setSheetVisible(true);
   };
 
-  const handleDelete = () => {
-    Alert.alert('Delete all chats', 'Are you sure you want to delete all chats? This action cannot be undone.', [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Delete', style: 'destructive', onPress: () => handleComingSoon('Delete all chats') },
-    ]);
+  const handleArchive = () => openSheet('archive');
+  const handleClear = () => openSheet('clear');
+  const handleDelete = () => openSheet('delete');
+
+  const closeAndComingSoon = (label: string) => {
+    setSheetVisible(false);
+    handleComingSoon(label);
   };
+
+  const SHEETS = {
+    archive: {
+      icon: <SVGS.Archive width={36} height={36} color="#111111" />,
+      title: 'Archive all chats?',
+      description: 'All your chats will be moved to the Archive folder. You can still receive new messages.',
+      confirmText: 'Archive',
+      tone: 'primary',
+      onConfirm: () => archiveMutation.mutate(),
+    },
+    clear: {
+      icon: <SVGS.Close2 width={36} height={36} color={DANGER} />,  
+      title: 'Clear all chats?',
+      description: 'This will permanently delete all messages from your chats. This action cannot be undone.',
+      confirmText: 'Clear all chats',
+      tone: 'danger',
+      onConfirm: () => closeAndComingSoon('Clear all chats'),
+    },
+    delete: {
+      icon: <SVGS.Delete width={36} height={36} color={DANGER} />,
+      title: 'Delete all chats?',
+      description: 'This will permanently delete all your chats, messages, and media. This action cannot be undone.',
+      confirmText: 'Delete',
+      tone: 'danger',
+      onConfirm: () => closeAndComingSoon('Delete all chats'),
+    },
+  } as const;
 
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-secondary">
@@ -155,12 +183,12 @@ export function ChatsScreen() {
       </ScrollView>
 
       <ArchiveAllChatsSheet
-        visible={archiveVisible}
+        visible={sheetVisible}
         onClose={() => {
-          if (!archiveMutation.isPending) setArchiveVisible(false);
+          if (!archiveMutation.isPending) setSheetVisible(false);
         }}
-        onArchive={() => archiveMutation.mutate()}
-        isPending={archiveMutation.isPending}
+        {...SHEETS[sheet]}
+        isPending={sheet === 'archive' && archiveMutation.isPending}
       />
     </SafeAreaView>
   );

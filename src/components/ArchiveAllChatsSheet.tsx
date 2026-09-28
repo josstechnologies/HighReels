@@ -1,31 +1,42 @@
 import { Pressable, Text, View } from 'react-native';
-import { SVGS } from '@/assets';
 import { Button } from '@/components/Button';
 import { AppBottomSheet } from '@/components/ui/AppBottomSheet';
+import type { ReactNode } from 'react';
 
 type ArchiveAllChatsSheetProps = {
   visible: boolean;
   onClose: () => void;
-  onArchive: () => void;
+  onConfirm: () => void;
+  icon: ReactNode;
+  title: string;
+  description: string;
+  confirmText: string;
+  tone?: 'primary' | 'danger';
   isPending?: boolean;
 };
 
-export function ArchiveAllChatsSheet({ visible, onClose, onArchive, isPending = false }: ArchiveAllChatsSheetProps) {
+export function ArchiveAllChatsSheet({
+  visible,
+  onClose,
+  onConfirm,
+  icon,
+  title,
+  description,
+  confirmText,
+  tone = 'primary',
+  isPending = false,
+}: ArchiveAllChatsSheetProps) {
   return (
     <AppBottomSheet visible={visible} onClose={onClose} enablePanDownToClose={!isPending}>
       <View className="flex-col items-center">
-        <View className="h-20 w-20 items-center justify-center rounded-full bg-secondary">
-          <SVGS.Archive width={32} height={32} color="#111111" />
-        </View>
+        <View className="h-20 w-20 items-center justify-center rounded-full bg-secondary">{icon}</View>
 
-        <Text className="mt-5 text-center font-extrabold text-[22px] leading-7 text-black">Archive all chats?</Text>
+        <Text className="mt-5 text-center font-bold text-lg leading-7 text-black">{title}</Text>
 
-        <Text className="mt-3 px-2 text-center font-medium text-[15px] leading-6 text-grey-300">
-          All your chats will be moved to the Archive folder. You can still receive new messages.
-        </Text>
+        <Text className="mt-3 px-2 text-center text-sm leading-6 text-grey-300">{description}</Text>
 
         <View className="mt-7 w-full flex-col">
-          <Button title="Archive" variant="primary" onPress={onArchive} loading={isPending} className="rounded-2xl" />
+          <Button title={confirmText} variant={tone} onPress={onConfirm} loading={isPending} className="rounded-xl" />
 
           <Pressable
             onPress={onClose}

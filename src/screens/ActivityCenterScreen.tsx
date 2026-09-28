@@ -11,7 +11,7 @@ const CHEVRON_SIZE = 16;
 
 const ROWS: {label: string; Icon: (props: SvgProps) => ReactElement; href?: Href}[] = [
   {label: 'Watch history', Icon: SVGS.Play},
-  {label: 'Comment history', Icon: SVGS.Comment},
+  {label: 'Comment history', Icon: SVGS.Comment, href: '/comment-history' as Href},
   {label: 'Search history', Icon: SVGS.Search, href: '/search-history' as Href},
   {label: 'Add link history', Icon: SVGS.Link},
   {label: 'Mention history', Icon: SVGS.Contact},
@@ -19,7 +19,7 @@ const ROWS: {label: string; Icon: (props: SvgProps) => ReactElement; href?: Href
   {label: 'Screen time', Icon: SVGS.History},
   {label: 'Recently deleted', Icon: SVGS.Delete},
   {label: 'Manage post visibility', Icon: SVGS.Views},
-  {label: 'Manage comments permission', Icon: SVGS.Messages},
+  {label: 'Manage comments permission', Icon: SVGS.Messages, href: '/comment-permission' as Href},
   {label: 'Manage post reuse permission', Icon: SVGS.Repost},
 ];
 

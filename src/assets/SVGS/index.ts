@@ -17,6 +17,7 @@ import {Caption} from './Caption';
 import {Chat} from './Chat';
 import {Clip} from './Clip';
 import {Close} from './Close';
+import {Close2} from './Close2';
 import {Colors} from './Colors';
 import {Comment} from './Comment';
 import {Contact} from './Contact';
@@ -156,6 +157,7 @@ export const SVGS = {
   Chat,
   Clip,
   Close,
+  Close2,
   Colors,
   Comment,
   Contact,

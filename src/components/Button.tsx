@@ -1,7 +1,7 @@
 import {ActivityIndicator, Pressable, Text, type PressableProps} from 'react-native';
 import {cn} from '@/utils';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outlined' | 'text';
+type ButtonVariant = 'primary' | 'secondary' | 'outlined' | 'text' | 'danger';
 
 type ButtonProps = Omit<PressableProps, 'children' | 'disabled'> & {
   title: string;
@@ -28,6 +28,10 @@ const containerClass: Record<ButtonVariant, {default: string; disabled: string}>
     default: 'bg-transparent active:opacity-70',
     disabled: 'bg-transparent',
   },
+  danger: {
+    default: 'bg-danger-700 active:opacity-90',
+    disabled: 'bg-danger-700 opacity-50',
+  },
 };
 
 const textClass: Record<ButtonVariant, {default: string; disabled: string}> = {
@@ -35,6 +39,7 @@ const textClass: Record<ButtonVariant, {default: string; disabled: string}> = {
   secondary: {default: 'text-black', disabled: 'text-white'},
   outlined: {default: 'text-black', disabled: 'text-white'},
   text: {default: 'text-black', disabled: 'text-grey-100'},
+  danger: {default: 'text-white', disabled: 'text-white'},
 };
 
 const spinnerColor: Record<ButtonVariant, string> = {
@@ -42,6 +47,7 @@ const spinnerColor: Record<ButtonVariant, string> = {
   secondary: '#111111',
   outlined: '#111111',
   text: '#111111',
+  danger: '#FFFFFF',
 };
 
 export function Button({title, onPress, variant = 'primary', disabled = false, loading = false, className = '', ...rest}: ButtonProps) {

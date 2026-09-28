@@ -43,12 +43,14 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
   ) => {
     const insets = useSafeAreaInsets();
     const innerRef = useRef<BottomSheetModal>(null);
+    const presentedRef = useRef(false);
 
     useImperativeHandle(ref, () => innerRef.current as BottomSheetModal);
 
     const animationConfigs = useBottomSheetSpringConfigs(springConfigs);
 
     const handleDismiss = useCallback(() => {
+      presentedRef.current = false;
       onClose();
     }, [onClose]);
 
@@ -56,10 +58,14 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
       if (visible) {
         // Best practice: defer present to next frame so BottomSheetModalProvider
         // has mounted the portal and measured dynamic content (gorhom pitfall #1).
-        const id = requestAnimationFrame(() => innerRef.current?.present());
+        const id = requestAnimationFrame(() => {
+          presentedRef.current = true;
+          innerRef.current?.present();
+        });
         return () => cancelAnimationFrame(id);
       }
-      innerRef.current?.dismiss();
+      // gorhom leaves a never-presented modal stuck in DISMISSING, which blocks every later present().
+      if (presentedRef.current) innerRef.current?.dismiss();
     }, [visible]);
 
     const renderBackdrop = useCallback(
