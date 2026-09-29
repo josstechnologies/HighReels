@@ -1,6 +1,5 @@
 ---
 description: Package manager — bun only, no npm/yarn/pnpm
-globs: ["**/*"]
 alwaysApply: true
 ---
 
