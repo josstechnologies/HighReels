@@ -1,6 +1,5 @@
 ---
 description: Right chevron / ArrowRight icon color consistency (#666)
-globs: ["src/**/*.{ts,tsx}"]
 alwaysApply: true
 ---
 
