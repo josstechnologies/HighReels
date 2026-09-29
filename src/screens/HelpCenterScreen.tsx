@@ -10,20 +10,12 @@ const ICON_SLOT = 22;
 const CHEVRON_SIZE = 16;
 
 const ROWS: {label: string; Icon: (props: SvgProps) => ReactElement; href?: Href}[] = [
-  {label: 'Watch history', Icon: SVGS.Watch},
-  {label: 'Comment history', Icon: SVGS.Comment2, href: '/comment-history' as Href},
-  {label: 'Search history', Icon: SVGS.Search, href: '/search-history' as Href},
-  {label: 'Add link history', Icon: SVGS.Link},
-  {label: 'Mention history', Icon: SVGS.Mention},
-  {label: 'Account history', Icon: SVGS.Account2, href: '/accounts/account-history' as Href},
-  {label: 'Screen time', Icon: SVGS.Clock},
-  {label: 'Recently deleted', Icon: SVGS.Delete},
-  {label: 'Manage post visibility', Icon: SVGS.Views},
-  {label: 'Manage comments permission', Icon: SVGS.Messages2, href: '/comment-permission' as Href},
-  {label: 'Manage post reuse permission', Icon: SVGS.Posts},
+  {label: 'Sync Contact', Icon: SVGS.Account, href: '/sync-contacts' as Href},
+  {label: 'Blocked Accounts', Icon: SVGS.Block, href: '/blocked-accounts' as Href},
+  {label: 'Ads settings', Icon: SVGS.Tools, href: '/ads-settings' as Href},
 ];
 
-export function ActivityCenterScreen() {
+export function HelpCenterScreen() {
   const {back, navigate} = useRouter();
 
   return (
@@ -32,7 +24,7 @@ export function ActivityCenterScreen() {
         <Pressable onPress={back} className="rounded-full p-1 active:bg-grey-50">
           <SVGS.Back width={24} height={24} color="#111111" />
         </Pressable>
-        <Text className="flex-1 text-center font-extrabold text-xl text-black">Account</Text>
+        <Text className="flex-1 text-center font-extrabold text-xl text-black">Help center</Text>
         <View style={{width: 32, height: 24}} />
       </View>
 

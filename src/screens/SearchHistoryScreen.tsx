@@ -23,7 +23,7 @@ export function SearchHistoryScreen() {
         <Pressable onPress={back} accessibilityRole="button" accessibilityLabel="Go back" className="rounded-full p-1 active:bg-grey-50">
           <SVGS.Back width={24} height={24} color="#111111" />
         </Pressable>
-        <Text className="flex-1 text-center font-extrabold text-xl text-black">Search History</Text>
+        <Text className="flex-1 text-center font-bold text-lg text-black">Search History</Text>
         <View className="w-8" />
       </View>
 
@@ -34,16 +34,16 @@ export function SearchHistoryScreen() {
         contentContainerStyle={{paddingHorizontal: 16, paddingTop: 16, paddingBottom: 32}}
         showsVerticalScrollIndicator={false}
         stickySectionHeadersEnabled={false}
-        renderSectionHeader={({section}) => <Text className="mb-2 mt-3 font-medium text-base text-grey-500">{section.title}</Text>}
+        renderSectionHeader={({section}) => <Text className="mb-2 mt-3 font-medium text-sm text-grey-400">{section.title}</Text>}
         renderItem={({item, index, section}) => {
           const isLast = index === section.data.length - 1;
           return (
             <View className={`bg-white px-4 ${index === 0 ? 'rounded-t-2xl' : ''} ${isLast ? 'rounded-b-2xl' : ''}`}>
               <View className="flex-row items-center py-3.5">
-                <SVGS.History width={24} height={24} color="#111111" />
+                <SVGS.History width={20} height={20} color="#111111" />
                 <View className="mx-3 flex-1">
-                  <Text className="font-medium text-base text-black">{item.query}</Text>
-                  <Text className="mt-1 text-base text-grey-500">{item.time}</Text>
+                  <Text className="font-medium text-sm text-black">{item.query}</Text>
+                  <Text className="mt-1 text-[13px] text-grey-400">{item.time}</Text>
                 </View>
                 <Pressable
                   onPress={() => removeSearch(item.id)}

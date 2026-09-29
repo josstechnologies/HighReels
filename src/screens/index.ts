@@ -17,3 +17,7 @@ export * from './SearchHistoryScreen';
 export * from './AccountHistoryScreen';
 export * from './CommentHistoryScreen';
 export * from './CommentPermissionScreen';
+export * from './HelpCenterScreen';
+export * from './SyncContactsScreen';
+export * from './BlockedAccountsScreen';
+export * from './AdsSettingsScreen';

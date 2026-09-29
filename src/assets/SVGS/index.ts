@@ -20,6 +20,7 @@ import {Close} from './Close';
 import {Close2} from './Close2';
 import {Colors} from './Colors';
 import {Comment} from './Comment';
+import {Comment2} from './Comment2';
 import {Contact} from './Contact';
 import {CopyLink} from './CopyLink';
 import {Delete} from './Delete';
@@ -114,6 +115,7 @@ import {ClipboardText} from './ClipboardText';
 import {FlipCamera} from './FlipCamera';
 import {FlashOff} from './FlashOff';
 import {Account} from './Account';
+import {Account2} from './Account2';
 import {AccountFill} from './AccountFill';
 import {ShieldSecurity} from './ShieldSecurity';
 import { Category } from './Category';
@@ -135,6 +137,13 @@ import { Eye } from './Eye';
 import { Person } from './Person';
 import { CheckCircle } from './CheckCircle';
 import { Timer } from './Timer';
+import { Watch } from './Watch';
+import { Mention } from './Mention';
+import { Clock } from './Clock';
+import { Messages2 } from './Messages2';
+import { Posts } from './Posts';
+import { Info2 } from './Info2';
+import { Question } from './Question';
 
 export const SVGS = {
   Ads,
@@ -160,6 +169,8 @@ export const SVGS = {
   Close2,
   Colors,
   Comment,
+  Comment2,
+  Mention,
   Contact,
   CopyLink,
   Delete,
@@ -197,6 +208,7 @@ export const SVGS = {
   Locked,
   Menu,
   Messages,
+  Messages2,
   MoveToInbox,
   Mute,
   Notifications,
@@ -207,6 +219,7 @@ export const SVGS = {
   Photos,
   Pin,
   Play,
+  Watch,
   Plus,
   PostViews,
   ProfileViews,
@@ -255,6 +268,7 @@ export const SVGS = {
   FlipCamera,
   FlashOff,
   Account,
+  Account2,
   AccountFill,
   ShieldSecurity,
   AiLab,
@@ -274,4 +288,8 @@ export const SVGS = {
   Person,
   CheckCircle,
   Timer,
+  Clock,
+  Posts,
+  Info2,
+  Question,
 };

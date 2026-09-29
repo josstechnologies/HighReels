@@ -25,7 +25,7 @@ export function CommentHistoryScreen() {
         <Pressable onPress={back} accessibilityRole="button" accessibilityLabel="Go back" className="rounded-full p-1 active:bg-grey-50">
           <SVGS.Back width={24} height={24} color="#111111" />
         </Pressable>
-        <Text className="flex-1 text-center font-extrabold text-xl text-black">Comment History</Text>
+        <Text className="flex-1 text-center font-bold text-lg text-black">Comment History</Text>
         <View className="w-8" />
       </View>
 
@@ -39,8 +39,8 @@ export function CommentHistoryScreen() {
                 onPress={() => setFilter(item)}
                 accessibilityRole="button"
                 accessibilityState={{selected: active}}
-                className={cn('h-9 items-center justify-center rounded-full px-4', active ? 'bg-black' : 'bg-white active:bg-grey-50')}>
-                <Text className={cn('font-medium text-sm', active ? 'text-white' : 'text-black')}>{item}</Text>
+                className={cn('h-9 items-center justify-center rounded-3xl px-4', active ? 'bg-black' : 'bg-white active:bg-grey-50')}>
+                <Text className={cn('font-semibold text-sm', active ? 'text-white' : 'text-black')}>{item}</Text>
               </Pressable>
             );
           })}
@@ -56,15 +56,15 @@ export function CommentHistoryScreen() {
         renderItem={({item}) => (
           <View className="rounded-2xl bg-white px-4 py-4">
             <View className="flex-row items-center">
-              <Image source={{uri: item.avatar}} className="h-11 w-11 rounded-full bg-grey-50" />
+              <Image source={{uri: item.avatar}} className="h-10 w-10 rounded-full bg-grey-50" />
               <View className="mx-3 flex-1">
-                <Text className="font-semibold text-base text-black">{item.username}</Text>
-                <Text numberOfLines={1} className="mt-0.5 text-sm text-grey-500">
+                <Text className="font-semibold text-sm text-black">{item.username}</Text>
+                <Text numberOfLines={1} className="mt-0.5 text-xs text-black">
                   {item.caption}
                 </Text>
               </View>
-              <Image source={{uri: item.thumbnail}} className="h-12 w-12 rounded-lg bg-grey-50" />
-            </View>
+              <Image source={{uri: item.thumbnail}} className="h-10 w-10 rounded-lg bg-grey-50" />
+            </View> 
 
             <View className="ml-10 mt-3">
               {item.replies.map((reply) => (
@@ -72,11 +72,11 @@ export function CommentHistoryScreen() {
                   <Image source={{uri: reply.avatar}} className="h-9 w-9 rounded-full bg-grey-50" />
                   <View className="ml-3 flex-1">
                     <Text className="text-sm text-black">
-                      <Text className="font-semibold">{reply.name}</Text>
+                      <Text className="font-medium text-[13px]">{reply.name}</Text>
                       {'  '}
-                      {reply.text}
+                      <Text className="text-[13px]">{reply.text}</Text>
                     </Text>
-                    <Text className="mt-1 text-sm text-grey-300">{reply.time}</Text>
+                    <Text className="mt-1.5 text-[13px] text-grey-400">{reply.time}</Text>
                   </View>
                 </View>
               ))}

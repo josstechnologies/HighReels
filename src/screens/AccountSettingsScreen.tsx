@@ -80,13 +80,13 @@ export function AccountSettingsScreen() {
     {
       title: 'Account Settings',
       rows: [
-        { label: 'Account', Icon: SVGS.Account, onPress: () => Alert.alert('Account', 'Coming soon') },
+        { label: 'Account', Icon: SVGS.Account },
         { label: 'Messaging and inbox', Icon: SVGS.Messages, onPress: () => navigate('/messaging-and-inbox' as Href) },
         { label: 'Edit Storefront', Icon: SVGS.Tools },
         { label: 'Account privacy', Icon: SVGS.ShieldSecurity, onPress: () => navigate('/account-privacy') },
         { label: 'AI Lab settings', Icon: SVGS.Ai },
         { label: 'AI Studio settings', Icon: SVGS.Ai },
-        { label: 'Help center', Icon: SVGS.Info },
+        { label: 'Help center', Icon: SVGS.Question, onPress: () => navigate('/help-center' as Href) },
         { label: 'Terms and policies', Icon: SVGS.Layout, onPress: () => navigate('/policies-and-safety') },
       ],
     },

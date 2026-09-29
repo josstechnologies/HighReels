@@ -13,9 +13,9 @@ export function RadioDot({selected}: {selected: boolean}) {
     <View
       className={cn(
         'h-6 w-6 shrink-0 items-center justify-center rounded-full border-2',
-        selected ? 'border-primary' : 'border-grey-100',
+        selected ? 'border-primary bg-primary' : 'border-grey-100 bg-white',
       )}>
-      {selected ? <View className="h-3 w-3 rounded-full bg-primary" /> : null}
+      {selected ? <View className="h-2.5 w-2.5 rounded-full bg-white" /> : null}
     </View>
   );
 }

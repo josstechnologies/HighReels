@@ -15,32 +15,46 @@ type UpdateCommentPermissionSheetProps = {
   visible: boolean;
   onClose: () => void;
   selectedCount: number;
-  onUpdate: (permission: CommentPermission) => void;
+  onUpdate: (permissions: CommentPermission[]) => void;
 };
 
 export function UpdateCommentPermissionSheet({visible, onClose, selectedCount, onUpdate}: UpdateCommentPermissionSheetProps) {
-  const [permission, setPermission] = useState<CommentPermission>('allow');
+  const [permissions, setPermissions] = useState<Set<CommentPermission>>(new Set());
+
+  const toggle = (value: CommentPermission) => {
+    setPermissions((current) => {
+      const next = new Set(current);
+      if (next.has(value)) next.delete(value);
+      else next.add(value);
+      return next;
+    });
+  };
 
   return (
     <AppBottomSheet visible={visible} onClose={onClose}>
-      <Text className="text-center font-extrabold text-xl text-black">Update selected posts</Text>
+      <Text className="text-center font-bold text-lg text-black">Update selected posts</Text>
 
       <View className="mt-6 rounded-2xl bg-secondary px-4">
         {OPTIONS.map((option) => {
-          const checked = permission === option.value;
+          const checked = permissions.has(option.value);
           return (
             <Pressable
               key={option.value}
-              onPress={() => setPermission(option.value)}
+              onPress={() => toggle(option.value)}
               className="flex-row items-center py-3.5 active:opacity-70">
-              <Text className="mr-3 flex-1 font-medium text-base text-black">{option.label}</Text>
-              <Checkbox checked={checked} onCheckedChange={() => setPermission(option.value)} accessibilityLabel={option.label} />
+              <Text className="mr-3 flex-1 font-medium text-sm text-black">{option.label}</Text>
+              <Checkbox checked={checked} onCheckedChange={() => toggle(option.value)} accessibilityLabel={option.label} />
             </Pressable>
           );
         })}
       </View>
 
-      <Button title={`Update (${selectedCount})`} onPress={() => onUpdate(permission)} className="mt-8 rounded-2xl" />
+      <Button
+        title={`Update (${selectedCount})`}
+        disabled={permissions.size === 0}
+        onPress={() => onUpdate([...permissions])}
+        className="mt-8 rounded-2xl"
+      />
     </AppBottomSheet>
   );
 }

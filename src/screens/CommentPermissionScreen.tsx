@@ -35,7 +35,7 @@ export function CommentPermissionScreen() {
         <Pressable onPress={back} accessibilityRole="button" accessibilityLabel="Go back" className="rounded-full p-1 active:bg-grey-50">
           <SVGS.Back width={24} height={24} color="#111111" />
         </Pressable>
-        <Text className="flex-1 text-center font-extrabold text-xl text-black">Comment Permission</Text>
+        <Text className="flex-1 text-center font-bold text-lg text-black">Comment Permission</Text>
         <View className="w-8" />
       </View>
 
@@ -56,7 +56,7 @@ export function CommentPermissionScreen() {
                 <Text numberOfLines={2} className="font-medium text-base text-black">
                   {item.caption}
                 </Text>
-                <Text className="mt-3 text-sm text-black">{item.date}</Text>
+                <Text className="mt-3 text-xs font-medium text-black">{item.date}</Text>
               </View>
               <Checkbox checked={checked} onCheckedChange={() => toggle(item.id)} accessibilityLabel={item.caption} />
             </Pressable>
