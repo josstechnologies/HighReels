@@ -52,7 +52,7 @@ function SettingsRow({ label, Icon, danger = false, onPress }: RowDef) {
 }
 
 function SectionSeparator({ title }: { title: string }) {
-  return <Text className="mb-2 mt-5 px-4 font-semibold text-[13px] text-black">{title}</Text>;
+  return <Text className="mb-2 mt-5 px-4 font-semibold text-13 text-black">{title}</Text>;
 }
 
 export function AccountSettingsScreen() {

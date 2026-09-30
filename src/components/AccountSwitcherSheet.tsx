@@ -59,7 +59,7 @@ export function AccountSwitcherSheet({ visible, onClose }: AccountSwitcherSheetP
 
   return (
     <AppBottomSheet visible={visible} onClose={onClose}>
-      <Text className="text-center font-extrabold text-[22px] text-black">Add Account</Text>
+      <Text className="text-center font-extrabold text-22 text-black">Add Account</Text>
 
       <View className="mt-6">
         <Pressable onPress={handleAddAccount} className="flex-row items-center py-3 active:opacity-70">
@@ -83,7 +83,7 @@ export function AccountSwitcherSheet({ visible, onClose }: AccountSwitcherSheetP
                 <Text className="font-semibold text-[16px] text-black" numberOfLines={1}>
                   {account.displayName || account.username}
                 </Text>
-                <Text className="mt-0.5 font-medium text-[13px] text-grey-300" numberOfLines={1}>
+                <Text className="mt-0.5 font-medium text-13 text-grey-300" numberOfLines={1}>
                   @{account.username}
                 </Text>
               </View>

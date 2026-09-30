@@ -306,7 +306,7 @@ export default function EditAvatarCrop() {
             {uploadMutation.isPending ? (
               <ActivityIndicator color="#FFFFFF" />
             ) : (
-              <Text className="font-semibold text-[15px] text-white">Done</Text>
+              <Text className="font-semibold text-15 text-white">Done</Text>
             )}
           </Pressable>
         </View>

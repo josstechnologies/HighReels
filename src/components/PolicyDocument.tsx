@@ -42,7 +42,7 @@ function Card({ children }: { children: ReactNode }) {
 }
 
 function Paragraph({ text }: { text: string }) {
-  return <Text className="font-medium text-[15px] leading-6 text-black">{text}</Text>;
+  return <Text className="font-medium text-15 leading-6 text-black">{text}</Text>;
 }
 
 function BulletList({ items }: { items: string[] }) {
@@ -50,8 +50,8 @@ function BulletList({ items }: { items: string[] }) {
     <View>
       {items.map(item => (
         <View key={item} className="mb-2 flex-row last:mb-0">
-          <Text className="mr-2 font-medium text-[15px] leading-6 text-black">{'\u2022'}</Text>
-          <Text className="flex-1 font-medium text-[15px] leading-6 text-black">{item}</Text>
+          <Text className="mr-2 font-medium text-15 leading-6 text-black">{'\u2022'}</Text>
+          <Text className="flex-1 font-medium text-15 leading-6 text-black">{item}</Text>
         </View>
       ))}
     </View>
@@ -63,8 +63,8 @@ function FaqList({ items }: { items: PolicyFaq[] }) {
     <View>
       {items.map((item, index) => (
         <View key={item.question} className={index === items.length - 1 ? '' : 'mb-4'}>
-          <Text className="mb-1 font-bold text-[15px] leading-6 text-black">{item.question}</Text>
-          <Text className="font-medium text-[15px] leading-6 text-black">{item.answer}</Text>
+          <Text className="mb-1 font-bold text-15 leading-6 text-black">{item.question}</Text>
+          <Text className="font-medium text-15 leading-6 text-black">{item.answer}</Text>
         </View>
       ))}
     </View>
@@ -119,7 +119,7 @@ export function PolicyDocument({ policyKey, onBack }: PolicyDocumentProps) {
       </View>
 
       <ScrollView className="bg-secondary" contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
-        {doc.intro ? <Text className="mx-4 mt-4 font-medium text-[15px] leading-6 text-grey-300">{doc.intro}</Text> : null}
+        {doc.intro ? <Text className="mx-4 mt-4 font-medium text-15 leading-6 text-grey-300">{doc.intro}</Text> : null}
 
         {doc.sections.map(section => (
           <View key={section.title} className="mx-4 mt-5">
@@ -132,7 +132,7 @@ export function PolicyDocument({ policyKey, onBack }: PolicyDocumentProps) {
       </ScrollView>
 
       <AppBottomSheet visible={pickerOpen} onClose={() => setPickerOpen(false)}>
-        <Text className="text-center font-extrabold text-[22px] text-black">{t('policies.languagePickerTitle')}</Text>
+        <Text className="text-center font-extrabold text-22 text-black">{t('policies.languagePickerTitle')}</Text>
         <Text className="mt-2 text-center font-medium text-[14px] leading-5 text-black">
           {t('policies.languagePickerSubtitle')}
         </Text>

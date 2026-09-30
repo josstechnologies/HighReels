@@ -44,7 +44,7 @@ export function OnlineAndLastSeenScreen() {
           Others can see when you are online
         </Text>
 
-        <Text className="mx-4 mt-6 font-medium text-[13px] tracking-wide text-grey-300">WHO CAN SEE MY LAST SEEN</Text>
+        <Text className="mx-4 mt-6 font-medium text-13 tracking-wide text-grey-300">WHO CAN SEE MY LAST SEEN</Text>
 
         <View className="mx-4 mt-3 overflow-hidden rounded-2xl bg-white">
           {options.map(option => {

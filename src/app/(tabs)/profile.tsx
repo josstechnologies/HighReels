@@ -129,7 +129,7 @@ export default function Profile() {
                 <Text className="text-center font-semibold text-[16px] text-black">Couldn&apos;t load your profile</Text>
                 <Text className="mt-2 text-center text-[14px] text-grey-300">Check your connection and try again.</Text>
                 <Pressable onPress={() => profileQuery.refetch()} className="mt-4 active:opacity-70">
-                  <Text className="font-semibold text-[15px] text-primary">Try again</Text>
+                  <Text className="font-semibold text-15 text-primary">Try again</Text>
                 </Pressable>
               </View>
             ) : (
@@ -157,7 +157,7 @@ export default function Profile() {
                         return (
                           <View key={stat.key} className={cn('flex-row items-center', index > 0 && 'ml-4')}>
                             <Icon width={16} height={16} className="text-black" />
-                            <Text className="ml-1 font-semibold text-[13px] text-black">{stat.value}</Text>
+                            <Text className="ml-1 font-semibold text-13 text-black">{stat.value}</Text>
                           </View>
                         );
                       })}

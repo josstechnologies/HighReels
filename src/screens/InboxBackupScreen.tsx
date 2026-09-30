@@ -112,7 +112,7 @@ export function InboxBackupScreen() {
         </View>
 
         {/* Backup Frequency */}
-        <Text className="mx-4 mt-6 font-medium text-[13px] tracking-wide text-grey-300">BACKUP FREQUENCY</Text>
+        <Text className="mx-4 mt-6 font-medium text-13 tracking-wide text-grey-300">BACKUP FREQUENCY</Text>
 
         <View className="mx-4 mt-3 overflow-hidden rounded-2xl bg-white">
           {FREQUENCY_OPTIONS.map(option => {

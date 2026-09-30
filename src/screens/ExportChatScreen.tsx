@@ -52,7 +52,7 @@ export function ExportChatScreen() {
         <Text className="mx-4 mt-2 font-medium text-[14px] leading-5 text-grey-300">{t('exportChat.mediaHint')}</Text>
 
         {/* Format */}
-        <Text className="mx-4 mt-6 font-medium text-[13px] tracking-wide text-grey-300">{t('exportChat.format')}</Text>
+        <Text className="mx-4 mt-6 font-medium text-13 tracking-wide text-grey-300">{t('exportChat.format')}</Text>
 
         <View className="mx-4 mt-3 overflow-hidden rounded-2xl bg-white">
           {FORMAT_OPTIONS.map(option => {

@@ -182,7 +182,7 @@ export default function Otp() {
               </Text>
             </View>
 
-            <Text className="mt-3 font-medium text-[15px] leading-6 text-[#6b6b6b]">
+            <Text className="mt-3 font-medium text-15 leading-6 text-[#6b6b6b]">
               {type === 'email' ? t('signup.sentEmailCode', {value}) : t('signup.sentPhoneOtp', {value})}
             </Text>
 
@@ -232,7 +232,7 @@ export default function Otp() {
 
             <View className="mt-6 items-start">
               {timer > 0 ? (
-                <Text className="font-medium text-[15px] text-[#a7a7a7]">
+                <Text className="font-medium text-15 text-[#a7a7a7]">
                   {t('signup.resendIn')} <Text className="font-semibold text-[#111111]">{timerLabel}</Text>
                 </Text>
               ) : (

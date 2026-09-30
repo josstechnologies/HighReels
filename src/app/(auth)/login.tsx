@@ -246,7 +246,7 @@ export default function Login() {
           <SocialAuthButtons />
 
           <View className="mt-8 items-center px-9">
-            <Text className="text-center font-medium text-[13px] leading-[22px] text-[#a7a7a7]">{t('signup.terms')}</Text>
+            <Text className="text-center font-medium text-13 leading-[22px] text-[#a7a7a7]">{t('signup.terms')}</Text>
           </View>
 
           <View className="mt-auto flex-row justify-center py-6">

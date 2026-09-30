@@ -134,7 +134,7 @@ export function CustomChatThemeScreen() {
         className="flex-1 bg-secondary"
         contentContainerStyle={{ paddingBottom: 24 }}
         showsVerticalScrollIndicator={false}>
-        <Text className="mx-4 mt-3 text-[15px] font-medium" style={{ color: '#8A8A8A' }}>
+        <Text className="mx-4 mt-3 text-15 font-medium" style={{ color: '#8A8A8A' }}>
           Themes
         </Text>
 

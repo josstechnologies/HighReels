@@ -40,7 +40,7 @@ function Chip({
             }
           : undefined
       }>
-      <Text className={cn('text-caption text-white', active ? 'font-semibold' : 'font-medium')}>{label}</Text>
+      <Text className={cn('text-13 leading-4 text-white', active ? 'font-semibold' : 'font-medium')}>{label}</Text>
     </Pressable>
   );
 }

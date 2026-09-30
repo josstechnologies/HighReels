@@ -96,7 +96,7 @@ export default function EditBio() {
             {saveMutation.isPending ? (
               <ActivityIndicator color="#6F41EC" />
             ) : (
-              <Text className="font-semibold text-[15px] text-black">Done</Text>
+              <Text className="font-semibold text-15 text-black">Done</Text>
             )}
           </Pressable>
         </View>
@@ -123,7 +123,7 @@ export default function EditBio() {
                   multiline
                   textAlignVertical="top"
                   maxLength={BIO_MAX}
-                  className="mt-1 min-h-[72px] p-0 font-semibold text-[15px] leading-5 text-black"
+                  className="mt-1 min-h-[72px] p-0 font-semibold text-15 leading-5 text-black"
                 />
               </View>
               <Text className="mt-2 self-end font-medium text-[12px] text-grey-300">
@@ -135,7 +135,7 @@ export default function EditBio() {
                   disabled
                   className="flex-row items-center justify-center gap-2 rounded-2xl bg-secondary py-4 opacity-90">
                   <SVGS.Views width={20} height={20} color="#111111" />
-                  <Text className="font-semibold text-[15px] text-black">View as profile</Text>
+                  <Text className="font-semibold text-15 text-black">View as profile</Text>
                 </Pressable>
               </View>
             </View>

@@ -72,11 +72,11 @@ export function CommentHistoryScreen() {
                   <Image source={{uri: reply.avatar}} className="h-9 w-9 rounded-full bg-grey-50" />
                   <View className="ml-3 flex-1">
                     <Text className="text-sm text-black">
-                      <Text className="font-medium text-[13px]">{reply.name}</Text>
+                      <Text className="font-medium text-13">{reply.name}</Text>
                       {'  '}
-                      <Text className="text-[13px]">{reply.text}</Text>
+                      <Text className="text-13">{reply.text}</Text>
                     </Text>
-                    <Text className="mt-1.5 text-[13px] text-grey-400">{reply.time}</Text>
+                    <Text className="mt-1.5 text-13 text-grey-400">{reply.time}</Text>
                   </View>
                 </View>
               ))}

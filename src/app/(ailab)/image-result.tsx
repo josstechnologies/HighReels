@@ -9,7 +9,7 @@ const DEMO_POSTER = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df
 function DetailChip({value, label}: {value: string; label: string}) {
   return (
     <View className="mr-2 rounded-full bg-grey-800 px-3.5 py-2.5">
-      <Text className="text-[13px]">
+      <Text className="text-13">
         <Text className="font-semibold text-white">{value}</Text>
         <Text className="text-grey-200"> {label}</Text>
       </Text>
@@ -70,7 +70,7 @@ export default function ImageResult() {
 
           <Text className="mb-3 mt-6 font-semibold text-[16px] text-white">Prompt</Text>
           <View className="rounded-2xl bg-grey-900 px-4 py-4">
-            <Text className="text-[15px] text-white">{prompt}</Text>
+            <Text className="text-15 text-white">{prompt}</Text>
           </View>
 
           <Text className="mb-3 mt-6 font-semibold text-[16px] text-white">Image Details</Text>

@@ -36,7 +36,7 @@ export function PromptField({
       <Pressable
         onPress={onInspirationPress}
         className="absolute bottom-3 right-3 flex-row items-center rounded-full bg-primary px-3 py-2">
-        <Text className="mr-1.5 text-caption font-semibold text-white">Inspiration</Text>
+        <Text className="mr-1.5 text-13 leading-4 font-semibold text-white">Inspiration</Text>
         <SVGS.AiInspiration width={13} height={13} className="text-white" />
       </Pressable>
     </View>

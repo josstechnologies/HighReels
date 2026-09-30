@@ -43,7 +43,7 @@ export function SearchHistoryScreen() {
                 <SVGS.History width={20} height={20} color="#111111" />
                 <View className="mx-3 flex-1">
                   <Text className="font-medium text-sm text-black">{item.query}</Text>
-                  <Text className="mt-1 text-[13px] text-grey-400">{item.time}</Text>
+                  <Text className="mt-1 text-13 text-grey-400">{item.time}</Text>
                 </View>
                 <Pressable
                   onPress={() => removeSearch(item.id)}

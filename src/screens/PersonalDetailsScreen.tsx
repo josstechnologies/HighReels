@@ -81,7 +81,7 @@ function PersonalDetailsError({ onRetry }: { onRetry: () => void }) {
       <Text className="text-center font-semibold text-[16px] text-black">Couldn&apos;t load your details</Text>
       <Text className="mt-2 text-center font-medium text-[14px] text-grey-300">Check your connection and try again.</Text>
       <Pressable onPress={onRetry} className="mt-5 active:opacity-70">
-        <Text className="font-semibold text-[15px] text-primary">Retry</Text>
+        <Text className="font-semibold text-15 text-primary">Retry</Text>
       </Pressable>
     </View>
   );
@@ -91,7 +91,7 @@ function FieldCard({ label, value }: { label: string; value: string }) {
   return (
     <View className="rounded-2xl bg-secondary px-4 py-3">
       <Text className="font-medium text-[12px] text-grey-300">{label}</Text>
-      <Text className="mt-1 font-semibold text-[15px] leading-5 text-black">{value}</Text>
+      <Text className="mt-1 font-semibold text-15 leading-5 text-black">{value}</Text>
     </View>
   );
 }
@@ -160,7 +160,7 @@ export function PersonalDetailsScreen() {
               </View>
             )}
             <Pressable onPress={() => setPictureSheetOpen(true)} className="mt-3 active:opacity-70">
-              <Text className="font-semibold text-[15px] text-primary">Edit Picture</Text>
+              <Text className="font-semibold text-15 text-primary">Edit Picture</Text>
             </Pressable>
           </View>
 
@@ -204,7 +204,7 @@ export function PersonalDetailsScreen() {
               <Pressable onPress={() => push('/personal-details/edit-bio' as Href)} className="active:opacity-80">
                 <View className="min-h-[88px] rounded-2xl bg-secondary px-4 py-3">
                   <Text className="font-medium text-[12px] text-grey-300">Bio</Text>
-                  <Text className="mt-1 font-semibold text-[15px] leading-5 text-black">
+                  <Text className="mt-1 font-semibold text-15 leading-5 text-black">
                     {displayOrDash(data?.profile?.bio)}
                   </Text>
                 </View>
@@ -212,9 +212,9 @@ export function PersonalDetailsScreen() {
               <FieldCard label="Add Social Link" value={STATIC.socialLink} />
               <FieldCard label="Add Domain" value={STATIC.domain} />
               <Pressable className="flex-row items-center justify-between rounded-2xl bg-secondary px-4 py-4 active:opacity-80">
-                <Text className="font-medium text-[15px] text-black">Region</Text>
+                <Text className="font-medium text-15 text-black">Region</Text>
                 <View className="flex-row items-center gap-1">
-                  <Text className="font-semibold text-[15px] text-black">{STATIC.region}</Text>
+                  <Text className="font-semibold text-15 text-black">{STATIC.region}</Text>
                   <SVGS.ArrowRight width={16} height={16} color="#A7A7A7" />
                 </View>
               </Pressable>

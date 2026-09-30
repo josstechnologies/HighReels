@@ -128,7 +128,7 @@ export default function EditPhone() {
             {sendOtpMutation.isPending ? (
               <ActivityIndicator color="#6F41EC" />
             ) : (
-              <Text className="font-semibold text-[15px] text-black">Done</Text>
+              <Text className="font-semibold text-15 text-black">Done</Text>
             )}
           </Pressable>
         </View>
@@ -155,7 +155,7 @@ export default function EditPhone() {
                   autoCapitalize="none"
                   autoCorrect={false}
                   keyboardType="phone-pad"
-                  className="mt-1 p-0 font-semibold text-[15px] leading-5 text-black"
+                  className="mt-1 p-0 font-semibold text-15 leading-5 text-black"
                 />
               </View>
 
@@ -186,7 +186,7 @@ export default function EditPhone() {
                   {deleteMutation.isPending ? (
                     <ActivityIndicator color="#EC2727" />
                   ) : (
-                    <Text className="font-semibold text-[15px] text-danger-700">Delete this number</Text>
+                    <Text className="font-semibold text-15 text-danger-700">Delete this number</Text>
                   )}
                 </Pressable>
 

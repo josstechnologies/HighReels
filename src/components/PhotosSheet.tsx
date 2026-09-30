@@ -102,17 +102,17 @@ export function PhotosSheet({ visible, onClose, onOpenCamera, onSelectUri }: Pho
   return (
     <AppBottomSheet visible={visible} onClose={onClose} snapPoints={['72%']} enablePanDownToClose>
       <View className="mb-3 flex-row items-center justify-between px-5 pt-3">
-        <Text className="font-extrabold text-[22px] text-black">Photos</Text>
+        <Text className="font-extrabold text-22 text-black">Photos</Text>
         <Pressable onPress={handleDone} disabled={!selectedUri} style={{ opacity: selectedUri ? 1 : 0.35 }} className="active:opacity-70">
-          <Text className="font-semibold text-[15px] text-primary">Done</Text>
+          <Text className="font-semibold text-15 text-primary">Done</Text>
         </Pressable>
       </View>
 
       {!permission?.granted ? (
         <View className="items-center justify-center px-2 py-12">
-          <Text className="text-center font-medium text-[15px] text-grey-300">Allow photo access to choose a profile picture.</Text>
+          <Text className="text-center font-medium text-15 text-grey-300">Allow photo access to choose a profile picture.</Text>
           <Pressable onPress={() => requestPermission()} className="mt-4 active:opacity-70">
-            <Text className="font-semibold text-[15px] text-primary">Grant permission</Text>
+            <Text className="font-semibold text-15 text-primary">Grant permission</Text>
           </Pressable>
         </View>
       ) : (

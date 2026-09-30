@@ -89,7 +89,7 @@ export function SyncContactsScreen() {
                   accessibilityLabel={item.title}
                 />
               </View>
-              <Text className="mt-1 text-[13px] leading-5 text-grey-350">{item.description}</Text>
+              <Text className="mt-1 text-13 leading-5 text-grey-350">{item.description}</Text>
 
               <Button
                 title={item.removeLabel}

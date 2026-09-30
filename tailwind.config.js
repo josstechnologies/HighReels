@@ -51,8 +51,10 @@ module.exports = {
         20: '1.25rem',
       },
       fontSize: {
-        micro: ['0.6875rem', {lineHeight: '0.875rem'}],
-        caption: ['0.8125rem', {lineHeight: '1rem'}],
+        11: '0.6875rem',
+        13: '0.8125rem',
+        15: '0.9375rem',
+        22: '1.375rem',
       },
       width: {
         toggle: '51px',

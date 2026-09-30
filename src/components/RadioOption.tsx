@@ -24,8 +24,8 @@ export function RadioOption({label, description, selected, onPress}: RadioOption
   return (
     <Pressable onPress={onPress} className="flex-row items-start justify-between py-3 active:opacity-70">
       <View className="mr-3 flex-1">
-        <Text className="font-semibold text-[15px] text-black">{label}</Text>
-        {description ? <Text className="mt-1 font-medium text-[13px] leading-5 text-grey-300">{description}</Text> : null}
+        <Text className="font-semibold text-15 text-black">{label}</Text>
+        {description ? <Text className="mt-1 font-medium text-13 leading-5 text-grey-300">{description}</Text> : null}
       </View>
       <RadioDot selected={selected} />
     </Pressable>

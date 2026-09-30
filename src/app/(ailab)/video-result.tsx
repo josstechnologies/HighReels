@@ -11,7 +11,7 @@ function DetailChip({value, label}: {value: string; label: string}) {
   return (
     <View className="mr-2 flex-row items-end gap-0.5 rounded-xl bg-grey-700 px-4 py-2.5">
       <Text className="text-xs font-semibold text-white">{value}</Text>
-      <Text className="text-micro text-grey-200"> {label}</Text>
+      <Text className="text-11 leading-3.5 text-grey-200"> {label}</Text>
     </View>
   );
 }
@@ -63,8 +63,8 @@ export default function VideoResult() {
               </View>
               <View className="absolute bottom-4 left-4 right-4">
                 <View className="mb-1.5 flex-row justify-between">
-                  <Text className="text-micro text-white">0:00</Text>
-                  <Text className="text-micro text-white">0:{seconds.padStart(2, '0')}</Text>
+                  <Text className="text-11 leading-3.5 text-white">0:00</Text>
+                  <Text className="text-11 leading-3.5 text-white">0:{seconds.padStart(2, '0')}</Text>
                 </View>
                 <Progress value={33} className="h-1 bg-white/30" indicatorClassName="bg-primary" />
               </View>

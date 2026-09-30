@@ -35,7 +35,7 @@ export function AiModeDropdown({ activeId, title, onSelect }: AiModeDropdownProp
               onPress={() => onSelect(item.id, item.href)}
               className={cn('flex-row items-center px-4 py-3.5', active && 'bg-grey-700')}>
               <Icon width={18} height={18} className="text-white" />
-              <Text className={cn('ml-3 text-[15px] text-white', active && 'font-semibold')}>{item.label}</Text>
+              <Text className={cn('ml-3 text-15 text-white', active && 'font-semibold')}>{item.label}</Text>
             </Pressable>
           );
         })}

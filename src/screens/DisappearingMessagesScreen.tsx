@@ -75,7 +75,7 @@ export function DisappearingMessagesScreen() {
           Start new chats with disappearing messages enabled. Messages will disappear after the selected duration.
         </Text>
 
-        <Text className="mx-4 mt-6 font-medium text-[13px] tracking-wide text-grey-300">DEFAULT TIMER</Text>
+        <Text className="mx-4 mt-6 font-medium text-13 tracking-wide text-grey-300">DEFAULT TIMER</Text>
 
         <View className="mx-4 mt-3 overflow-hidden rounded-2xl bg-white">
           {OPTIONS.map(option => {

@@ -227,7 +227,7 @@ export function AccountPrivacyScreen() {
                 {isOpen ? (
                   <Animated.View entering={ACCORDION_ENTER} exiting={ACCORDION_EXIT}>
                     <View className="border-t border-grey-50 px-4 pb-3 pt-3">
-                      <Text className="mb-2 font-medium text-[13px] leading-5 text-grey-300">{section.description}</Text>
+                      <Text className="mb-2 font-medium text-13 leading-5 text-grey-300">{section.description}</Text>
                       {section.options.map((option) => (
                         <RadioOption
                           key={option.value}

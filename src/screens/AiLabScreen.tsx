@@ -86,7 +86,7 @@ export function AiLabScreen() {
                   end={{ x: 1, y: 1 }}
                   style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                   <Icon width={24} height={24} className="text-black" />
-                  <Text className="mt-2 font-medium text-[13px] text-black">{label}</Text>
+                  <Text className="mt-2 font-medium text-13 text-black">{label}</Text>
                 </LinearGradient>
               </Pressable>
             ))}
