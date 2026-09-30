@@ -21,3 +21,5 @@ export * from './HelpCenterScreen';
 export * from './SyncContactsScreen';
 export * from './BlockedAccountsScreen';
 export * from './AdsSettingsScreen';
+export * from './AdsLinkHistoryScreen';
+export * from './MentionHistoryScreen';

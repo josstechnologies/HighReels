@@ -144,6 +144,9 @@ import { Messages2 } from './Messages2';
 import { Posts } from './Posts';
 import { Info2 } from './Info2';
 import { Question } from './Question';
+import { Activity } from './Activity';
+import { CrossArrow } from './CrossArrow';
+import { Mention2 } from './Mention2';
 
 export const SVGS = {
   Ads,
@@ -171,8 +174,10 @@ export const SVGS = {
   Comment,
   Comment2,
   Mention,
+  Mention2,
   Contact,
   CopyLink,
+  CrossArrow,
   Delete,
   Doc,
   DocSelected,
@@ -195,6 +200,7 @@ export const SVGS = {
   Heart,
   HeartFilled,
   History,
+  Activity,
   Home,
   Info,
   Interactions,
