@@ -9,6 +9,7 @@ export * from './AccountSwitcherSheet';
 export * from './EditPictureSheet';
 export * from './PhotosSheet';
 export * from './ArchiveAllChatsSheet';
+export * from './SettingsListRow';
 export * from './Toast';
 export * from './AiLabTopGlow';
 export * from './AiModeDropdown';

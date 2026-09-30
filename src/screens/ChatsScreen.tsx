@@ -1,82 +1,46 @@
-import { useState } from 'react';
-import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
-import { useRouter, type Href } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { SVGS } from '@/assets';
-import { ArchiveAllChatsSheet } from '@/components/ArchiveAllChatsSheet';
-import { CHEVRON_COLOR } from '@/theme/colors';
-import { API_ROUTES } from '@/constants';
-import { archiveChatsActions } from '@/store';
-import { API, apiErrorMessage, showToast } from '@/utils';
-import type { SvgProps } from 'react-native-svg';
-import type { ReactElement } from 'react';
+import {useState, type ReactElement, type ReactNode} from 'react';
+import {Alert, Pressable, ScrollView, Text, View} from 'react-native';
+import {useRouter, type Href} from 'expo-router';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import type {SvgProps} from 'react-native-svg';
+import {SVGS} from '@/assets';
+import {ArchiveAllChatsSheet} from '@/components/ArchiveAllChatsSheet';
+import {SettingsListCard, SettingsListRow} from '@/components/SettingsListRow';
+import {API_ROUTES} from '@/constants';
+import {archiveChatsActions} from '@/store';
+import {API, apiErrorMessage, showToast} from '@/utils';
 
-const ICON_SIZE = 22;
-const ICON_SLOT = 22;
-const CHEVRON_SIZE = 16;
 const DANGER = '#EC2727';
 
 type SheetType = 'archive' | 'clear' | 'delete';
 
-type RowProps = {
+type ChatRow = {
   label: string;
-  Icon: (props: SvgProps) => ReactElement;
-  onPress?: () => void;
+  Icon?: (props: SvgProps) => ReactElement;
+  leading?: ReactNode;
   danger?: boolean;
   showChevron?: boolean;
+  onPress: () => void;
 };
 
-function ChatsRow({ label, Icon, onPress, danger, showChevron = true }: RowProps) {
-  const iconColor = danger ? DANGER : '#111111';
-  const textColor = danger ? DANGER : '#111111';
-
-  const isClearRow = label === 'Clear all chats';
-
-  return (
-    <Pressable onPress={onPress} className="flex-row items-center px-4 py-3.5 active:bg-grey-50" style={{ gap: 12 }}>
-      <View
-        style={{
-          width: ICON_SLOT,
-          height: ICON_SLOT,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        {isClearRow ? (
-          <View
-            style={{
-              width: 22,
-              height: 22,
-              borderRadius: 11,
-              borderWidth: 1.5,
-              borderColor: DANGER,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <SVGS.Close width={12} height={12} color={DANGER} />
-          </View>
-        ) : (
-          <Icon width={ICON_SIZE} height={ICON_SIZE} color={iconColor} />
-        )}
-      </View>
-      <Text className="flex-1 font-bold" style={{ fontSize: 16, lineHeight: ICON_SLOT, color: textColor }}>
-        {label}
-      </Text>
-      {showChevron ? (
-        <View style={{ width: ICON_SLOT, height: ICON_SLOT, alignItems: 'center', justifyContent: 'center' }}>
-          <SVGS.ArrowRight width={CHEVRON_SIZE} height={CHEVRON_SIZE} color={CHEVRON_COLOR} strokeWidth={2.2} />
-        </View>
-      ) : null}
-    </Pressable>
-  );
-}
-
-function Divider() {
-  return <View className="ml-[50px] h-[1px] bg-grey-50" />;
-}
+const ClearLeading = (
+  <View
+    style={{
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      borderWidth: 1.5,
+      borderColor: DANGER,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+    <SVGS.Close width={12} height={12} color={DANGER} />
+  </View>
+);
 
 export function ChatsScreen() {
-  const { back } = useRouter();
+  const {back} = useRouter();
   const router = useRouter();
   const queryClient = useQueryClient();
   const [sheet, setSheet] = useState<SheetType>('archive');
@@ -94,8 +58,8 @@ export function ChatsScreen() {
     onSuccess: () => {
       // Sync to expo-sqlite via legend persisted observable
       archiveChatsActions.markArchived();
-      queryClient.invalidateQueries({ queryKey: ['chats'] });
-      queryClient.invalidateQueries({ queryKey: ['chats', 'archived'] });
+      queryClient.invalidateQueries({queryKey: ['chats']});
+      queryClient.invalidateQueries({queryKey: ['chats', 'archived']});
       setSheetVisible(false);
       showToast('All chats archived');
       // Navigate to archive screen — staged: will be provided later
@@ -137,7 +101,7 @@ export function ChatsScreen() {
       onConfirm: () => archiveMutation.mutate(),
     },
     clear: {
-      icon: <SVGS.Close2 width={36} height={36} color={DANGER} />,  
+      icon: <SVGS.Close2 width={36} height={36} color={DANGER} />,
       title: 'Clear all chats?',
       description: 'This will permanently delete all messages from your chats. This action cannot be undone.',
       confirmText: 'Clear all chats',
@@ -154,6 +118,16 @@ export function ChatsScreen() {
     },
   } as const;
 
+  const ROWS: ChatRow[] = [
+    {label: 'Custom chat theme', Icon: SVGS.Colors, onPress: () => router.push('/custom-chat-theme' as Href)},
+    {label: 'Inbox backup', Icon: SVGS.Replay, onPress: () => router.push('/inbox-backup' as Href)},
+    {label: 'Transfer chat', Icon: SVGS.Repost1, onPress: () => handleComingSoon('Transfer chat')},
+    {label: 'Export chat', Icon: SVGS.Upload, onPress: () => router.push('/export-chat' as Href)},
+    {label: 'Archive all chats', Icon: SVGS.Archive, showChevron: false, onPress: handleArchive},
+    {label: 'Clear all chats', leading: ClearLeading, danger: true, showChevron: false, onPress: handleClear},
+    {label: 'Delete all chats', Icon: SVGS.Delete, danger: true, showChevron: false, onPress: handleDelete},
+  ];
+
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-secondary">
       <View className="flex-row items-center justify-center bg-secondary px-4 py-3">
@@ -165,21 +139,21 @@ export function ChatsScreen() {
 
       <ScrollView
         className="flex-1 bg-secondary"
-        contentContainerStyle={{ paddingBottom: 24, paddingHorizontal: 8 }}
+        contentContainerStyle={{paddingBottom: 24}}
         showsVerticalScrollIndicator={false}>
-        <View className="mt-3 overflow-hidden rounded-2xl bg-white" style={{ width: '100%', flex: 1 }}>
-          <ChatsRow label="Custom chat theme" Icon={SVGS.Colors} onPress={() => router.push('/custom-chat-theme' as Href)} />
-          <Divider />
-          <ChatsRow label="Inbox backup" Icon={SVGS.Replay} onPress={() => router.push('/inbox-backup' as Href)} />
-          <Divider />
-          <ChatsRow label="Transfer chat" Icon={SVGS.Repost1} onPress={() => handleComingSoon('Transfer chat')} />
-          <Divider />
-          <ChatsRow label="Export chat" Icon={SVGS.Upload} onPress={() => router.push('/export-chat' as Href)} />
-          <Divider />
-          <ChatsRow label="Archive all chats" Icon={SVGS.Archive} showChevron={false} onPress={handleArchive} />
-          <ChatsRow label="Clear all chats" Icon={SVGS.Close} danger showChevron={false} onPress={handleClear} />
-          <ChatsRow label="Delete all chats" Icon={SVGS.Delete} danger showChevron={false} onPress={handleDelete} />
-        </View>
+        <SettingsListCard className="mt-3">
+          {ROWS.map(row => (
+            <SettingsListRow
+              key={row.label}
+              label={row.label}
+              Icon={row.Icon}
+              leading={row.leading}
+              danger={row.danger}
+              showChevron={row.showChevron}
+              onPress={row.onPress}
+            />
+          ))}
+        </SettingsListCard>
       </ScrollView>
 
       <ArchiveAllChatsSheet

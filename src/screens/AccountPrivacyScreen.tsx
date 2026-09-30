@@ -117,12 +117,12 @@ function Chevron({open}: ChevronProps) {
   }, [open, progress]);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{rotate: `${interpolate(progress.value, [0, 1], [0, 180])}deg`}],
+    transform: [{rotate: `${interpolate(progress.value, [0, 1], [90, -90])}deg`}],
   }));
 
   return (
     <Animated.View style={animatedStyle}>
-      <SVGS.Down width={20} height={20} color="#111111" />
+      <SVGS.ArrowRight width={16} height={16} color="#111111" strokeWidth={2.2} />
     </Animated.View>
   );
 }
