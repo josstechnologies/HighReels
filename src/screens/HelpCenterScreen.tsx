@@ -10,6 +10,8 @@ const ROWS: {label: string; Icon: (props: SvgProps) => ReactElement; href?: Href
   {label: 'Sync Contact', Icon: SVGS.Account, href: '/sync-contacts' as Href},
   {label: 'Blocked Accounts', Icon: SVGS.Block, href: '/blocked-accounts' as Href},
   {label: 'Ads settings', Icon: SVGS.Tools, href: '/ads-settings' as Href},
+  {label: 'Saved Content', Icon: SVGS.Bookmark, href: '/saved-content' as Href},
+  {label: 'Manage Devices', Icon: SVGS.Smartphone, href: '/manage-devices' as Href},
 ];
 
 export function HelpCenterScreen() {

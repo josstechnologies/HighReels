@@ -21,6 +21,8 @@ export * from './HelpCenterScreen';
 export * from './SyncContactsScreen';
 export * from './BlockedAccountsScreen';
 export * from './AdsSettingsScreen';
+export * from './SavedContentScreen';
+export * from './ManageDevicesScreen';
 export * from './AdsLinkHistoryScreen';
 export * from './MentionHistoryScreen';
 export * from './WatchHistoryScreen';

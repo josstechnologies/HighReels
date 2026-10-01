@@ -147,7 +147,14 @@ import { Question } from './Question';
 import { Activity } from './Activity';
 import { CrossArrow } from './CrossArrow';
 import { Mention2 } from './Mention2';
-import { Play2 } from './Play2';  
+import { Play2 } from './Play2';
+import { PasswordUpdated } from './PasswordUpdated';
+import { AccountLoggedIn } from './AccountLoggedIn';
+import { Smartphone } from './Smartphone';
+import { Liked } from './Liked';
+import { Watched } from './Watched';
+import { Shared } from './Shared';
+import { AddNew } from './AddNew';  
 
 export const SVGS = {
   Ads,
@@ -227,6 +234,13 @@ export const SVGS = {
   Pin,
   Play,
   Play2,
+  PasswordUpdated,
+  AccountLoggedIn,
+  Smartphone,
+  Liked,
+  Watched,
+  Shared,
+  AddNew,
   Watch,
   Plus,
   PostViews,

@@ -92,44 +92,4 @@ export const ACCOUNT_HISTORY_SECTIONS: AccountHistorySection[] = [
       },
     ],
   },
-  {
-    id: '16-february',
-    title: '16 February',
-    data: [
-      {
-        id: 'phone-verified-16',
-        type: 'phone_verified',
-        title: 'Phone Number Verified',
-        body: 'Your registered phone number was verified successfully.',
-        time: '8:42 AM',
-      },
-      {
-        id: 'recovery-email-added-16',
-        type: 'recovery_email_added',
-        title: 'Recovery Email Added',
-        body: 'A recovery email was added to help protect your account.',
-        time: '2:16 PM',
-      },
-      {
-        id: 'suspicious-login-16',
-        type: 'suspicious_login',
-        title: 'New Login Alert',
-        body: 'We noticed a login from Chrome Browser in Melbourne, Australia.',
-        time: '11:27 PM',
-      },
-    ],
-  },
-  {
-    id: '17-february',
-    title: '17 February',
-    data: [
-      {
-        id: 'session-revoked-17',
-        type: 'session_revoked',
-        title: 'Signed Out Other Devices',
-        body: 'All other active sessions were signed out for your protection.',
-        time: '9:05 AM',
-      },
-    ],
-  },
 ];

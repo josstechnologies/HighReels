@@ -1,5 +1,5 @@
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
-import { StyleSheet } from 'react-native';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { Keyboard, Platform, StyleSheet } from 'react-native';
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -16,6 +16,13 @@ type AppBottomSheetProps = {
   enableDynamicSizing?: boolean;
   enablePanDownToClose?: boolean;
   showDragIndicator?: boolean;
+  /** Offset sheet above keyboard (`interactive` is gorhom default). */
+  keyboardBehavior?: 'interactive' | 'extend' | 'fillParent';
+  /** Restore sheet position when keyboard dismisses. */
+  keyboardBlurBehavior?: 'none' | 'restore';
+  /** Android soft-input mode; prefer `adjustPan` so interactive keyboard offset runs. */
+  android_keyboardInputMode?: 'adjustPan' | 'adjustResize';
+  enableBlurKeyboardOnGesture?: boolean;
   children: React.ReactNode;
 };
 
@@ -28,6 +35,9 @@ const springConfigs = {
   restSpeedThreshold: 0.01,
 };
 
+/** Head-start so keyboard hide begins before / with the sheet dismiss. */
+const KEYBOARD_DISMISS_LEAD_MS = Platform.OS === 'ios' ? 0 : 120;
+
 export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
   (
     {
@@ -37,6 +47,10 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
       enableDynamicSizing,
       enablePanDownToClose = true,
       showDragIndicator = true,
+      keyboardBehavior,
+      keyboardBlurBehavior,
+      android_keyboardInputMode,
+      enableBlurKeyboardOnGesture,
       children,
     },
     ref,
@@ -44,6 +58,9 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
     const insets = useSafeAreaInsets();
     const innerRef = useRef<BottomSheetModal>(null);
     const presentedRef = useRef(false);
+    const keyboardOpenRef = useRef(false);
+    const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [keyboardOpen, setKeyboardOpen] = useState(false);
 
     useImperativeHandle(ref, () => innerRef.current as BottomSheetModal);
 
@@ -51,8 +68,47 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
 
     const handleDismiss = useCallback(() => {
       presentedRef.current = false;
+      keyboardOpenRef.current = false;
+      setKeyboardOpen(false);
       onClose();
     }, [onClose]);
+
+    const dismissSheet = useCallback(() => {
+      if (!presentedRef.current) return;
+      innerRef.current?.dismiss();
+    }, []);
+
+    /** Dismiss keyboard first (or with), then the sheet — avoids sheet vanishing under an open keyboard. */
+    const dismissWithKeyboard = useCallback(() => {
+      if (!presentedRef.current) return;
+
+      if (dismissTimerRef.current) {
+        clearTimeout(dismissTimerRef.current);
+        dismissTimerRef.current = null;
+      }
+
+      const wasKeyboardOpen = keyboardOpenRef.current;
+      Keyboard.dismiss();
+
+      if (!wasKeyboardOpen) {
+        dismissSheet();
+        return;
+      }
+
+      if (Platform.OS === 'ios') {
+        const sub = Keyboard.addListener('keyboardWillHide', () => {
+          sub.remove();
+          dismissSheet();
+        });
+        dismissTimerRef.current = setTimeout(() => {
+          sub.remove();
+          dismissSheet();
+        }, 300);
+        return;
+      }
+
+      dismissTimerRef.current = setTimeout(dismissSheet, KEYBOARD_DISMISS_LEAD_MS);
+    }, [dismissSheet]);
 
     useEffect(() => {
       if (visible) {
@@ -64,25 +120,76 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
         });
         return () => cancelAnimationFrame(id);
       }
-      // gorhom leaves a never-presented modal stuck in DISMISSING, which blocks every later present().
-      if (presentedRef.current) innerRef.current?.dismiss();
-    }, [visible]);
+      // Parent closed the sheet (Done / controlled visible=false).
+      // Keyboard-aware sheets dismiss keyboard first; others close immediately.
+      if (presentedRef.current) {
+        if (keyboardBehavior) dismissWithKeyboard();
+        else innerRef.current?.dismiss();
+      }
+    }, [visible, dismissWithKeyboard, keyboardBehavior]);
+
+    useEffect(() => {
+      if (!keyboardBehavior) return;
+      const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
+      const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+      const show = Keyboard.addListener(showEvent, () => {
+        keyboardOpenRef.current = true;
+        setKeyboardOpen(true);
+      });
+      const hide = Keyboard.addListener(hideEvent, () => {
+        keyboardOpenRef.current = false;
+        setKeyboardOpen(false);
+      });
+      return () => {
+        show.remove();
+        hide.remove();
+      };
+    }, [keyboardBehavior]);
+
+    useEffect(
+      () => () => {
+        if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current);
+      },
+      [],
+    );
 
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (
-        <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} opacity={0.4} pressBehavior="close" />
+        <BottomSheetBackdrop
+          {...props}
+          appearsOnIndex={0}
+          disappearsOnIndex={-1}
+          opacity={0.4}
+          // `none` disables the tap gesture entirely in gorhom — use snap-to-0 (no-op while open)
+          // so onPress still fires, then we dismiss keyboard before/with the sheet.
+          pressBehavior={keyboardBehavior ? 0 : 'close'}
+          onPress={keyboardBehavior ? dismissWithKeyboard : undefined}
+        />
       ),
-      [],
+      [dismissWithKeyboard, keyboardBehavior],
     );
 
     const dynamicSizing = snapPoints ? false : (enableDynamicSizing ?? true);
 
     const contentStyle = useMemo(
-      () => [styles.content, { paddingBottom: Math.max(insets.bottom, 12) + 12 }],
-      [insets.bottom],
+      () => [
+        styles.content,
+        {
+          // Drop safe-area spacer while keyboard is up — sheet already sits above it.
+          paddingBottom: keyboardOpen ? 8 : Math.max(insets.bottom, 12) + 12,
+        },
+      ],
+      [insets.bottom, keyboardOpen],
     );
 
     const isScrollable = !!snapPoints;
+
+    const keyboardProps = {
+      keyboardBehavior,
+      keyboardBlurBehavior,
+      android_keyboardInputMode,
+      enableBlurKeyboardOnGesture,
+    };
 
     if (isScrollable) {
       return (
@@ -98,7 +205,8 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
           backgroundStyle={styles.background}
           backdropComponent={renderBackdrop}
           animationConfigs={animationConfigs}
-          onDismiss={handleDismiss}>
+          onDismiss={handleDismiss}
+          {...keyboardProps}>
           {children}
         </BottomSheetModal>
       );
@@ -117,7 +225,8 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
         backgroundStyle={styles.background}
         backdropComponent={renderBackdrop}
         animationConfigs={animationConfigs}
-        onDismiss={handleDismiss}>
+        onDismiss={handleDismiss}
+        {...keyboardProps}>
         <BottomSheetView style={contentStyle}>{children}</BottomSheetView>
       </BottomSheetModal>
     );
