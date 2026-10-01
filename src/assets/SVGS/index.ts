@@ -147,6 +147,7 @@ import { Question } from './Question';
 import { Activity } from './Activity';
 import { CrossArrow } from './CrossArrow';
 import { Mention2 } from './Mention2';
+import { Play2 } from './Play2';  
 
 export const SVGS = {
   Ads,
@@ -225,6 +226,7 @@ export const SVGS = {
   Photos,
   Pin,
   Play,
+  Play2,
   Watch,
   Plus,
   PostViews,

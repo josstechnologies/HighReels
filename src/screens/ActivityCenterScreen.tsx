@@ -13,7 +13,7 @@ type Row = {
 };
 
 const ROWS: Row[] = [
-  {label: 'Watch history', Icon: SVGS.Watch},
+  {label: 'Watch history', Icon: SVGS.Watch, href: '/watch-history' as Href},
   {label: 'Comment history', Icon: SVGS.Comment2, href: '/comment-history' as Href},
   {label: 'Search history', Icon: SVGS.Search, href: '/search-history' as Href},
   {label: 'Add link history', Icon: SVGS.Link, href: '/ads-link-history' as Href},

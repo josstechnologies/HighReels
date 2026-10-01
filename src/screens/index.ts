@@ -23,3 +23,4 @@ export * from './BlockedAccountsScreen';
 export * from './AdsSettingsScreen';
 export * from './AdsLinkHistoryScreen';
 export * from './MentionHistoryScreen';
+export * from './WatchHistoryScreen';
