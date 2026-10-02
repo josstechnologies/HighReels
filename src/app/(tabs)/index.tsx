@@ -1,162 +1,530 @@
-import {Pressable, Text, View, ScrollView} from 'react-native';
-import {useRouter} from 'expo-router';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useTranslation} from 'react-i18next';
+import {FlatList, View, Text, useWindowDimensions, ActivityIndicator, AppState, Pressable, Dimensions} from 'react-native';
 import {useSelector} from '@legendapp/state/react';
-import Svg, {Path, Circle, Defs, LinearGradient, Stop} from 'react-native-svg';
-import {authState$} from '@/store';
-import {signOut} from '@/utils';
+import {authState$, getActiveAccount} from '@/store';
 
-export default function Home() {
-  const {navigate} = useRouter();
-  const {t, i18n} = useTranslation();
+import {useRouter} from 'expo-router';
+import {IMAGES, SVGS} from '@/assets';
+import {EmojiReactionOverlay} from '@/components/EmojiReactionOverlay';
+import {HomeSideMenus} from '@/components/HomeSideMenus';
+import {useIsFocused} from 'expo-router/react-navigation';
+import {useBottomTabBarHeight} from 'expo-router/js-tabs';
+import {useUIStore} from '@/store/uiStore';
+import {STATIC_FEED} from '@/mock-data/home-feed';
+import {useEffect, useState, useCallback, useRef, useMemo} from 'react';
+// import {supabase, getAssetUrl} from '@/utils';
+import {queryClient} from '@/utils';
+import {useInfiniteQuery} from '@tanstack/react-query';
+import {useVideoPlayer, VideoView} from 'expo-video';
+import {Image} from 'expo-image';
+import * as Haptics from 'expo-haptics';
+import Animated, {useSharedValue, useAnimatedStyle, withSpring, withDelay, withTiming, runOnJS} from 'react-native-reanimated';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
+
+export const SongCard = () => {
+  const router = useRouter();
+  const hideSongCard = useUIStore((state) => state.hideSongCard);
+  const songCardData = useUIStore((state) => state.songCardData);
   const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
+  const accountId = useSelector(() => getActiveAccount()?.accountId);
+  const [isBioExpanded, setIsBioExpanded] = useState(false);
+  const currentUserId = hasSession ? accountId : undefined;
 
-  const toggleLanguage = () => {
-    const nextLang = i18n.language === 'en' ? 'fr' : 'en';
-    i18n.changeLanguage(nextLang);
+  useEffect(() => {
+    setIsBioExpanded(false);
+  }, [songCardData]);
+
+  if (!songCardData) return null;
+
+  return (
+    <View className="absolute bottom-3 w-[96%] self-center">
+      <View className="flex-col gap-4 rounded-[28px] bg-[#f2dfd8]/90 px-3 pb-0 pt-3 shadow-lg" style={{backgroundColor: 'rgba(255, 245, 240, 0.85)'}}>
+        <View className="flex w-full flex-row items-start justify-between pl-1 pr-2">
+          {/* <Link asChild href={`/songpreview?templateId=${songCardData?.template_id}`} onPress={() => hideSongCard()}> */}
+          <Pressable onPress={() => router.navigate(`/user-profile/${songCardData.user.id}`)}>
+            <Image
+              source={songCardData.user?.image ? {uri: songCardData.user.image} : IMAGES.user}
+              // getAssetUrl(songCardData.user.image, 'profile_images')
+              className="mt-1 h-[52px] w-[52px] rounded-full"
+            />
+          </Pressable>
+          {/* </Link> */}
+
+          <View className="flex flex-row items-start justify-center gap-7 pt-2">
+            <View className="flex-col items-center justify-center gap-1">
+              <SVGS.Repost />
+              <Text className="font-NunitoSans_500Medium text-base text-black/80">120k</Text>
+            </View>
+            <View className="items-center justify-center pt-3">
+              <SVGS.Vote color="#121212" />
+              {/* <Text className="font-NunitoSans_500Medium text-base text-black/80">20</Text> */}
+            </View>
+            <View className="items-center justify-center pt-3">
+              <SVGS.Vote className="rotate-180" color="#121212" />
+              {/* <Text className="font-NunitoSans_500Medium text-base text-black/80">20</Text> */}
+            </View>
+            <View className="pt-2">
+              <SVGS.DotMenu />
+            </View>
+          </View>
+
+          <Pressable onPress={() => hideSongCard()} className="h-full items-start pt-1">
+            <SVGS.Add height={18} width={18} bgColor="#000" className="rotate-45" />
+          </Pressable>
+        </View>
+
+        <View className="mb-3 w-full flex-col rounded-[20px] bg-white p-4 shadow-sm">
+          <View className="mb-1 flex flex-row items-center justify-between">
+            <Text className="flex-1 font-extrabold text-[20px] tracking-tight text-black" numberOfLines={1}>
+              {songCardData.templates?.name || 'Original Sound'}
+            </Text>
+            <View className="flex flex-row items-center gap-3">
+              {currentUserId !== songCardData.user.id && (
+                <View className="min-w-[90px] items-center justify-center rounded-xl border-[1.5px] border-black bg-transparent px-4 py-1.5">
+                  <Text className="font-semibold text-[15px] text-black">Follow</Text>
+                </View>
+              )}
+
+              <Pressable
+                onPress={() => {
+                  hideSongCard();
+                  router.navigate({pathname: '/post-views', params: {postId: songCardData?.id}});
+                }}>
+                <SVGS.Eye />
+              </Pressable>
+            </View>
+          </View>
+
+          <View className="mb-2.5 flex flex-row items-center gap-1">
+            <SVGS.Profile width={16} height={16} color="#6b7280" />
+            <Text className="font-NunitoSans_600SemiBold text-base text-gray-400">by {songCardData.profiles?.name || 'User'}</Text>
+          </View>
+
+          <Pressable onPress={() => setIsBioExpanded(!isBioExpanded)}>
+            <Text className="font-NunitoSans_600SemiBold text-base text-gray-400">
+              {songCardData.templates?.category ? `Category: ${songCardData.templates.category}` : 'No template details available'}
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export const EmptyList = ({message}: {message: string}) => {
+  return (
+    <View className="h-screen w-screen flex-1 items-center justify-center self-center">
+      <Text className="self-center text-center text-gray-400">{message}</Text>
+    </View>
+  );
+};
+
+const FeedItem = ({
+  item,
+  index,
+  activeIndex,
+  reelHeight,
+  width,
+  isActive,
+  isFocused,
+  onDoubleTapLike,
+}: {
+  item: any;
+  index: number;
+  activeIndex: number;
+  reelHeight: number;
+  width: number;
+  isActive: boolean;
+  isFocused: boolean;
+  onDoubleTapLike: () => void;
+}) => {
+  const [isPaused, setIsPaused] = useState(false);
+  const [showHeart, setShowHeart] = useState(false);
+  const lastTapRef = useRef(0);
+  const heartScale = useSharedValue(0);
+  const heartOpacity = useSharedValue(0);
+
+  // Only init player when ACTIVE and FOCUSED to completely drop hardware decoders on tab switch
+  // uri was getAssetUrl(item.url)
+  const player = useVideoPlayer(isActive && isFocused && item.type === 'video' ? {uri: item.url, useCaching: false} : null, (player) => {
+    player.loop = true;
+    player.bufferOptions = {preferredForwardBufferDuration: 2};
+  });
+
+  useEffect(() => {
+    if (isActive && isFocused && !isPaused) {
+      player.play();
+    } else {
+      player.pause();
+    }
+  }, [isActive, isFocused, isPaused, player]);
+
+  useEffect(() => {
+    if (!isActive) setIsPaused(false);
+  }, [isActive]);
+
+  const hideHeart = () => setShowHeart(false);
+
+  const handlePress = () => {
+    const now = Date.now();
+    const DOUBLE_TAP_DELAY = 300;
+
+    if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
+      // Double tap detected
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      onDoubleTapLike();
+
+      // Always show heart animation on double-tap
+      setShowHeart(true);
+      heartScale.value = 0;
+      heartOpacity.value = 1;
+      heartScale.value = withSpring(1, {damping: 6, stiffness: 200});
+      heartOpacity.value = withDelay(
+        600,
+        withTiming(0, {duration: 400}, () => runOnJS(hideHeart)())
+      );
+    } else {
+      // Single tap — toggle play/pause for videos
+      if (item.type === 'video') {
+        if (player.playing) {
+          player.pause();
+          setIsPaused(true);
+        } else {
+          player.play();
+          setIsPaused(false);
+        }
+      }
+    }
+    lastTapRef.current = now;
+  };
+
+  const handleSkip = (seconds: number) => {
+    // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    player.seekBy(seconds);
+    player.play();
+  };
+
+  const heartAnimatedStyle = useAnimatedStyle(() => ({transform: [{scale: heartScale.value}], opacity: heartOpacity.value}));
+
+  const renderOverlays = () => {
+    if (!item.overlays || !Array.isArray(item.overlays)) return null;
+    return item.overlays.map((overlay: any) => (
+      <View
+        key={overlay.id}
+        style={{
+          position: 'absolute',
+          left: overlay.x,
+          top: overlay.y,
+          zIndex: 10,
+          transform: [
+            {translateX: overlay.translateX || 0},
+            {translateY: overlay.translateY || 0},
+            {scale: overlay.scale || 1},
+            {rotate: `${overlay.rotation || 0}rad`},
+          ],
+        }}
+        pointerEvents="none">
+        {overlay.type === 'emoji' ? (
+          <LottieView source={{uri: overlay.content}} autoPlay loop style={{width: 120, height: 120}} />
+        ) : overlay.type === 'sticker' ? (
+          <Image source={{uri: overlay.content}} style={{width: 120, height: 120}} contentFit="contain" />
+        ) : (
+          overlay.type === 'text' && (
+            <Text
+              style={{
+                fontSize: 32,
+                color: overlay.color || 'white',
+                fontFamily: overlay.font || 'NunitoSans_700Bold',
+                backgroundColor: 'rgba(0,0,0,0.3)',
+                paddingHorizontal: 12,
+                borderRadius: 8,
+                textAlign: 'center',
+              }}>
+              {overlay.content}
+            </Text>
+          )
+        )}
+      </View>
+    ));
   };
 
   return (
-    <View className="flex-1 bg-zinc-950">
-      {/* Decorative Glowing Background Orbs */}
-      <View className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-purple-600/20 blur-[100px]" />
-      <View className="absolute -right-40 top-1/2 h-96 w-96 rounded-full bg-indigo-600/20 blur-[100px]" />
-      <View className="absolute -bottom-40 left-10 h-96 w-96 rounded-full bg-violet-600/10 blur-[100px]" />
+    <View style={{height: reelHeight, width, backgroundColor: item?.overlays?.[0]?.color}} className="items-center justify-center bg-black">
+      <Pressable onPress={handlePress} className="h-full w-full items-center justify-center">
+        {item.type === 'video' ? (
+          <>
+            {/* Always load the lightning-fast static thumbnail natively extracted from the video */}
+            {/* source was getAssetUrl(item.url) */}
+            <Image contentFit="cover" source={{uri: item.url}} style={{position: 'absolute', width: '100%', height: '100%'}} />
 
-      <SafeAreaView className="flex-1" edges={['top']}>
-        <ScrollView
-          contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between', paddingHorizontal: 24, paddingBottom: 24}}
-          showsVerticalScrollIndicator={false}>
-          {/* Header Section */}
-          <View className="flex-row items-center justify-between py-4">
-            <View className="flex-row items-center space-x-2">
-              <View className="rounded-xl border border-purple-500/30 bg-purple-600/20 p-2">
-                <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <Circle cx="12" cy="12" r="10" stroke="#6F41EC" strokeWidth="2" />
-                  <Path d="M10 8L16 12L10 16V8Z" fill="#6F41EC" />
-                </Svg>
-              </View>
-              <Text className="ml-2 font-extrabold text-xl tracking-wider text-white">{t('landing.title')}</Text>
+            {/* Only render the hardware-heavy native video player if this is the actively viewed item AND the tab is focused */}
+            {isActive && isFocused && (
+              <VideoView player={player} style={{width: width, height: reelHeight}} contentFit="cover" nativeControls={false} />
+            )}
+          </>
+        ) : item.type === 'photo' ? (
+          <Image source={{uri: item.url}} style={{width: '100%', height: '100%'}} contentFit="cover" />
+        ) : item.type === 'text' ? (
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <Text
+              style={{
+                fontSize: 32,
+                color: 'white',
+                fontFamily: item?.overlays[0]?.font || 'NunitoSans_700Bold',
+              }}>
+              {item?.text}
+            </Text>
+          </View>
+        ) : (
+          <View className="flex-1 items-center justify-center px-10">
+            <Text
+              style={{
+                fontSize: 32,
+                color: 'white',
+                fontFamily: 'NunitoSans_700Bold',
+                textAlign: 'center',
+              }}>
+              {item.url || item.title || ''}
+            </Text>
+          </View>
+        )}
+
+        {/* Render Overlays on top of any media type */}
+        {renderOverlays()}
+
+        {isPaused && item.type === 'video' && (
+          <View className="absolute flex-row items-center justify-center gap-8">
+            <Pressable
+              onPress={(e) => {
+                e.stopPropagation();
+                handleSkip(-10);
+              }}
+              className="items-center justify-center rounded-full bg-black/30 p-4">
+              <MaterialCommunityIcons name="rewind-10" size={15} color="white" />
+            </Pressable>
+
+            <View className="items-center justify-center rounded-full bg-black/30 p-4">
+              <SVGS.Play color="white" height={12} width={14} />
             </View>
 
-            <Pressable onPress={toggleLanguage} className="rounded-full border border-white/10 bg-white/10 px-4 py-2 active:bg-white/20">
-              <Text className="font-semibold text-xs uppercase tracking-wider text-white">{i18n.language === 'en' ? 'FR' : 'EN'}</Text>
+            <Pressable
+              onPress={(e) => {
+                e.stopPropagation();
+                handleSkip(10);
+              }}
+              className="items-center justify-center rounded-full bg-black/30 p-4">
+              <MaterialCommunityIcons name="fast-forward-10" size={15} color="white" />
             </Pressable>
           </View>
+        )}
+      </Pressable>
 
-          {/* Central Logo & Brand Showcase */}
-          <View className="my-6 items-center">
-            <View className="mb-6 rounded-[32px] border border-white/10 bg-zinc-900/80 p-6 shadow-2xl shadow-purple-500/50">
-              <Svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-                <Defs>
-                  <LinearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <Stop offset="0%" stopColor="#8B5CF6" />
-                    <Stop offset="100%" stopColor="#6366F1" />
-                  </LinearGradient>
-                </Defs>
-                {/* Outer decorative shutter rings */}
-                <Circle cx="36" cy="36" r="32" stroke="url(#logo-grad)" strokeWidth="2" strokeDasharray="6 4" />
-                <Circle cx="36" cy="36" r="26" stroke="#ffffff" strokeOpacity="0.1" strokeWidth="1" />
-                {/* Central play button and frame */}
-                <Path
-                  d="M28 22C25.7909 22 24 23.7909 24 26V46C24 48.2091 25.7909 50 28 50H44C46.2091 50 48 48.2091 48 46V26C48 23.7909 46.2091 22 44 22H28Z"
-                  fill="url(#logo-grad)"
-                />
-                <Path d="M33 29L43 36L33 43V29Z" fill="#FFFFFF" />
-              </Svg>
-            </View>
+      {/* Double-tap heart animation */}
+      {showHeart && (
+        <Animated.View style={[{position: 'absolute', alignSelf: 'center'}, heartAnimatedStyle]} pointerEvents="none">
+          <SVGS.HeartFilled width={100} height={100} />
+        </Animated.View>
+      )}
+    </View>
+  );
+};
 
-            <Text className="text-center text-4xl font-black leading-tight tracking-tight text-white">{t('landing.slogan')}</Text>
-            <Text className="mt-3 max-w-[280px] text-center font-medium text-base text-zinc-400">{t('landing.subSlogan')}</Text>
-          </View>
+export default function Home() {
+  const songCardVisible = useUIStore((state) => state.songCardVisible);
+  const tabBarHeight = useBottomTabBarHeight();
+  const {height, width} = useWindowDimensions();
+  const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
+  const accountId = useSelector(() => getActiveAccount()?.accountId);
+  const hideSongCard = useUIStore((state) => state.hideSongCard);
+  const setPostReaction = useUIStore((state) => state.setPostReaction);
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading: loading,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ['feed', hasSession ? accountId : undefined],
+    initialPageParam: null as any,
+    queryFn: async ({pageParam}) => {
+      void pageParam;
+      return {items: STATIC_FEED, has_more: false, next_cursor: null};
+      // const {data: rpcData, error} = await supabase.rpc('get_feed', {
+      //   p_limit: 10,
+      //   p_cursor_id: pageParam?.id,
+      //   p_cursor_created_at: pageParam?.created_at,
+      // });
+      //
+      // if (error) throw error;
+      //
+      // const response = rpcData as any;
+      // const rawItems = response.items || [];
+      //
+      // const transformedItems = rawItems.map((item: any) => ({
+      //   ...item,
+      //   user: {name: item.name, id: item.user_id, image: item.image, user_name: item.user_name},
+      //   my_reaction: item.my_reaction !== null ? {has_reacted: true, emoji_id: item.my_reaction} : {has_reacted: false, emoji_id: null},
+      // }));
+      //
+      // return {items: transformedItems, has_more: response.has_more, next_cursor: response.next_cursor};
+    },
+    getNextPageParam: (lastPage) => (lastPage.has_more ? lastPage.next_cursor : undefined),
+    staleTime: 1000 * 60 * 5,
+  });
 
-          {/* Overlapping Mock Reel Previews */}
-          <View className="relative my-4 h-44 w-full items-center justify-center">
-            {/* Card 1 (Gaming Highlight) - Slanted Left */}
-            <View
-              style={{transform: [{rotate: '-6deg'}, {translateX: -35}]}}
-              className="absolute w-44 rounded-2xl border border-white/10 bg-zinc-900/90 p-3 shadow-xl shadow-black/40">
-              <View className="relative mb-2 h-20 w-full items-center justify-center overflow-hidden rounded-lg bg-zinc-800">
-                {/* Controller Icon placeholder */}
-                <Svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1.5">
-                  <Path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
-                  />
-                </Svg>
-                <View className="absolute bottom-1.5 left-1.5 rounded bg-purple-600 px-1.5 py-0.5">
-                  <Text className="font-extrabold text-[9px] uppercase text-white">LIVE</Text>
-                </View>
-              </View>
-              <Text className="truncate font-bold text-xs text-white">Epic Quadra Kill 🔥</Text>
-              <View className="mt-1 flex-row items-center justify-between">
-                <Text className="font-semibold text-[10px] text-purple-400">{t('landing.cardGaming')}</Text>
-                <Text className="font-medium text-[9px] text-zinc-500">45K views</Text>
-              </View>
-            </View>
+  const posts = useMemo(() => data?.pages.flatMap((page) => page.items) || [], [data]);
 
-            {/* Card 2 (Sports Highlight) - Slanted Right & Overlapping */}
-            <View
-              style={{transform: [{rotate: '4deg'}, {translateX: 45}, {translateY: 10}]}}
-              className="absolute w-44 rounded-2xl border border-white/10 bg-zinc-900/90 p-3 shadow-2xl shadow-black/60">
-              <View className="relative mb-2 h-20 w-full items-center justify-center overflow-hidden rounded-lg bg-zinc-800">
-                {/* Trophy/Sports Icon placeholder */}
-                <Svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="1.5">
-                  <Path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.504-1.125-1.125-1.125h-5.25a1.125 1.125 0 00-1.125 1.125v3.375m9 0H7.5m9-13.5h-9L5.625 12h12.75L16.5 5.25z"
-                  />
-                </Svg>
-                <View className="absolute bottom-1.5 right-1.5 flex-row items-center space-x-1 rounded bg-black/60 px-1.5 py-0.5">
-                  <View className="h-1.5 w-1.5 rounded-full bg-red-500" />
-                  <Text className="font-medium text-[9px] text-white">0:15</Text>
-                </View>
-              </View>
-              <Text className="truncate font-bold text-xs text-white">Insane Dunk 🏀</Text>
-              <View className="mt-1 flex-row items-center justify-between">
-                <Text className="font-semibold text-[10px] text-indigo-400">{t('landing.cardSports')}</Text>
-                <Text className="font-medium text-[9px] text-zinc-500">120K views</Text>
-              </View>
-            </View>
-          </View>
+  const [activePostId, setActivePostId] = useState<string | null>(STATIC_FEED[0].id);
+  const activeIndexState = useState(0);
+  const activeIndex = activeIndexState[0];
+  const setActiveIndex = activeIndexState[1];
 
-          <View className="mt-6 w-full space-y-4">
-            {hasSession ? (
-              <>
-                <Text className="text-center font-semibold text-base text-white">{t('login.signedIn')}</Text>
-                <Pressable
-                  onPress={() => {
-                    void signOut();
-                  }}
-                  className="mt-3 w-full items-center justify-center rounded-2xl border border-white/20 bg-white/5 py-4 active:bg-white/10">
-                  <Text className="font-bold text-base tracking-wide text-white">{t('login.signOut')}</Text>
-                </Pressable>
-              </>
-            ) : (
-              <>
-                <Pressable
-                  onPress={() => navigate('/signup')}
-                  className="w-full items-center justify-center rounded-2xl bg-purple-600 py-4 shadow-lg shadow-purple-900/40 active:bg-purple-700">
-                  <Text className="font-extrabold text-base tracking-wide text-white">{t('landing.signUp')}</Text>
-                </Pressable>
+  const isScreenFocused = useIsFocused();
+  const [appStateActive, setAppStateActive] = useState(true);
 
-                <Pressable
-                  onPress={() => navigate('/login')}
-                  className="mt-3 w-full items-center justify-center rounded-2xl border border-white/20 bg-white/5 py-4 active:bg-white/10">
-                  <Text className="font-bold text-base tracking-wide text-white">{t('landing.logIn')}</Text>
-                </Pressable>
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      setAppStateActive(nextAppState === 'active');
+    });
+    return () => subscription.remove();
+  }, []);
 
-                <Pressable onPress={() => navigate('/signup')} className="mt-2 items-center justify-center py-3">
-                  <Text className="font-semibold text-sm tracking-wide text-zinc-500 hover:text-zinc-400">{t('landing.guest')}</Text>
-                </Pressable>
-              </>
-            )}
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+  const isFocused = isScreenFocused && appStateActive;
+
+  const onViewableItemsChanged = useRef(({viewableItems}: {viewableItems: any[]}) => {
+    if (viewableItems.length > 0) {
+      setActivePostId(viewableItems[0].item.id);
+      setActiveIndex(viewableItems[0].index || 0);
+      hideSongCard();
+    }
+  }).current;
+
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: 80,
+  }).current;
+
+  useEffect(() => {
+    // Session change re-fetches automatically due to queryKey dependency
+  }, [accountId]);
+
+  useEffect(() => {
+    // const trackView = async () => {
+    //   if (activePostId && hasSession && accountId) {
+    //     const {error} = await supabase
+    //       .from('post_views')
+    //       .upsert({post_id: activePostId, user_id: accountId, viewed_at: new Date().toISOString()}, {onConflict: 'post_id,user_id'});
+    //
+    //     if (error) {
+    //       console.log('Error tracking post view:', error);
+    //     }
+    //   }
+    // };
+    //
+    // trackView();
+  }, [activePostId, hasSession, accountId]);
+
+  const fetchMorePosts = () => {
+    if (!loading && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const handleDoubleTapLike = useCallback(
+    async (post: any): Promise<boolean> => {
+      try {
+        if (!hasSession || !accountId) return false;
+
+        // If already liked, do nothing and return false
+        const alreadyLiked = post.my_reaction?.has_reacted;
+        if (alreadyLiked) return false;
+
+        Haptics.selectionAsync();
+
+        // Sync UI store so HomeSideMenus' isLiked state updates → count increments
+        setPostReaction(post.id, 'liked');
+
+        // Optimistic Update
+        queryClient.setQueryData(['feed', accountId], (old: any) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page: any) => ({
+              ...page,
+              items: page.items.map((item: any) =>
+                item.id === post.id
+                  ? {...item, my_reaction: {has_reacted: true, emoji_id: 0}, reactions_count: (item.reactions_count || 0) + 1}
+                  : item
+              ),
+            })),
+          };
+        });
+
+        // const {error} = await supabase
+        //   .from('posts_interaction')
+        //   .upsert({emoji_id: 0, post_id: post.id, user_id: accountId}, {onConflict: 'post_id,user_id'});
+        // if (error) throw error;
+        return true;
+      } catch (error) {
+        console.error('Error liking post:', error);
+        // Rollback on failure
+        setPostReaction(post.id, null);
+        refetch();
+        return false;
+      }
+    },
+    [hasSession, accountId, refetch, setPostReaction]
+  );
+
+  const reelHeight = height;
+
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-black">
+        <ActivityIndicator size="large" color="#04BFCE" />
+      </View>
+    );
+  }
+
+  return (
+    <View className="flex-1 bg-black">
+      <FlatList
+        pagingEnabled={true}
+        snapToAlignment="start"
+        decelerationRate="fast"
+        snapToInterval={reelHeight}
+        disableIntervalMomentum={true}
+        showsVerticalScrollIndicator={false}
+        removeClippedSubviews={true}
+        data={posts}
+        keyExtractor={(item) => item.id}
+        renderItem={({item, index}) => (
+          <FeedItem
+            item={item}
+            index={index}
+            activeIndex={activeIndex}
+            reelHeight={reelHeight}
+            width={width}
+            isActive={activePostId === item.id}
+            isFocused={isFocused}
+            onDoubleTapLike={() => handleDoubleTapLike(item)}
+          />
+        )}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
+        ListEmptyComponent={<EmptyList message="No posts yet. Be the first one to post something!" />}
+        onEndReached={fetchMorePosts}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={isFetchingNextPage ? <ActivityIndicator size="small" color="#04BFCE" style={{padding: 20}} /> : null}
+        refreshing={loading}
+        onRefresh={refetch}
+        windowSize={3}
+        initialNumToRender={1}
+        maxToRenderPerBatch={1}
+      />
+      {posts[activeIndex] && <HomeSideMenus post={posts[activeIndex]} />}
+      <EmojiReactionOverlay />
+      {songCardVisible && <SongCard />}
     </View>
   );
 }

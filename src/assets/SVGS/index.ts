@@ -151,7 +151,9 @@ import { Play2 } from './Play2';
 import { PasswordUpdated } from './PasswordUpdated';
 import { AccountLoggedIn } from './AccountLoggedIn';
 import { Smartphone } from './Smartphone';
+import {Like} from './Like';
 import { Liked } from './Liked';
+import {Add} from './Add';
 import { Watched } from './Watched';
 import { Shared } from './Shared';
 import { AddNew } from './AddNew';
@@ -248,7 +250,9 @@ export const SVGS = {
   PasswordUpdated,
   AccountLoggedIn,
   Smartphone,
+  Like,
   Liked,
+  Add,
   Watched,
   Shared,
   AddNew,
