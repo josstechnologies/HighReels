@@ -26,3 +26,7 @@ export * from './ManageDevicesScreen';
 export * from './AdsLinkHistoryScreen';
 export * from './MentionHistoryScreen';
 export * from './WatchHistoryScreen';
+export * from './DownloadYourDataScreen';
+export * from './RecentlyDeletedScreen';
+export * from './SongFavouritesScreen';
+export * from './VideoRemovedScreen';

@@ -20,7 +20,7 @@ const ROWS: Row[] = [
   {label: 'Mention history', Icon: SVGS.Mention, href: '/mention-history' as Href},
   {label: 'Account history', Icon: SVGS.Account2, href: '/accounts/account-history' as Href},
   {label: 'Screen time', Icon: SVGS.Clock},
-  {label: 'Recently deleted', Icon: SVGS.Delete},
+  {label: 'Recently deleted', Icon: SVGS.Delete, href: '/recently-deleted' as Href},
   {label: 'Manage post visibility', Icon: SVGS.Views},
   {label: 'Manage comments permission', Icon: SVGS.Messages2, href: '/comment-permission' as Href},
   {label: 'Manage post reuse permission', Icon: SVGS.Posts},

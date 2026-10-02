@@ -154,7 +154,14 @@ import { Smartphone } from './Smartphone';
 import { Liked } from './Liked';
 import { Watched } from './Watched';
 import { Shared } from './Shared';
-import { AddNew } from './AddNew';  
+import { AddNew } from './AddNew';
+import { Delete2 } from './Delete2';
+import { DeleteEmpty } from './DeleteEmpty';
+import { Reload } from './Reload';
+import { CameraSquare } from './CameraSquare';
+import { PlusOutline } from './PlusOutline';
+import { EyeOutline } from './EyeOutline';
+import { AudioEmpty } from './AudioEmpty';  
 
 export const SVGS = {
   Ads,
@@ -165,6 +172,7 @@ export const SVGS = {
   ArrowDown,
   Audio,
   Audio1,
+  AudioEmpty,
   AudioFilled,
   AudioSelected,
   Back,
@@ -172,6 +180,7 @@ export const SVGS = {
   Block,
   Bookmark,
   Camera,
+  CameraSquare,
   Campaign,
   Caption,
   Chat,
@@ -187,6 +196,8 @@ export const SVGS = {
   CopyLink,
   CrossArrow,
   Delete,
+  Delete2,
+  DeleteEmpty,
   Doc,
   DocSelected,
   Document,
@@ -243,11 +254,13 @@ export const SVGS = {
   AddNew,
   Watch,
   Plus,
+  PlusOutline,
   PostViews,
   ProfileViews,
   QrCode,
   Remix,
   Replay,
+  Reload,
   Report,
   Repost,
   Repost1,
@@ -307,6 +320,7 @@ export const SVGS = {
   ImageUpload,
   AiInspiration,
   Eye,
+  EyeOutline,
   Person,
   CheckCircle,
   Timer,
