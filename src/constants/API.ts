@@ -1,5 +1,7 @@
 export const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
+export const BYPASS_AUTH = process.env.EXPO_PUBLIC_BYPASS_AUTH === 'true';
+
 export const API_ROUTES = {
   LOGIN: {
     PASSWORD: '/api/v1/auth/login/password',
@@ -30,6 +32,11 @@ export const API_ROUTES = {
     PHONE_OTP_VERIFY: '/api/v1/profile/phone/otp-verify',
     AVATAR: '/api/v1/profile/avatar',
     ACCOUNT_HISTORY: '/api/v1/profile/account-history',
+  },
+  CHATS: {
+    ARCHIVE_ALL: '/api/v1/chats/archive-all',
+    LIST: '/api/v1/chats',
+    ARCHIVED: '/api/v1/chats/archived',
   },
 };
 

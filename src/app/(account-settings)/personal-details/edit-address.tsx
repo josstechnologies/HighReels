@@ -94,7 +94,7 @@ export default function EditAddress() {
             {saveMutation.isPending ? (
               <ActivityIndicator color="#6F41EC" />
             ) : (
-              <Text className="font-semibold text-[15px] text-black">Done</Text>
+              <Text className="font-semibold text-15 text-black">Done</Text>
             )}
           </Pressable>
         </View>
@@ -120,7 +120,7 @@ export default function EditAddress() {
                   placeholderTextColor="#A7A7A7"
                   autoCapitalize="words"
                   multiline
-                  className="mt-1 min-h-[24px] p-0 font-semibold text-[15px] leading-5 text-black"
+                  className="mt-1 min-h-[24px] p-0 font-semibold text-15 leading-5 text-black"
                 />
               </View>
 

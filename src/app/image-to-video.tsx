@@ -49,10 +49,10 @@ export default function ImageToVideo() {
     } as unknown as Href);
   };
 
-  const onPickMode = (id: AiModeId, href: string) => {
+  const onPickMode = (id: AiModeId, href?: string) => {
     setPickerOpen(false);
     if (id === 'image_video') return;
-    replace(href as Href);
+    if (href) replace(href as Href);
   };
 
   return (
@@ -86,7 +86,7 @@ export default function ImageToVideo() {
           <Text className="mb-3 mt-6 font-semibold text-[16px] text-white">Prompt</Text>
           <Pressable className="h-[160px] items-center justify-center rounded-2xl bg-grey-900">
             <SVGS.Upload width={28} height={28} className="text-white" />
-            <Text className="mt-3 text-[15px] font-medium text-white">Upload Your Image</Text>
+            <Text className="mt-3 text-15 font-medium text-white">Upload Your Image</Text>
           </Pressable>
 
           <Text className="mb-3 mt-6 font-semibold text-[16px] text-white">Prompt</Text>
@@ -97,7 +97,7 @@ export default function ImageToVideo() {
               onChangeText={setPrompt}
               placeholder="Describe your idea..."
               placeholderTextColor="#7F7F7F"
-              className="min-h-[90px] flex-1 text-[15px] text-white"
+              className="min-h-[90px] flex-1 text-15 text-white"
               style={{textAlignVertical: 'top'}}
             />
             <Pressable className="absolute bottom-3 right-3 flex-row items-center rounded-full bg-primary px-3 py-2">

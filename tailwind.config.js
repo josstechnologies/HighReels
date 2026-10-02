@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         black: '#111111',
+        chevron: '#666666',
         primary: {
           DEFAULT: '#6F41EC',
           disabled: '#F0ECFB',
@@ -25,13 +26,14 @@ module.exports = {
           400: '#666666',
           250: '#9999A6',
           300: '#7F7F7F',
-          400: '#666666',
+          350: '#808080',
           450: '#666673',
           500: '#404040',
           600: '#3A3A3A',
           700: '#2D2D2D',
           800: '#232323',
           900: '#1B1B1B',
+          950: '#121212',
         },
         danger: {700: '#EC2727'},
         warning: {700: '#E7AD0D'},
@@ -50,8 +52,18 @@ module.exports = {
         20: '1.25rem',
       },
       fontSize: {
-        micro: ['0.6875rem', {lineHeight: '0.875rem'}],
-        caption: ['0.8125rem', {lineHeight: '1rem'}],
+        11: '0.6875rem',
+        13: '0.8125rem',
+        15: '0.9375rem',
+        22: '1.375rem',
+      },
+      width: {
+        toggle: '51px',
+        thumb: '21px',
+      },
+      height: {
+        toggle: '25px',
+        thumb: '21px',
       },
     },
   },

@@ -137,7 +137,7 @@ export default function Password() {
               {rules.map((rule) => (
                 <View key={rule.label} className="flex-row items-center">
                   <RuleIcon checked={rule.checked} />
-                  <Text className={cn('ml-3 font-medium text-[15px]', rule.checked ? 'text-[#111111]' : 'text-[#a7a7a7]')}>
+                  <Text className={cn('ml-3 font-medium text-15', rule.checked ? 'text-[#111111]' : 'text-[#a7a7a7]')}>
                     {rule.label}
                   </Text>
                 </View>

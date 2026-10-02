@@ -115,7 +115,7 @@ export default function Pin() {
           <SVGS.PinBG width={58} height={58} />
           <Text className="ml-4 flex-1 font-extrabold text-[28px] leading-9 text-[#111111]">{title}</Text>
         </View>
-        <Text className="mt-3 font-medium text-[15px] leading-6 text-[#6b6b6b]">{subtitle}</Text>
+        <Text className="mt-3 font-medium text-15 leading-6 text-[#6b6b6b]">{subtitle}</Text>
 
         {/* PIN slots */}
         <View className="mt-16 flex-row justify-center gap-6">

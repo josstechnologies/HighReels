@@ -2,6 +2,7 @@ import {cssInterop} from 'nativewind';
 import {Svg, Path} from 'react-native-svg';
 import * as DropdownMenuPrimitive from '@rn-primitives/dropdown-menu';
 import * as ProgressPrimitive from '@rn-primitives/progress';
+import * as CheckboxPrimitive from '@rn-primitives/checkbox';
 
 cssInterop(Path, {className: {target: true, nativeStyleToProp: {fill: true, stroke: true}}});
 cssInterop(Svg, {className: {target: 'style', nativeStyleToProp: {width: true, height: true, color: true}}});
@@ -15,3 +16,6 @@ cssInterop(DropdownMenuPrimitive.Separator, {className: 'style'});
 
 cssInterop(ProgressPrimitive.Root, {className: 'style'});
 cssInterop(ProgressPrimitive.Indicator, {className: 'style'});
+
+cssInterop(CheckboxPrimitive.Root, {className: 'style'});
+cssInterop(CheckboxPrimitive.Indicator, {className: 'style'});

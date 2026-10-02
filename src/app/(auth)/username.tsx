@@ -140,7 +140,7 @@ export default function Username() {
                 <Path d="M9 8V13" stroke="#a7a7a7" strokeWidth="1.5" strokeLinecap="round" />
                 <Circle cx="9" cy="5.5" r="0.75" fill="#a7a7a7" />
               </Svg>
-              <Text className="ml-2.5 flex-1 font-medium text-[13px] leading-5 text-[#a7a7a7]">{t('signup.usernameInfo')}</Text>
+              <Text className="ml-2.5 flex-1 font-medium text-13 leading-5 text-[#a7a7a7]">{t('signup.usernameInfo')}</Text>
             </View>
 
             <View className="mt-auto pb-4 pt-10">

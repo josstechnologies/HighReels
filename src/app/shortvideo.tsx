@@ -59,7 +59,7 @@ function Chip({
     <Pressable
       onPress={onPress}
       className={`mr-2 flex-row items-center rounded-full px-4 py-2.5 ${active ? 'bg-primary' : 'bg-grey-800'}`}>
-      <Text className={`text-[13px] ${active ? 'font-semibold text-white' : 'text-grey-100'}`}>{label}</Text>
+      <Text className={`text-13 ${active ? 'font-semibold text-white' : 'text-grey-100'}`}>{label}</Text>
       {trailing}
     </Pressable>
   );
@@ -110,10 +110,10 @@ export default function ShortVideo() {
     } as unknown as Href);
   };
 
-  const onPickMode = (id: AiModeId, href: string) => {
+  const onPickMode = (id: AiModeId, href?: string) => {
     setPickerOpen(false);
     if (id === 'image_video') {
-      replace(href as Href);
+      if (href) replace(href as Href);
       return;
     }
     if (id !== mode) setMode(id);
@@ -157,7 +157,7 @@ export default function ShortVideo() {
                   : "Describe the video you want... (e.g., 'Drone flying over mountains at sunrise')"
               }
               placeholderTextColor="#7F7F7F"
-              className="min-h-[100px] flex-1 text-[15px] text-white"
+              className="min-h-[100px] flex-1 text-15 text-white"
               style={{textAlignVertical: 'top'}}
             />
             <Pressable className="absolute bottom-3 right-3 flex-row items-center rounded-full bg-primary px-3 py-2">

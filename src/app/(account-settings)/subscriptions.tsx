@@ -57,8 +57,8 @@ const CONFIG: Record<SubStatus, StatusConfig> = {
 function DetailRow({line}: {line: DetailLine}) {
   return (
     <View className="flex-row items-start">
-      <Text className="mr-2 font-medium text-[15px] leading-6 text-black">•</Text>
-      <Text className="flex-1 font-medium text-[15px] leading-6 text-black">
+      <Text className="mr-2 font-medium text-15 leading-6 text-black">•</Text>
+      <Text className="flex-1 font-medium text-15 leading-6 text-black">
         {line.text}
         {line.bold ? <Text className="font-bold text-black">{line.bold}</Text> : null}
       </Text>
@@ -89,10 +89,10 @@ export default function Subscriptions() {
         ) : null}
 
         <View className="mx-4 mt-4 rounded-2xl bg-white px-4 py-5">
-          <Text className={cn('font-semibold text-[13px]', config.badgeClass)}>{config.badge}</Text>
+          <Text className={cn('font-semibold text-13', config.badgeClass)}>{config.badge}</Text>
           <Text className="mt-2 font-extrabold text-[20px] text-black">{PLAN_TITLE}</Text>
 
-          <Text className="mt-5 font-medium text-[13px] text-grey-300">Details</Text>
+          <Text className="mt-5 font-medium text-13 text-grey-300">Details</Text>
           <View className="mt-2 gap-2">
             {config.details.map(line => (
               <DetailRow key={line.text + (line.bold ?? '')} line={line} />
@@ -126,7 +126,7 @@ export default function Subscriptions() {
         </View>
 
         {config.footer ? (
-          <Text className="mx-4 mt-4 font-medium text-[13px] leading-5 text-grey-300">{config.footer}</Text>
+          <Text className="mx-4 mt-4 font-medium text-13 leading-5 text-grey-300">{config.footer}</Text>
         ) : null}
       </ScrollView>
     </SafeAreaView>

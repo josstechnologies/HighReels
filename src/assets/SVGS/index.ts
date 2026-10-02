@@ -17,8 +17,10 @@ import {Caption} from './Caption';
 import {Chat} from './Chat';
 import {Clip} from './Clip';
 import {Close} from './Close';
+import {Close2} from './Close2';
 import {Colors} from './Colors';
 import {Comment} from './Comment';
+import {Comment2} from './Comment2';
 import {Contact} from './Contact';
 import {CopyLink} from './CopyLink';
 import {Delete} from './Delete';
@@ -97,9 +99,11 @@ import {Upload} from './Upload';
 import {Views} from './Views';
 import {Voice} from './Voice';
 import {Work} from './Work';
+import {Phone} from './Phone';
 import {PhoneBG} from './PhoneBG';
 import {Resend} from './Resend';
 import {PasswordBG} from './PasswordBG';
+import {Email} from './Email';
 import {EmailBG} from './EmailBG';
 import {PinBG} from './PinBG';
 import {BirthdayBG} from './BirthdayBG';
@@ -111,6 +115,7 @@ import {ClipboardText} from './ClipboardText';
 import {FlipCamera} from './FlipCamera';
 import {FlashOff} from './FlashOff';
 import {Account} from './Account';
+import {Account2} from './Account2';
 import {AccountFill} from './AccountFill';
 import {ShieldSecurity} from './ShieldSecurity';
 import { Category } from './Category';
@@ -128,6 +133,37 @@ import { ImageToVideo } from './ImageToVideo';
 import { ArrowDown } from './ArrowDown';
 import { ImageUpload } from './ImageUpload';
 import { AiInspiration } from './AiInspiration';
+import { Eye } from './Eye';
+import { Person } from './Person';
+import { CheckCircle } from './CheckCircle';
+import { Timer } from './Timer';
+import { Watch } from './Watch';
+import { Mention } from './Mention';
+import { Clock } from './Clock';
+import { Messages2 } from './Messages2';
+import { Posts } from './Posts';
+import { Info2 } from './Info2';
+import { Question } from './Question';
+import { Activity } from './Activity';
+import { CrossArrow } from './CrossArrow';
+import { Mention2 } from './Mention2';
+import { Play2 } from './Play2';
+import { PasswordUpdated } from './PasswordUpdated';
+import { AccountLoggedIn } from './AccountLoggedIn';
+import { Smartphone } from './Smartphone';
+import {Like} from './Like';
+import { Liked } from './Liked';
+import {Add} from './Add';
+import { Watched } from './Watched';
+import { Shared } from './Shared';
+import { AddNew } from './AddNew';
+import { Delete2 } from './Delete2';
+import { DeleteEmpty } from './DeleteEmpty';
+import { Reload } from './Reload';
+import { CameraSquare } from './CameraSquare';
+import { PlusOutline } from './PlusOutline';
+import { EyeOutline } from './EyeOutline';
+import { AudioEmpty } from './AudioEmpty';  
 
 export const SVGS = {
   Ads,
@@ -138,6 +174,7 @@ export const SVGS = {
   ArrowDown,
   Audio,
   Audio1,
+  AudioEmpty,
   AudioFilled,
   AudioSelected,
   Back,
@@ -145,16 +182,24 @@ export const SVGS = {
   Block,
   Bookmark,
   Camera,
+  CameraSquare,
   Campaign,
   Caption,
   Chat,
   Clip,
   Close,
+  Close2,
   Colors,
   Comment,
+  Comment2,
+  Mention,
+  Mention2,
   Contact,
   CopyLink,
+  CrossArrow,
   Delete,
+  Delete2,
+  DeleteEmpty,
   Doc,
   DocSelected,
   Document,
@@ -176,6 +221,7 @@ export const SVGS = {
   Heart,
   HeartFilled,
   History,
+  Activity,
   Home,
   Info,
   Interactions,
@@ -189,6 +235,7 @@ export const SVGS = {
   Locked,
   Menu,
   Messages,
+  Messages2,
   MoveToInbox,
   Mute,
   Notifications,
@@ -199,12 +246,25 @@ export const SVGS = {
   Photos,
   Pin,
   Play,
+  Play2,
+  PasswordUpdated,
+  AccountLoggedIn,
+  Smartphone,
+  Like,
+  Liked,
+  Add,
+  Watched,
+  Shared,
+  AddNew,
+  Watch,
   Plus,
+  PlusOutline,
   PostViews,
   ProfileViews,
   QrCode,
   Remix,
   Replay,
+  Reload,
   Report,
   Repost,
   Repost1,
@@ -231,6 +291,8 @@ export const SVGS = {
   Views,
   Voice,
   Work,
+  Phone,
+  Email,
   PhoneBG,
   Resend,
   PasswordBG,
@@ -245,6 +307,7 @@ export const SVGS = {
   FlipCamera,
   FlashOff,
   Account,
+  Account2,
   AccountFill,
   ShieldSecurity,
   AiLab,
@@ -260,4 +323,13 @@ export const SVGS = {
   ImageToVideo,
   ImageUpload,
   AiInspiration,
+  Eye,
+  EyeOutline,
+  Person,
+  CheckCircle,
+  Timer,
+  Clock,
+  Posts,
+  Info2,
+  Question,
 };

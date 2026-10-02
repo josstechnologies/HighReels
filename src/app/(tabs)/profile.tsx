@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector} from '@legendapp/state/react';
 import {SVGS} from '@/assets';
 import {Button} from '@/components';
-import {API_ROUTES} from '@/constants';
+import {API_ROUTES, BYPASS_AUTH} from '@/constants';
 import {authState$} from '@/store';
 import {API, ApiEnvelope, cn, readEnvelope} from '@/utils';
 
@@ -83,6 +83,7 @@ function ProfileSkeleton() {
 export default function Profile() {
   const {navigate} = useRouter();
   const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
+  const canOpenMenu = hasSession || BYPASS_AUTH;
 
   const profileQuery = useQuery({
     queryKey: ['profile', 'me'],
@@ -107,7 +108,7 @@ export default function Profile() {
   return (
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1" edges={['top']}>
-        <ProfileHeader onMenu={hasSession ? () => navigate('/account-settings' as Href) : undefined} />
+        <ProfileHeader onMenu={canOpenMenu ? () => navigate('/account-settings' as Href) : undefined} />
 
         {!hasSession ? (
           <View className="flex-1 items-center justify-center px-8">
@@ -128,7 +129,7 @@ export default function Profile() {
                 <Text className="text-center font-semibold text-[16px] text-black">Couldn&apos;t load your profile</Text>
                 <Text className="mt-2 text-center text-[14px] text-grey-300">Check your connection and try again.</Text>
                 <Pressable onPress={() => profileQuery.refetch()} className="mt-4 active:opacity-70">
-                  <Text className="font-semibold text-[15px] text-primary">Try again</Text>
+                  <Text className="font-semibold text-15 text-primary">Try again</Text>
                 </Pressable>
               </View>
             ) : (
@@ -156,7 +157,7 @@ export default function Profile() {
                         return (
                           <View key={stat.key} className={cn('flex-row items-center', index > 0 && 'ml-4')}>
                             <Icon width={16} height={16} className="text-black" />
-                            <Text className="ml-1 font-semibold text-[13px] text-black">{stat.value}</Text>
+                            <Text className="ml-1 font-semibold text-13 text-black">{stat.value}</Text>
                           </View>
                         );
                       })}

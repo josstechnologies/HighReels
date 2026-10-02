@@ -54,7 +54,7 @@ const COMMUNITY = [
 function SeeAll({onPress}: {onPress?: () => void}) {
   return (
     <Pressable onPress={onPress} className="flex-row items-center">
-      <Text className="text-[13px] text-grey-200">See All</Text>
+      <Text className="text-13 text-grey-200">See All</Text>
       <SVGS.ArrowRight width={14} height={14} className="text-grey-200" />
     </Pressable>
   );
@@ -83,7 +83,7 @@ export default function Effects() {
                   key={item}
                   onPress={() => setChip(item)}
                   className={`mr-2 rounded-full px-4 py-2 ${active ? 'bg-black' : 'bg-secondary'}`}>
-                  <Text className={`text-[13px] ${active ? 'font-semibold text-white' : 'text-black'}`}>{item}</Text>
+                  <Text className={`text-13 ${active ? 'font-semibold text-white' : 'text-black'}`}>{item}</Text>
                 </Pressable>
               );
             })}
@@ -97,11 +97,11 @@ export default function Effects() {
             <View className="absolute inset-0 justify-end bg-black/25 p-4">
               <View className="flex-row items-end justify-between">
                 <View className="flex-1 pr-3">
-                  <Text className="font-semibold text-[22px] text-white">Micro Magic</Text>
-                  <Text className="mt-1 text-[13px] text-white/90">Tiny crew stars your product</Text>
+                  <Text className="font-semibold text-22 text-white">Micro Magic</Text>
+                  <Text className="mt-1 text-13 text-white/90">Tiny crew stars your product</Text>
                 </View>
                 <Pressable className="rounded-full bg-white px-4 py-2">
-                  <Text className="font-semibold text-[13px] text-black">Try Now</Text>
+                  <Text className="font-semibold text-13 text-black">Try Now</Text>
                 </Pressable>
               </View>
             </View>
@@ -124,7 +124,7 @@ export default function Effects() {
                   {item.pro ? (
                     <View className="absolute left-2 top-2 flex-row items-center rounded-full bg-black/70 px-2 py-1">
                       <SVGS.Star width={12} height={12} className="text-white" />
-                      <Text className="ml-1 text-[11px] text-white">Pro</Text>
+                      <Text className="ml-1 text-11 text-white">Pro</Text>
                     </View>
                   ) : null}
                   <View className="absolute bottom-2 left-2 h-8 w-8 overflow-hidden rounded-full border-2 border-white">
@@ -156,7 +156,7 @@ export default function Effects() {
                     <Text className="ml-1 text-[12px] text-white">{item.comments}</Text>
                   </View>
                 </View>
-                <Text numberOfLines={1} className="mt-2 text-[13px] text-grey-400">
+                <Text numberOfLines={1} className="mt-2 text-13 text-grey-400">
                   {item.caption}
                 </Text>
               </View>

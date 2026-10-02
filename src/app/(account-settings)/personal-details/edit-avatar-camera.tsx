@@ -38,14 +38,14 @@ export default function EditAvatarCamera() {
   if (!permission.granted) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-black px-8">
-        <Text className="text-center font-medium text-[15px] text-white">
+        <Text className="text-center font-medium text-15 text-white">
           Camera access is needed to take a profile picture.
         </Text>
         <Pressable onPress={requestPermission} className="mt-4 active:opacity-70">
-          <Text className="font-semibold text-[15px] text-primary">Grant permission</Text>
+          <Text className="font-semibold text-15 text-primary">Grant permission</Text>
         </Pressable>
         <Pressable onPress={back} className="mt-6 active:opacity-70">
-          <Text className="font-medium text-[15px] text-grey-200">Cancel</Text>
+          <Text className="font-medium text-15 text-grey-200">Cancel</Text>
         </Pressable>
       </SafeAreaView>
     );

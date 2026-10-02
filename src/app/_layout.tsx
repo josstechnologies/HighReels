@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import '@/i18n';
 import '../../global.css';
 import '../../nativewind-interop';
@@ -16,7 +17,7 @@ import {
   PlusJakartaSans_800ExtraBold,
 } from '@expo-google-fonts/plus-jakarta-sans';
 import Provider from '@/provider';
-import {accountsSyncState$, authActions, authSyncState$} from '@/store';
+import {accountsSyncState$, archiveChatsSyncState$, authActions, authSyncState$, chatThemeSyncState$} from '@/store';
 import {completeSession} from '@/utils';
 import {PortalHost} from '@rn-primitives/portal';
 
@@ -40,8 +41,11 @@ export default function Layout() {
 
   const accountsReady = useSelector(() => accountsSyncState$.isLoaded.get());
   const legacyAuthReady = useSelector(() => authSyncState$.isLoaded.get());
-  const authReady = accountsReady && legacyAuthReady;
+  const chatThemeReady = useSelector(() => chatThemeSyncState$.isLoaded.get());
+  const archiveReady = useSelector(() => archiveChatsSyncState$.isLoaded.get());
+  const authReady = accountsReady && legacyAuthReady && chatThemeReady && archiveReady;
   const [hydrated, setHydrated] = useState(false);
+  const [hydrateTimeout, setHydrateTimeout] = useState(false);
 
   useEffect(() => {
     if (!authReady || hydrated) return;
@@ -52,9 +56,15 @@ export default function Layout() {
       const result = authActions.hydrateFromPersist();
       if (result.needsLegacyMigration) {
         try {
-          await completeSession(result.tokens);
+          // 8s timeout so stale network doesn't block app forever
+          await Promise.race([
+            completeSession(result.tokens),
+            new Promise((_, rej) => setTimeout(() => rej(new Error('MIGRATION_TIMEOUT')), 8000)),
+          ]);
           authActions.clearLegacyAuth();
-        } catch {}
+        } catch (e) {
+          console.warn('[HighReels] legacy migration failed/timeout', String(e));
+        }
       }
       if (!cancelled) setHydrated(true);
     };
@@ -65,11 +75,21 @@ export default function Layout() {
     };
   }, [authReady, hydrated]);
 
+  // Safety timeout: if sqlite isLoaded never fires (corrupt DB), don't block forever
   useEffect(() => {
-    if (fontsLoaded && authReady && hydrated) SplashScreen.hideAsync();
+    if (authReady && hydrated) return;
+    const t = setTimeout(() => {
+      console.warn('[HighReels] hydrate timeout - forcing render', {fontsLoaded, authReady, hydrated});
+      setHydrateTimeout(true);
+    }, 6000);
+    return () => clearTimeout(t);
   }, [fontsLoaded, authReady, hydrated]);
 
-  if (!fontsLoaded || !authReady || !hydrated) {
+  useEffect(() => {
+    if ((fontsLoaded && authReady && hydrated) || (fontsLoaded && hydrateTimeout)) SplashScreen.hideAsync();
+  }, [fontsLoaded, authReady, hydrated, hydrateTimeout]);
+
+  if ((!fontsLoaded || !authReady || !hydrated) && !hydrateTimeout) {
     return <View style={{flex: 1, backgroundColor: '#000000'}} />;
   }
 
@@ -78,7 +98,7 @@ export default function Layout() {
       <Stack screenOptions={DARK_CARD}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="(ailab)" />
-        <Stack.Screen name="(account-settings)" />
+        <Stack.Screen name="(account-settings)" options={{ animation: 'slide_from_left' }} />
         <Stack.Screen name="(auth)" />
       </Stack>
       <PortalHost />

@@ -84,5 +84,15 @@
     "generic": "Une erreur s'est produite. Veuillez réessayer.",
     "unexpectedResponse": "Réponse serveur inattendue. Veuillez réessayer plus tard.",
     "missingChallenge": "Ce code a expiré. Revenez en arrière et demandez-en un nouveau."
+  },
+  "exportChat": {
+    "title": "Exporter discussion",
+    "includeMedia": "Inclure les médias",
+    "mediaHint": "Les fichiers médias augmenteront considérablement la taille de l'exportation",
+    "format": "FORMAT",
+    "textFile": "Fichier texte",
+    "pdf": "PDF",
+    "html": "HTML",
+    "exportButton": "Exporter la discussion"
   }
 }

@@ -84,5 +84,15 @@
     "generic": "Something went wrong. Please try again.",
     "unexpectedResponse": "Unexpected server response. Please try again later.",
     "missingChallenge": "This login code expired. Go back and request a new one."
+  },
+  "exportChat": {
+    "title": "Export chat",
+    "includeMedia": "Include Media",
+    "mediaHint": "Media files will increase export size significantly",
+    "format": "FORMAT",
+    "textFile": "Text File",
+    "pdf": "PDF",
+    "html": "HTML",
+    "exportButton": "Export Chat"
   }
 }

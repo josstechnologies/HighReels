@@ -1,15 +1,16 @@
 import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
-export const Delete = (props: SvgProps) => (
+export const Delete = ({ color = "#EC2727", ...props }: SvgProps) => (
   <Svg
     width={24}
     height={24}
     viewBox="0 0 24 24"
     fill="none"
+    color={color}
     {...props}
   >
     <G clipPath="url(#a)">
       <Path
-        stroke="#EC2727"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={1.5}
