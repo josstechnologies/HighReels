@@ -1,5 +1,6 @@
 export * from './PhoneInputField';
 export * from './DatePickerWheel';
+export * from './DurationPickerWheel';
 export * from './Button';
 export * from './AuthMethodTabs';
 export * from './SocialAuthButtons';

@@ -19,7 +19,7 @@ const ROWS: Row[] = [
   {label: 'Add link history', Icon: SVGS.Link, href: '/ads-link-history' as Href},
   {label: 'Mention history', Icon: SVGS.Mention, href: '/mention-history' as Href},
   {label: 'Account history', Icon: SVGS.Account2, href: '/accounts/account-history' as Href},
-  {label: 'Screen time', Icon: SVGS.Clock},
+  {label: 'Screen time', Icon: SVGS.Clock, href: '/daily-screen-time' as Href},
   {label: 'Recently deleted', Icon: SVGS.Delete, href: '/recently-deleted' as Href},
   {label: 'Manage post visibility', Icon: SVGS.Views},
   {label: 'Manage comments permission', Icon: SVGS.Messages2, href: '/comment-permission' as Href},

@@ -8,9 +8,24 @@ import {cn} from '@/utils';
 type CreateCollectionSheetProps = {
   visible: boolean;
   onClose: () => void;
+  title?: string;
+  namePlaceholder?: string;
+  publicLabel?: string;
+  publicHint?: string;
+  contributorsLabel?: string;
+  contributorsHint?: string;
 };
 
-export function CreateCollectionSheet({visible, onClose}: CreateCollectionSheetProps) {
+export function CreateCollectionSheet({
+  visible,
+  onClose,
+  title = 'Create a collection',
+  namePlaceholder = 'Type a collection name',
+  publicLabel = 'Set the collection to public',
+  publicHint = 'Visible to everyone',
+  contributorsLabel = 'Add Contributors',
+  contributorsHint = 'Build a collection with friends',
+}: CreateCollectionSheetProps) {
   const [name, setName] = useState('');
   const [isPublic, setIsPublic] = useState(true);
   const [addContributors, setAddContributors] = useState(true);
@@ -53,7 +68,7 @@ export function CreateCollectionSheet({visible, onClose}: CreateCollectionSheetP
       <View className={cn(keyboardOpen ? 'pb-0' : 'pb-10')}>
         <View className="flex-row items-center">
           <View className="w-12" />
-          <Text className="flex-1 text-center font-bold text-base text-black">Create a collection</Text>
+          <Text className="flex-1 text-center font-bold text-base text-black">{title}</Text>
           <Pressable onPress={handleDone} accessibilityRole="button" accessibilityLabel="Done" className="w-12 items-end active:opacity-70">
             <Text className="font-semibold text-15" style={{color: '#007AFF'}}>
               Done
@@ -64,7 +79,7 @@ export function CreateCollectionSheet({visible, onClose}: CreateCollectionSheetP
         <BottomSheetTextInput
           value={name}
           onChangeText={setName}
-          placeholder="Type a collection name"
+          placeholder={namePlaceholder}
           placeholderTextColor="#A7A7A7"
           className="mt-5 rounded-xl border border-grey-75 px-4 py-3.5 font-medium text-15 text-black"
           accessibilityLabel="Collection name"
@@ -72,18 +87,18 @@ export function CreateCollectionSheet({visible, onClose}: CreateCollectionSheetP
 
         <View className="mt-6 flex-row items-center justify-between">
           <View className="mr-4 flex-1">
-            <Text className="font-semibold text-15 text-black">Set the collection to public</Text>
-            <Text className="mt-0.5 text-sm text-grey-300">Visible to everyone</Text>
+            <Text className="font-semibold text-15 text-black">{publicLabel}</Text>
+            <Text className="mt-0.5 text-sm text-grey-300">{publicHint}</Text>
           </View>
-          <Toggle checked={isPublic} onCheckedChange={setIsPublic} accessibilityLabel="Set the collection to public" />
+          <Toggle checked={isPublic} onCheckedChange={setIsPublic} accessibilityLabel={publicLabel} />
         </View>
 
         <View className="mt-5 flex-row items-center justify-between">
           <View className="mr-4 flex-1">
-            <Text className="font-semibold text-15 text-black">Add Contributors</Text>
-            <Text className="mt-0.5 text-sm text-grey-300">Build a collection with friends</Text>
+            <Text className="font-semibold text-15 text-black">{contributorsLabel}</Text>
+            <Text className="mt-0.5 text-sm text-grey-300">{contributorsHint}</Text>
           </View>
-          <Toggle checked={addContributors} onCheckedChange={setAddContributors} accessibilityLabel="Add Contributors" />
+          <Toggle checked={addContributors} onCheckedChange={setAddContributors} accessibilityLabel={contributorsLabel} />
         </View>
       </View>
     </AppBottomSheet>

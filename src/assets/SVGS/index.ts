@@ -163,7 +163,10 @@ import { Reload } from './Reload';
 import { CameraSquare } from './CameraSquare';
 import { PlusOutline } from './PlusOutline';
 import { EyeOutline } from './EyeOutline';
-import { AudioEmpty } from './AudioEmpty';  
+import { AudioEmpty } from './AudioEmpty';
+import { BellOutline } from './BellOutline';
+import { EyeOff } from './EyeOff';
+import { HeartOutline } from './HeartOutline';  
 
 export const SVGS = {
   Ads,
@@ -179,6 +182,7 @@ export const SVGS = {
   AudioSelected,
   Back,
   BackArrow,
+  BellOutline,
   Block,
   Bookmark,
   Camera,
@@ -220,6 +224,7 @@ export const SVGS = {
   GridSelected,
   Heart,
   HeartFilled,
+  HeartOutline,
   History,
   Activity,
   Home,
@@ -324,6 +329,7 @@ export const SVGS = {
   ImageUpload,
   AiInspiration,
   Eye,
+  EyeOff,
   EyeOutline,
   Person,
   CheckCircle,

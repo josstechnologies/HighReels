@@ -30,3 +30,6 @@ export * from './DownloadYourDataScreen';
 export * from './RecentlyDeletedScreen';
 export * from './SongFavouritesScreen';
 export * from './VideoRemovedScreen';
+export * from './DailyScreenTimeScreen';
+export * from './SetScreenTimeLimitScreen';
+export * from './ScreenTimeDurationScreen';
