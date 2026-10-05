@@ -4,3 +4,4 @@ export const IMAGES = {
   aiBanner: require('./aiBanner.png'),
   dailyScreenTimeHero: require('./daily-screen-time-hero.png'),
 };
+

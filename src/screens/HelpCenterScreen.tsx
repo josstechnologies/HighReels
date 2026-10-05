@@ -15,6 +15,9 @@ const ROWS: {label: string; Icon: (props: SvgProps) => ReactElement; href?: Href
   {label: 'Manage Devices', Icon: SVGS.Smartphone, href: '/manage-devices' as Href},
   {label: 'Download Your Data', Icon: SVGS.Download, href: '/download-your-data' as Href},
   {label: 'Video Removed', Icon: SVGS.Report, href: '/video-removed' as Href},
+  {label: 'Sleep Hours', Icon: SVGS.Clock, href: '/sleep-hours' as Href},
+  {label: 'Share Your Feedback', Icon: SVGS.Chat, href: '/share-your-feedback' as Href},
+  {label: 'Professional Dashboard', Icon: SVGS.Campaign, href: '/professional-dashboard' as Href},
 ];
 
 export function HelpCenterScreen() {

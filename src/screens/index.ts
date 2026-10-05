@@ -33,3 +33,6 @@ export * from './VideoRemovedScreen';
 export * from './DailyScreenTimeScreen';
 export * from './SetScreenTimeLimitScreen';
 export * from './ScreenTimeDurationScreen';
+export * from './SleepHoursScreen';
+export * from './ShareYourFeedbackScreen';
+export * from './ProfessionalDashboardScreen';
