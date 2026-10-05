@@ -3,9 +3,7 @@ export const ProfileViews = (props: SvgProps) => (
   <Svg
     width={57}
     height={54}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 57 54">
     <G clipPath="url(#a)">
       <Path
         fill="currentColor"

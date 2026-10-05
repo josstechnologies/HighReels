@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import {View, Text, Pressable, TextInput, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Alert} from 'react-native';
+import {View, Text, Pressable, KeyboardAvoidingView, Platform, ScrollView, Alert} from 'react-native';
 import {useLocalSearchParams, useRouter, type Href} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
@@ -7,12 +7,10 @@ import {Controller, useForm} from 'react-hook-form';
 import {useMutation} from '@tanstack/react-query';
 import Svg, {Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
+import {OtpCodeInput, OTP_LENGTH, OtpResend, RESEND_SECONDS} from '@/components';
 import {API_ROUTES, AuthOtpFlow, OTP_VERIFY_ROUTE} from '@/constants';
-import {signupDraftActions} from '@/store';
-import {API, apiErrorMessage, ApiEnvelope, cn, completeSession, queryClient, readEnvelope} from '@/utils';
-
-const OTP_LENGTH = 6;
-const RESEND_SECONDS = 60;
+import {signupDraftActions, pinGateActions} from '@/store';
+import {API, apiErrorMessage, ApiEnvelope, completeSession, queryClient, readEnvelope} from '@/utils';
 
 type OtpType = 'email' | 'phone';
 
@@ -38,8 +36,6 @@ export default function Otp() {
   const flow = parseFlow(typeof params.flow === 'string' ? params.flow : undefined);
 
   const [timer, setTimer] = useState(RESEND_SECONDS);
-  const [isFocused, setIsFocused] = useState(false);
-  const otpInputRef = useRef<TextInput>(null);
   const didSubmit = useRef(false);
 
   const {control, setValue, watch} = useForm<FormData>({
@@ -72,6 +68,7 @@ export default function Otp() {
       if (flow === 'login' && tokens) {
         try {
           await completeSession(tokens);
+          pinGateActions.unlock();
           replace('/');
         } catch (error) {
           didSubmit.current = false;
@@ -160,8 +157,6 @@ export default function Otp() {
     resendMutation.mutate();
   };
 
-  const timerLabel = `00:${timer < 10 ? `0${timer}` : timer}`;
-
   return (
     <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1">
@@ -186,64 +181,18 @@ export default function Otp() {
               {type === 'email' ? t('signup.sentEmailCode', {value}) : t('signup.sentPhoneOtp', {value})}
             </Text>
 
-            <View className="relative mt-8">
+            <View className="mt-8">
               <Controller
                 name="otp"
                 control={control}
                 render={({field: {onChange, onBlur, value: otp}}) => (
-                  <TextInput
-                    ref={otpInputRef}
-                    value={otp}
-                    editable={!busy}
-                    onChangeText={(text) => onChange(text.replace(/\D/g, '').slice(0, OTP_LENGTH))}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => {
-                      setIsFocused(false);
-                      onBlur();
-                    }}
-                    maxLength={OTP_LENGTH}
-                    keyboardType="number-pad"
-                    textContentType="oneTimeCode"
-                    autoComplete="sms-otp"
-                    className="absolute z-10 h-full w-full opacity-0"
-                    caretHidden
-                  />
+                  <OtpCodeInput value={otp} onChange={onChange} onBlur={onBlur} editable={!busy} />
                 )}
               />
-
-              <Pressable onPress={() => otpInputRef.current?.focus()} className="w-full flex-row gap-2.5">
-                {Array.from({length: OTP_LENGTH}).map((_, i) => {
-                  const char = otpCode[i] || '';
-                  const active = isFocused && otpCode.length === i;
-                  return (
-                    <View
-                      key={i}
-                      style={styles.otpBox}
-                      className={cn(
-                        'h-[56px] flex-1 items-center justify-center rounded-2xl border bg-white',
-                        active ? 'border-[#111111]' : 'border-[#ececec]',
-                      )}>
-                      <Text className="font-bold text-xl text-[#111111]">{char}</Text>
-                    </View>
-                  );
-                })}
-              </Pressable>
             </View>
 
-            <View className="mt-6 items-start">
-              {timer > 0 ? (
-                <Text className="font-medium text-15 text-[#a7a7a7]">
-                  {t('signup.resendIn')} <Text className="font-semibold text-[#111111]">{timerLabel}</Text>
-                </Text>
-              ) : (
-                <Pressable
-                  onPress={handleResend}
-                  disabled={busy}
-                  className="flex-row items-center rounded-full border border-[#ececec] px-4 py-2.5 active:opacity-70">
-                  <SVGS.Resend width={14} height={14} />
-                  <Text className="ml-2 font-semibold text-sm text-[#111111]">{t('signup.resendCode')}</Text>
-                </Pressable>
-              )}
+            <View className="mt-6">
+              <OtpResend timer={timer} onResend={handleResend} disabled={busy} />
             </View>
           </View>
         </ScrollView>
@@ -251,13 +200,3 @@ export default function Otp() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  otpBox: {
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.06,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-});

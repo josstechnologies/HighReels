@@ -80,6 +80,25 @@
     "signedIn": "Vous êtes connecté",
     "signOut": "Se déconnecter"
   },
+  "pin": {
+    "enterTitle": "Entrez le code PIN",
+    "forgot": "PIN oublié ?",
+    "forgotTitle": "PIN oublié",
+    "forgotStub": "La récupération du code PIN sera bientôt disponible ici.",
+    "verifyTitle": "Vérifiez que c’est bien vous",
+    "verifySubtitle": "Choisissez comment recevoir votre code de vérification.",
+    "channelEmail": "E-mail",
+    "channelPhone": "Téléphone",
+    "maskedEmail": "eha*****@gmail.com",
+    "maskedPhone": "+12*******5678",
+    "sendOtp": "Envoyer l’OTP",
+    "enterCodeTitle": "Entrez le code de vérification",
+    "createTitle": "Créer un nouveau PIN",
+    "createSubtitle": "Choisissez un PIN à 4 chiffres dont vous vous souviendrez.",
+    "confirmTitle": "Confirmer le nouveau PIN",
+    "confirmSubtitle": "Saisissez à nouveau votre PIN pour confirmer",
+    "mismatch": "Les PIN ne correspondent pas. Réessayez."
+  },
   "errors": {
     "generic": "Une erreur s'est produite. Veuillez réessayer.",
     "unexpectedResponse": "Réponse serveur inattendue. Veuillez réessayer plus tard.",

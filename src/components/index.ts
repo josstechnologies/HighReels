@@ -1,4 +1,7 @@
 export * from './PhoneInputField';
+export * from './PinKeypad';
+export * from './OtpCodeInput';
+export * from './OtpResend';
 export * from './DatePickerWheel';
 export * from './DurationPickerWheel';
 export * from './Button';

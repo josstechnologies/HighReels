@@ -107,6 +107,15 @@ export const archiveChatsActions = {
 /** In-memory: user started "Add Account" from the switcher (keeps other accounts). */
 export const addAccountFlow$ = observable({active: false});
 
+/** In-memory only — resets on cold start so logged-in users re-enter PIN once per launch. */
+export const pinGate$ = observable({unlocked: false});
+
+export const pinGateActions = {
+  unlock: () => pinGate$.unlocked.set(true),
+  lock: () => pinGate$.unlocked.set(false),
+  isUnlocked: () => pinGate$.unlocked.get(),
+};
+
 function syncAuthMirrorFromActive() {
   const activeId = accountsState$.activeAccountId.get();
   const accounts = accountsState$.accounts.get();
@@ -167,6 +176,7 @@ export const authActions = {
     accountsState$.assign({accounts: [], activeAccountId: null});
     authState$.assign({accessToken: null, refreshToken: null});
     addAccountFlowActions.clear();
+    pinGateActions.lock();
   },
   setActiveAccount: (accountId: string) => {
     const accounts = accountsState$.accounts.get();

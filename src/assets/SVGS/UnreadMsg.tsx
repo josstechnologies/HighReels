@@ -10,9 +10,7 @@ export const UnreadMsg = (props: SvgProps) => (
   <Svg
     width={24}
     height={24}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 24 24">
     <G clipPath="url(#a)">
       <G clipPath="url(#b)">
         <Path

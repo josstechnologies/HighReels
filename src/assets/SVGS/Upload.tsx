@@ -3,9 +3,7 @@ export const Upload = (props: SvgProps) => (
   <Svg
     width={20}
     height={20}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 20 20">
     <G
       fill="currentColor"
       fillRule="evenodd"

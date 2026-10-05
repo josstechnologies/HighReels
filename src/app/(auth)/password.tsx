@@ -79,7 +79,7 @@ export default function Password() {
       return;
     }
     signupDraftActions.setPassword(password);
-    navigate({pathname: '/pin', params: {flow: 'signup'}});
+    navigate({pathname: '/set-pin', params: {flow: 'signup'}});
   };
 
   return (

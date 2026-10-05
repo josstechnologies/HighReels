@@ -1,7 +1,6 @@
 import {FlatList, View, Text, useWindowDimensions, ActivityIndicator, AppState, Pressable, Dimensions} from 'react-native';
 import {useSelector} from '@legendapp/state/react';
 import {authState$, getActiveAccount} from '@/store';
-
 import {useRouter} from 'expo-router';
 import {IMAGES, SVGS} from '@/assets';
 import {EmojiReactionOverlay} from '@/components/EmojiReactionOverlay';
@@ -330,6 +329,7 @@ const FeedItem = ({
 };
 
 export default function Home() {
+  const {navigate} = useRouter();
   const songCardVisible = useUIStore((state) => state.songCardVisible);
   const tabBarHeight = useBottomTabBarHeight();
   const {height, width} = useWindowDimensions();

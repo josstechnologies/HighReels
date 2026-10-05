@@ -3,10 +3,7 @@ export const WalletAdd = (props: SvgProps) => (
     <Svg
     width={25}
     height={25}
-    viewBox="0 0 25 25"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 25 25">
     <Path
       d="M15.3099 16.6758H9.47656"
       stroke="currentColor"

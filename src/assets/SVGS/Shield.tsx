@@ -1,11 +1,7 @@
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import Svg, {SvgProps, G, Path, Defs, ClipPath} from 'react-native-svg';
+
 export const Shield = (props: SvgProps) => (
-  <Svg
-    width={36}
-    height={36}
-    fill="none"
-    {...props}
-  >
+  <Svg width={36} height={36} fill="none" {...props} viewBox="0 0 36 36">
     <G clipPath="url(#a)">
       <Path
         fill="currentColor"
@@ -20,4 +16,4 @@ export const Shield = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
+);

@@ -3,10 +3,7 @@ export const Replay = (props: SvgProps) => (
   <Svg
     width={20}
     height={20}
-    viewBox="0 0 20 20"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 20 20">
     <G clipPath="url(#a)">
       <G
         stroke="currentColor"

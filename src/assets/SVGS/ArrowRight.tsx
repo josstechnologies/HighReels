@@ -1,6 +1,6 @@
 import Svg, { SvgProps, Path } from "react-native-svg"
 export const ArrowRight = ({ strokeWidth = 1.5, ...props }: SvgProps) => (
-  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+  <Svg width={24} height={24} fill="none" {...props} viewBox="0 0 24 24">
     <Path
       stroke="currentColor"
       strokeLinecap="round"

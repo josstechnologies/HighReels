@@ -3,10 +3,7 @@ export const Watch = (props: SvgProps) => (
     <Svg
     width={22}
     height={22}
-    viewBox="0 0 22 22"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 22 22">
     <Path
       d="M0.625 14.625V6.625C0.625 3.31129 3.31129 0.625 6.625 0.625H14.625C17.9387 0.625 20.625 3.31129 20.625 6.625V14.625C20.625 17.9387 17.9387 20.625 14.625 20.625H6.625C3.31129 20.625 0.625 17.9387 0.625 14.625Z"
       stroke="currentColor"

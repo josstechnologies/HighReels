@@ -3,10 +3,7 @@ export const QrCode = (props: SvgProps) => (
   <Svg
     width={26}
     height={26}
-    viewBox="0 0 26 26"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 26 26">
     <Path
       d="M1 9.16667V6.25C1 3.345 3.345 1 6.25 1H9.16667"
       stroke="currentColor"

@@ -3,9 +3,7 @@ export const Favourite = (props: SvgProps) => (
   <Svg
     width={22}
     height={22}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 22 22">
     <G
       stroke="currentColor"
       strokeLinecap="round"

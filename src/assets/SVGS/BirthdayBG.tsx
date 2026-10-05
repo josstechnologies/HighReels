@@ -1,7 +1,7 @@
 import Svg, {SvgProps, Rect, G, Path, Defs, ClipPath} from 'react-native-svg';
 
 export const BirthdayBG = (props: SvgProps) => (
-  <Svg width={58} height={58} fill="none" {...props}>
+  <Svg width={58} height={58} fill="none" {...props} viewBox="0 0 58 58">
     <Rect width={58} height={58} fill="#6F41EC" rx={29} />
     <G fill="#fff" clipPath="url(#a)">
       <Path

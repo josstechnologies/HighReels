@@ -8,7 +8,7 @@ import Svg, {Circle, Path} from 'react-native-svg';
 import {SVGS} from '@/assets';
 import {Button} from '@/components';
 import {API_ROUTES} from '@/constants';
-import {signupDraft$, signupDraftActions} from '@/store';
+import {signupDraft$, signupDraftActions, pinGateActions} from '@/store';
 import {API, apiErrorMessage, ApiEnvelope, completeSession, readEnvelope} from '@/utils';
 
 const USERNAME_PATTERN = /^[a-z0-9_]+$/;
@@ -50,6 +50,7 @@ export default function Username() {
     onSuccess: async (tokens) => {
       try {
         await completeSession(tokens);
+        pinGateActions.unlock();
         signupDraftActions.clear();
         replace('/');
       } catch (error) {

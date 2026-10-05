@@ -1,7 +1,7 @@
 import Svg, {SvgProps, Rect, Path} from 'react-native-svg';
 
 export const UserBG = (props: SvgProps) => (
-  <Svg width={58} height={58} fill="none" {...props}>
+  <Svg width={58} height={58} fill="none" {...props} viewBox="0 0 58 58">
     <Rect width={58} height={58} fill="#FF5252" rx={29} />
     <Path
       fill="#fff"

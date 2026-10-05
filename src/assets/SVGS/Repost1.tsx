@@ -3,9 +3,7 @@ export const Repost1 = (props: SvgProps) => (
   <Svg
     width={24}
     height={24}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 24 24">
     <G clipPath="url(#a)">
       <Path
         fill="currentColor"

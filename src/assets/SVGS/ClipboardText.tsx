@@ -3,10 +3,7 @@ export const ClipboardText = (props: SvgProps) => (
     <Svg
     width={23}
     height={26}
-    viewBox="0 0 23 26"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 23 26">
     <Path
       d="M6.8291 12.9004H14.9958"
       stroke="currentColor"

@@ -3,10 +3,7 @@ export const Views = (props: SvgProps) => (
   <Svg
     width={24}
     height={24}
-    viewBox="0 0 24 24"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 24 24">
     <G
       stroke="currentColor"
       strokeLinecap="round"

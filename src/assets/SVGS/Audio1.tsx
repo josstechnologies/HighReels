@@ -3,9 +3,7 @@ export const Audio1 = (props: SvgProps) => (
   <Svg
     width={20}
     height={20}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 20 20">
     <G clipPath="url(#a)">
       <Path
         stroke="#C4C4C4"

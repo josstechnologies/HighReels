@@ -3,11 +3,8 @@ export const Delete = ({ color = "#EC2727", ...props }: SvgProps) => (
   <Svg
     width={24}
     height={24}
-    viewBox="0 0 24 24"
     fill="none"
-    color={color}
-    {...props}
-  >
+    color={color} {...props} viewBox="0 0 24 24">
     <G clipPath="url(#a)">
       <Path
         stroke="currentColor"
