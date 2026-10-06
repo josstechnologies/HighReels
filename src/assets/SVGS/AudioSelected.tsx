@@ -3,9 +3,7 @@ export const AudioSelected = (props: SvgProps) => (
   <Svg
     width={20}
     height={20}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 20 20">
     <G clipPath="url(#a)">
       <G fill="currentColor" clipPath="url(#b)">
         <Path d="M6.875 3.75a3.125 3.125 0 0 1 6.25 0v6.875a3.125 3.125 0 1 1-6.25 0V3.75Z" />

@@ -9,6 +9,7 @@ import Svg, {Circle, Path} from 'react-native-svg';
 import {AuthMethodTabs, AuthTab, Button, PhoneInputField, SocialAuthButtons} from '@/components';
 import {API_ROUTES} from '@/constants';
 import {API, apiErrorMessage, ApiEnvelope, completeSession, isValidNationalPhone, readEnvelope, toPhoneE164} from '@/utils';
+import {pinGateActions} from '@/store';
 import type {ICountry} from 'rn-international-phone-number';
 
 type FormData = {
@@ -22,7 +23,7 @@ type AuthTokensPayload = {accessToken?: string; refreshToken?: string};
 type PasswordLoginPayload = AuthTokensPayload & {requiresOtp?: boolean; sessionId?: string};
 
 export default function Login() {
-  const {navigate, replace} = useRouter();
+  const {navigate, replace, back} = useRouter();
   const {t} = useTranslation();
 
   const [activeTab, setActiveTab] = useState<AuthTab>('email');
@@ -34,9 +35,7 @@ export default function Login() {
   const alertLoginError = (error: unknown) => {
     Alert.alert(
       t('login.errorTitle'),
-      error instanceof Error && error.message.startsWith('UNEXPECTED_')
-        ? t('errors.unexpectedResponse')
-        : apiErrorMessage(error, t('errors.generic'))
+      error instanceof Error && error.message.startsWith('UNEXPECTED_') ? t('errors.unexpectedResponse') : apiErrorMessage(error, t('errors.generic'))
     );
   };
 
@@ -54,13 +53,11 @@ export default function Login() {
       if (data.accessToken && data.refreshToken) {
         try {
           await completeSession({accessToken: data.accessToken, refreshToken: data.refreshToken});
+          pinGateActions.unlock();
           replace('/');
         } catch (error) {
           if (error instanceof Error && error.message === 'ACCOUNT_CAP_REACHED') {
-            Alert.alert(
-              t('login.errorTitle'),
-              'You can add up to 5 accounts on this device. Log out of one to add another.'
-            );
+            Alert.alert(t('login.errorTitle'), 'You can add up to 5 accounts on this device. Log out of one to add another.');
             return;
           }
           alertLoginError(error);
@@ -114,7 +111,7 @@ export default function Login() {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className="flex-1">
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 24}} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
           <View className="flex-row justify-end px-5 pt-2">
-            <Pressable onPress={() => navigate('/')} className="rounded-full p-2 active:bg-zinc-100">
+            <Pressable onPress={() => back()} className="rounded-full p-2 active:bg-zinc-100">
               <Svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2">
                 <Path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
               </Svg>

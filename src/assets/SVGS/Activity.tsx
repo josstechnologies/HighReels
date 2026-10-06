@@ -3,10 +3,7 @@ export const Activity = (props: SvgProps) => (
     <Svg
     width={26}
     height={26}
-    viewBox="0 0 26 26"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 26 26">
     <Path
       d="M9.16667 24.3333H16.1667C22 24.3333 24.3333 22 24.3333 16.1667V9.16667C24.3333 3.33333 22 1 16.1667 1H9.16667C3.33333 1 1 3.33333 1 9.16667V16.1667C1 22 3.33333 24.3333 9.16667 24.3333Z"
       stroke="#111111"

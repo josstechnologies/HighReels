@@ -2,7 +2,7 @@ import Svg, {Path, SvgProps} from 'react-native-svg';
 
 /** Door + arrow enter — Account History “Account Logged In” / “Welcome Login” (Figma). */
 export const AccountLoggedIn = (props: SvgProps) => (
-  <Svg width={20} height={20} viewBox="0 0 20 20" fill="none" {...props}>
+  <Svg width={20} height={20} fill="none" {...props} viewBox="0 0 20 20">
     <Path
       d="M15.8333 10H10M12.5 7.5L10 10L12.5 12.5"
       stroke="currentColor"

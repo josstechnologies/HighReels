@@ -2,7 +2,7 @@ import Svg, {ClipPath, Defs, G, Path, Rect, SvgProps} from 'react-native-svg';
 
 /** 24×24 plus — Download your data header (Figma). */
 export const PlusOutline = (props: SvgProps) => (
-  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+  <Svg width={24} height={24} fill="none" {...props} viewBox="0 0 24 24">
     <G clipPath="url(#clip0_plus_outline)">
       <Path
         d="M12 4.5V19.5M19.5 12H4.5"

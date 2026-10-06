@@ -3,9 +3,7 @@ export const Contact = (props: SvgProps) => (
   <Svg
     width={34}
     height={34}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 34 34">
     <G clipPath="url(#a)">
       <Path
         fill="#4FA531"

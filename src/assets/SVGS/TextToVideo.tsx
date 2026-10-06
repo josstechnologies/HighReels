@@ -3,10 +3,7 @@ export const TextToVideo = (props: SvgProps) => (
     <Svg
     width={16}
     height={16}
-    viewBox="0 0 16 16"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 16 16">
     <Path
       fillRule="evenodd"
       clipRule="evenodd"

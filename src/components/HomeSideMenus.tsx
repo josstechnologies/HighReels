@@ -1,8 +1,8 @@
 import {useEffect, useRef, useState} from 'react';
-import {Image, Share, Text, TouchableHighlight, View} from 'react-native';
+import {Text, TouchableHighlight, View} from 'react-native';
 import {useRouter} from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import {IMAGES, SVGS} from '@/assets';
+import {SVGS} from '@/assets';
 import {useCheckLogin} from '@/hooks/useCheckLogin';
 import {getActiveAccount} from '@/store';
 import {useUIStore} from '@/store/uiStore';
@@ -28,7 +28,9 @@ export const HomeSideMenus = ({post}: {post: any}) => {
   const showReactionOverlay = useUIStore((state) => state.showReactionOverlay);
   const postReactions = useUIStore((state) => state.postReactions);
   const setPostReaction = useUIStore((state) => state.setPostReaction);
-  const showSongCard = useUIStore((state) => state.showSongCard);
+  const showProfileCard = useUIStore((state) => state.showProfileCard);
+  const showShareSheet = useUIStore((state) => state.showShareSheet);
+  // const showSongCard = useUIStore((state) => state.showSongCard);
   const likeRef = useRef<any>(null);
   const currentReaction = postReactions[post.id];
   const [isLiked, setIsLiked] = useState(post.my_reaction?.has_reacted ?? false);
@@ -58,29 +60,23 @@ export const HomeSideMenus = ({post}: {post: any}) => {
     if (newIsLiked) Haptics.selectionAsync();
   };
 
-  const handleShare = async () => {
-    try {
-      const result = await Share.share({message: `Check out this post on Highreels! ${post.url || post.text || ''}`});
-      if (result.action !== Share.sharedAction) return;
-      patchFeedItem(post.id, (item) => ({...item, share_count: (item.share_count || 0) + 1}));
-    } catch (error: any) {
-      console.error('Error sharing post:', error.message);
-    }
-  };
+  // Legacy native share — kept for later:
+  // const handleShare = async () => {
+  //   try {
+  //     const result = await Share.share({message: `Check out this post on Highreels! ${post.url || post.text || ''}`});
+  //     if (result.action !== Share.sharedAction) return;
+  //     patchFeedItem(post.id, (item) => ({...item, share_count: (item.share_count || 0) + 1}));
+  //   } catch (error: any) {
+  //     console.error('Error sharing post:', error.message);
+  //   }
+  // };
 
   const reactionsCount =
     (post.reactions_count || 0) + (isLiked && !post.my_reaction?.has_reacted ? 1 : !isLiked && post.my_reaction?.has_reacted ? -1 : 0);
   const emoji = typeof currentReaction === 'string' && currentReaction !== 'liked' ? currentReaction : null;
 
   return (
-    <View className="absolute bottom-10 right-4 flex-col items-center justify-center gap-2">
-      <TouchableHighlight
-        style={{borderRadius: 50, padding: 5}}
-        onPress={() => router.navigate(`/user-profile/${post.user?.id || post.user_id}`)}
-        underlayColor="#ffffff33"
-        activeOpacity={0.5}>
-        <Image source={post.user?.image ? {uri: post.user.image} : IMAGES.user} className="h-10 w-10 rounded-full" />
-      </TouchableHighlight>
+    <View className="absolute bottom-4 right-4 flex-col items-center justify-center gap-2">
       <TouchableHighlight
         ref={likeRef}
         style={{borderRadius: 50, padding: 5}}
@@ -89,10 +85,10 @@ export const HomeSideMenus = ({post}: {post: any}) => {
         underlayColor="#ffffff33"
         activeOpacity={0.5}>
         <View className="items-center justify-center">
-          {emoji ? <Text className="text-[32px]">{emoji}</Text> : <SVGS.Like height={40} width={40} filled={isLiked} />}
+          {emoji ? <Text className="text-[32px]">{emoji}</Text> : <SVGS.Like height={37} width={37} filled={isLiked} />}
         </View>
       </TouchableHighlight>
-      <Text className="-mt-3 font-NunitoSans_600SemiBold text-base text-white">{reactionsCount}</Text>
+      <Text className="font-NunitoSans_600SemiBold -mt-3 text-base text-white">{reactionsCount}</Text>
 
       <View className="items-center justify-center">
         <TouchableHighlight
@@ -100,32 +96,49 @@ export const HomeSideMenus = ({post}: {post: any}) => {
           underlayColor="#ffffff33"
           activeOpacity={0.5}
           onPress={() => router.navigate({pathname: '/comments-sheet', params: {postId: post.id}})}>
-          <SVGS.Comment height={35} width={33} />
+          <SVGS.Comment height={37} width={37} />
         </TouchableHighlight>
-        <Text className="-mt-2 font-NunitoSans_600SemiBold text-base text-white">{post.comments_count || 0}</Text>
+        <Text className="font-NunitoSans_600SemiBold -mt-2 text-base text-white">{post.comments_count || 0}</Text>
       </View>
+
+      <View className="items-center justify-center">
+        <TouchableHighlight
+          underlayColor="#ffffff80"
+          activeOpacity={0.6}
+          style={{borderRadius: 50, padding: 5}}
+          // onPress={() => checkLogin(() => void handleShare())}
+          onPress={() => checkLogin(() => showShareSheet(post))}>
+          <SVGS.Share height={37} width={37} />
+        </TouchableHighlight>
+        <Text className="font-NunitoSans_600SemiBold -mt-2 text-base text-white">{post.share_count || 0}</Text>
+      </View>
+
+      {/* UI-only for now — bookmark API not wired yet */}
+      <View className="items-center justify-center">
+        <TouchableHighlight underlayColor="#ffffff80" activeOpacity={0.6} style={{borderRadius: 50, padding: 5}} onPress={() => {}}>
+          <SVGS.Bookmark height={36} width={36} />
+        </TouchableHighlight>
+        <Text className="font-NunitoSans_600SemiBold -mt-2 text-base text-white">{post.bookmark_count || 0}</Text>
+      </View>
+
+      <View className="items-center justify-center">
+        <TouchableHighlight
+          underlayColor="#ffffff80"
+          activeOpacity={0.6}
+          style={{borderRadius: 50, padding: 5}}
+          onPress={() => checkLogin(() => router.navigate('/gift-sheet'))}>
+          <SVGS.Gift height={37} width={37} />
+        </TouchableHighlight>
+        <Text className="font-NunitoSans_600SemiBold -mt-2 text-base text-white">{post.gift_count || 0}</Text>
+      </View>
+
       <TouchableHighlight
         underlayColor="#ffffff80"
         activeOpacity={0.6}
         style={{borderRadius: 50, padding: 5}}
-        onPress={() => checkLogin(() => void handleShare())}
-        className="items-center justify-center">
-        <SVGS.Share />
-      </TouchableHighlight>
-      <Text className="font-NunitoSans_600SemiBold text-base text-white">{post.share_count || 0}</Text>
-      <TouchableHighlight
-        underlayColor="#ffffff80"
-        activeOpacity={0.6}
-        style={{borderRadius: 50, padding: 5}}
-        onPress={() => checkLogin(() => router.navigate('/gift-sheet'))}>
-        <SVGS.Gift color="#fff" />
-      </TouchableHighlight>
-      <TouchableHighlight
-        underlayColor="#ffffff80"
-        activeOpacity={0.6}
-        style={{borderRadius: 50, padding: 5}}
-        onPress={() => checkLogin(() => showSongCard(post))}>
-        <SVGS.Add height={32} width={32} bgColor="#fff" />
+        // onPress={() => checkLogin(() => showSongCard(post))}
+        onPress={() => checkLogin(() => showProfileCard(post))}>
+        <SVGS.ThreeDot height={37} width={37} />
       </TouchableHighlight>
     </View>
   );

@@ -3,10 +3,7 @@ export const People = (props: SvgProps) => (
     <Svg
     width={20}
     height={18}
-    viewBox="0 0 20 18"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 20 18">
     <Path
       fillRule="evenodd"
       clipRule="evenodd"

@@ -4,10 +4,7 @@ export const AiLab = (props: SvgProps) => (
   <Svg
     width={22}
     height={22}
-    viewBox="0 0 22 22"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 22 22">
     <Path
       d="M5.45312 14.75L8.95312 6.75L12.5531 14.75"
       stroke="white"

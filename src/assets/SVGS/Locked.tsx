@@ -3,9 +3,7 @@ export const Locked = (props: SvgProps) => (
   <Svg
     width={36}
     height={36}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 36 36">
     <G clipPath="url(#a)">
       <Path
         fill="currentColor"

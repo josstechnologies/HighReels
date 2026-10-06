@@ -8,8 +8,9 @@ export const useCheckLogin = () => {
   const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
 
   const checkLogin = (action: () => void) => {
-    if (hasSession) action();
-    else router.navigate('/login');
+    action();
+    // if (hasSession) action();
+    // else router.navigate('/login');
   };
 
   return {checkLogin, isLoggedIn: hasSession};

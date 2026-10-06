@@ -2,7 +2,7 @@ import Svg, {ClipPath, Defs, G, Path, Rect, SvgProps} from 'react-native-svg';
 
 /** Smartphone outline — Account History “Two-Factor Authentication Enabled” (Figma). */
 export const Smartphone = (props: SvgProps) => (
-  <Svg width={20} height={20} viewBox="0 0 20 20" fill="none" {...props}>
+  <Svg width={20} height={20} fill="none" {...props} viewBox="0 0 20 20">
     <G clipPath="url(#clip0_smartphone_2fa)">
       <Path
         d="M10.0005 14.3098L10.0112 14.2979"

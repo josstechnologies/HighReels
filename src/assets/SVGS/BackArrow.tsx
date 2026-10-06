@@ -3,10 +3,7 @@ export const BackArrow = (props: SvgProps) => (
   <Svg
     width={24}
     height={24}
-    viewBox="0 0 24 24"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 24 24">
     <Path
       fill="currentColor"
       d="M20.252 12a.75.75 0 0 1-.648.743l-.102.007h-15a.75.75 0 0 1-.102-1.493l.102-.007h15a.75.75 0 0 1 .75.75Z"

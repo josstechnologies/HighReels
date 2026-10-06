@@ -3,10 +3,7 @@ export const Clock = (props: SvgProps) => (
     <Svg
     width={22}
     height={22}
-    viewBox="0 0 22 22"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 22 22">
     <Path
       d="M10.75 4.75V10.75H16.75"
       stroke="currentColor"

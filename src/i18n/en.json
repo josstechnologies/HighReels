@@ -80,6 +80,25 @@
     "signedIn": "You're signed in",
     "signOut": "Sign out"
   },
+  "pin": {
+    "enterTitle": "Enter login PIN",
+    "forgot": "Forgot PIN?",
+    "forgotTitle": "Forgot PIN",
+    "forgotStub": "PIN recovery will be available here soon.",
+    "verifyTitle": "Verify It’s you",
+    "verifySubtitle": "Choose how you’d like to receive your verification code.",
+    "channelEmail": "Email",
+    "channelPhone": "Phone",
+    "maskedEmail": "eha*****@gmail.com",
+    "maskedPhone": "+12*******5678",
+    "sendOtp": "Send OTP",
+    "enterCodeTitle": "Enter verification code",
+    "createTitle": "Create New Pin",
+    "createSubtitle": "Choose a 4-digit PIN you'll remember.",
+    "confirmTitle": "Confirm New Pin",
+    "confirmSubtitle": "Re-enter your PIN to confirm",
+    "mismatch": "PINs don't match. Try again."
+  },
   "errors": {
     "generic": "Something went wrong. Please try again.",
     "unexpectedResponse": "Unexpected server response. Please try again later.",
@@ -94,5 +113,24 @@
     "pdf": "PDF",
     "html": "HTML",
     "exportButton": "Export Chat"
+  },
+  "report": {
+    "title": "Report",
+    "selectReason": "Select a reason",
+    "thanks": "Thanks for reporting",
+    "reasons": {
+      "pornography": "Pornography and nudity",
+      "violence": "Violence and gore",
+      "hateSpeech": "Hate speech and discrimination",
+      "selfHarm": "Self-harm and suicide content",
+      "harassment": "Harassment and bullying",
+      "childExploitation": "Child exploitation",
+      "spam": "Spam and deceptive practices",
+      "terrorism": "Terrorism and extremist content",
+      "drugs": "Drug-related content",
+      "mentalHealth": "Mental health awareness",
+      "substanceAbuse": "Substance abuse prevention",
+      "impersonation": "Impersonation and identity theft"
+    }
   }
 }

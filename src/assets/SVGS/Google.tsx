@@ -3,9 +3,7 @@ export const Google = (props: SvgProps) => (
   <Svg
     width={18}
     height={18}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 18 18">
     <G clipPath="url(#a)">
       <G clipPath="url(#b)">
         <Path

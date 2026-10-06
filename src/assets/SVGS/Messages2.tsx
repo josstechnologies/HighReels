@@ -3,10 +3,7 @@ export const Messages2 = (props: SvgProps) => (
     <Svg
     width={20}
     height={20}
-    viewBox="0 0 20 20"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 20 20">
     <Path
       d="M9.75 4.75V6.75"
       stroke="currentColor"

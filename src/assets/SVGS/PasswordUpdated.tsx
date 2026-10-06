@@ -2,7 +2,7 @@ import Svg, {Path, SvgProps} from 'react-native-svg';
 
 /** Password field + dots + check — Account History “Password Updated” (Figma). */
 export const PasswordUpdated = (props: SvgProps) => (
-  <Svg width={20} height={20} viewBox="0 0 20 20" fill="none" {...props}>
+  <Svg width={20} height={20} fill="none" {...props} viewBox="0 0 20 20">
     <Path
       d="M18.8966 10.7945V5.85201C18.8966 4.76014 18.0115 3.875 16.9195 3.875H3.08047C1.98859 3.875 1.10345 4.76014 1.10345 5.85201V11.783C1.10345 12.8749 1.98859 13.7601 3.08047 13.7601H10"
       stroke="currentColor"

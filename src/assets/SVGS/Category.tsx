@@ -1,7 +1,7 @@
 import Svg, {SvgProps, Path} from 'react-native-svg';
 
 export const Category = ({fill = 'none', ...props}: SvgProps) => (
-  <Svg width={21} height={21} viewBox="0 0 21 20" fill="none" {...props}>
+  <Svg width={21} height={21} fill="none" {...props} viewBox="0 0 21 20">
     <Path
       fillRule="evenodd"
       clipRule="evenodd"

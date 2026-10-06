@@ -3,10 +3,7 @@ export const Posts = (props: SvgProps) => (
   <Svg
     width={19}
     height={19}
-    viewBox="0 0 19 19"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 19 19">
     <Path
       d="M17.75 4.35V17.15C17.75 17.4814 17.4814 17.75 17.15 17.75H4.35C4.01863 17.75 3.75 17.4814 3.75 17.15V4.35C3.75 4.01863 4.01863 3.75 4.35 3.75H17.15C17.4814 3.75 17.75 4.01863 17.75 4.35Z"
       stroke="currentColor"

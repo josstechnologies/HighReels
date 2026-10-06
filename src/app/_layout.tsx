@@ -4,7 +4,7 @@ import '../../global.css';
 import '../../nativewind-interop';
 import {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {Stack} from 'expo-router';
+import {Stack, useRootNavigationState, useRouter, useSegments} from 'expo-router';
 import {useSelector} from '@legendapp/state/react';
 import * as SplashScreen from 'expo-splash-screen';
 import * as SystemUI from 'expo-system-ui';
@@ -17,7 +17,8 @@ import {
   PlusJakartaSans_800ExtraBold,
 } from '@expo-google-fonts/plus-jakarta-sans';
 import Provider from '@/provider';
-import {accountsSyncState$, archiveChatsSyncState$, authActions, authSyncState$, chatThemeSyncState$} from '@/store';
+import {accountsSyncState$, archiveChatsSyncState$, authActions, authState$, authSyncState$, chatThemeSyncState$, pinGate$} from '@/store';
+import {BYPASS_AUTH} from '@/constants';
 import {completeSession} from '@/utils';
 import {PortalHost} from '@rn-primitives/portal';
 
@@ -31,6 +32,10 @@ const DARK_CARD = {
 };
 
 export default function Layout() {
+  const router = useRouter();
+  const segments = useSegments();
+  const rootNav = useRootNavigationState();
+  const navReady = !!rootNav?.key;
   const [fontsLoaded] = useFonts({
     PlusJakartaSans_400Regular,
     PlusJakartaSans_500Medium,
@@ -47,6 +52,9 @@ export default function Layout() {
   const [hydrated, setHydrated] = useState(false);
   const [hydrateTimeout, setHydrateTimeout] = useState(false);
 
+  const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
+  const pinUnlocked = useSelector(() => pinGate$.unlocked.get());
+
   useEffect(() => {
     if (!authReady || hydrated) return;
 
@@ -57,10 +65,7 @@ export default function Layout() {
       if (result.needsLegacyMigration) {
         try {
           // 8s timeout so stale network doesn't block app forever
-          await Promise.race([
-            completeSession(result.tokens),
-            new Promise((_, rej) => setTimeout(() => rej(new Error('MIGRATION_TIMEOUT')), 8000)),
-          ]);
+          await Promise.race([completeSession(result.tokens), new Promise((_, rej) => setTimeout(() => rej(new Error('MIGRATION_TIMEOUT')), 8000))]);
           authActions.clearLegacyAuth();
         } catch (e) {
           console.warn('[HighReels] legacy migration failed/timeout', String(e));
@@ -89,6 +94,16 @@ export default function Layout() {
     if ((fontsLoaded && authReady && hydrated) || (fontsLoaded && hydrateTimeout)) SplashScreen.hideAsync();
   }, [fontsLoaded, authReady, hydrated, hydrateTimeout]);
 
+  // Cold-start PIN gate: logged-in users must unlock once per process.
+  // Wait for navReady — replace before the root navigator mounts is a silent no-op.
+  useEffect(() => {
+    if (!navReady) return;
+    if ((!hydrated && !hydrateTimeout) || BYPASS_AUTH) return;
+    if (!hasSession || pinUnlocked) return;
+    if (segments[0] === '(pin)') return;
+    router.replace('/pin');
+  }, [navReady, hydrated, hydrateTimeout, hasSession, pinUnlocked, segments, router]);
+
   if ((!fontsLoaded || !authReady || !hydrated) && !hydrateTimeout) {
     return <View style={{flex: 1, backgroundColor: '#000000'}} />;
   }
@@ -98,8 +113,9 @@ export default function Layout() {
       <Stack screenOptions={DARK_CARD}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="(ailab)" />
-        <Stack.Screen name="(account-settings)" options={{ animation: 'slide_from_left' }} />
+        <Stack.Screen name="(account-settings)" options={{animation: 'slide_from_left'}} />
         <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(pin)" />
       </Stack>
       <PortalHost />
     </Provider>

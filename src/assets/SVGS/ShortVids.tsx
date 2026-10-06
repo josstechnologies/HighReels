@@ -3,10 +3,7 @@ export const ShortVids = (props: SvgProps) => (
   <Svg
     width={19}
     height={19}
-    viewBox="0 0 19 19"
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 19 19">
     <Path d="M11.6671 0H6.66211V3.99667H11.6671V0Z" fill="white" />
     <Path
       d="M13.0449 0V3.99667H18.2149C17.7474 1.47583 15.8866 0.00916667 13.0449 0Z"

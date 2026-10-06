@@ -3,9 +3,7 @@ export const Chat = (props: SvgProps) => (
   <Svg
     width={24}
     height={24}
-    fill="none"
-    {...props}
-  >
+    fill="none" {...props} viewBox="0 0 24 24">
     <Path
       stroke="currentColor"
       strokeLinecap="round"

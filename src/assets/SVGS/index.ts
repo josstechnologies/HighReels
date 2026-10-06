@@ -101,11 +101,14 @@ import {Voice} from './Voice';
 import {Work} from './Work';
 import {Phone} from './Phone';
 import {PhoneBG} from './PhoneBG';
+import {PhoneBadge} from './PhoneBadge';
 import {Resend} from './Resend';
 import {PasswordBG} from './PasswordBG';
 import {Email} from './Email';
 import {EmailBG} from './EmailBG';
+import {Mail} from './Mail';
 import {PinBG} from './PinBG';
+import {PinKey} from './PinKey';
 import {BirthdayBG} from './BirthdayBG';
 import {UserBG} from './UserBG';
 import {CheckBG} from './CheckBG';
@@ -166,7 +169,9 @@ import { EyeOutline } from './EyeOutline';
 import { AudioEmpty } from './AudioEmpty';
 import { BellOutline } from './BellOutline';
 import { EyeOff } from './EyeOff';
-import { HeartOutline } from './HeartOutline';  
+import { HeartOutline } from './HeartOutline';
+import { Fire } from './Fire';
+import { HeartBreak } from './HeartBreak';
 
 export const SVGS = {
   Ads,
@@ -214,6 +219,7 @@ export const SVGS = {
   Effects,
   ExternalLink,
   Favourite,
+  Fire,
   Follow,
   Followers,
   Following,
@@ -223,6 +229,7 @@ export const SVGS = {
   Grid,
   GridSelected,
   Heart,
+  HeartBreak,
   HeartFilled,
   HeartOutline,
   History,
@@ -299,10 +306,13 @@ export const SVGS = {
   Phone,
   Email,
   PhoneBG,
+  PhoneBadge,
+  Mail,
   Resend,
   PasswordBG,
   EmailBG,
   PinBG,
+  PinKey,
   BirthdayBG,
   UserBG,
   CheckBG,

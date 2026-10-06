@@ -80,6 +80,25 @@
     "signedIn": "Vous êtes connecté",
     "signOut": "Se déconnecter"
   },
+  "pin": {
+    "enterTitle": "Entrez le code PIN",
+    "forgot": "PIN oublié ?",
+    "forgotTitle": "PIN oublié",
+    "forgotStub": "La récupération du code PIN sera bientôt disponible ici.",
+    "verifyTitle": "Vérifiez que c’est bien vous",
+    "verifySubtitle": "Choisissez comment recevoir votre code de vérification.",
+    "channelEmail": "E-mail",
+    "channelPhone": "Téléphone",
+    "maskedEmail": "eha*****@gmail.com",
+    "maskedPhone": "+12*******5678",
+    "sendOtp": "Envoyer l’OTP",
+    "enterCodeTitle": "Entrez le code de vérification",
+    "createTitle": "Créer un nouveau PIN",
+    "createSubtitle": "Choisissez un PIN à 4 chiffres dont vous vous souviendrez.",
+    "confirmTitle": "Confirmer le nouveau PIN",
+    "confirmSubtitle": "Saisissez à nouveau votre PIN pour confirmer",
+    "mismatch": "Les PIN ne correspondent pas. Réessayez."
+  },
   "errors": {
     "generic": "Une erreur s'est produite. Veuillez réessayer.",
     "unexpectedResponse": "Réponse serveur inattendue. Veuillez réessayer plus tard.",
@@ -94,5 +113,24 @@
     "pdf": "PDF",
     "html": "HTML",
     "exportButton": "Exporter la discussion"
+  },
+  "report": {
+    "title": "Signaler",
+    "selectReason": "Sélectionnez une raison",
+    "thanks": "Merci pour votre signalement",
+    "reasons": {
+      "pornography": "Pornographie et nudité",
+      "violence": "Violence et scènes gore",
+      "hateSpeech": "Discours de haine et discrimination",
+      "selfHarm": "Automutilation et contenu suicidaire",
+      "harassment": "Harcèlement et intimidation",
+      "childExploitation": "Exploitation d'enfants",
+      "spam": "Spam et pratiques trompeuses",
+      "terrorism": "Terrorisme et contenu extrémiste",
+      "drugs": "Contenu lié aux drogues",
+      "mentalHealth": "Sensibilisation à la santé mentale",
+      "substanceAbuse": "Prévention de l'abus de substances",
+      "impersonation": "Usurpation d'identité et vol d'identité"
+    }
   }
 }

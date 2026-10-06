@@ -1,25 +1,21 @@
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import Svg, {SvgProps, G, Path, Defs, ClipPath, Rect} from 'react-native-svg';
+
 export const Bookmark = (props: SvgProps) => (
-  <Svg
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    fill="none"
-    {...props}
-  >
-    <G clipPath="url(#a)">
+  <Svg width={36} height={36} fill="none" {...props} viewBox="0 0 36 36">
+    <G clipPath="url(#bookmarkClip)">
       <Path
-        stroke="currentColor"
+        fill={props.color || '#FFFFFF'}
+        stroke={props.color || '#FFFFFF'}
+        strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.508 48.508 0 0 1 11.186 0Z"
+        d="M26.3895 4.98236C28.0395 5.17436 29.25 6.59786 29.25 8.25986V31.4994L18 25.8744L6.75 31.4994V8.25986C6.75 6.59786 7.959 5.17436 9.6105 4.98236C15.1848 4.33531 20.8152 4.33531 26.3895 4.98236Z"
       />
     </G>
     <Defs>
-      <ClipPath id="a">
-        <Path fill="currentColor" d="M0 0h24v24H0z" />
+      <ClipPath id="bookmarkClip">
+        <Rect width={36} height={36} fill="white" />
       </ClipPath>
     </Defs>
   </Svg>
-)
+);

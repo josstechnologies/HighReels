@@ -1,25 +1,10 @@
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import Svg, {SvgProps, Path} from 'react-native-svg';
+
 export const Share = (props: SvgProps) => (
-  <Svg
-    width={22}
-    height={22}
-    viewBox="0 0 22 22"
-    fill="none"
-    {...props}
-  >
-    <G clipPath="url(#a)">
-      <Path
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="m14.513 7.493-5.246 5.303-5.968-3.732c-.854-.535-.677-1.834.29-2.117l14.168-4.149c.885-.26 1.706.569 1.443 1.457L15.01 18.413c-.287.968-1.579 1.141-2.109.283l-3.636-5.9"
-      />
-    </G>
-    <Defs>
-      <ClipPath id="a">
-        <Path fill="currentColor" d="M0 0h22v22H0z" />
-      </ClipPath>
-    </Defs>
+  <Svg width={37} height={37} fill="none" {...props} viewBox="0 0 37 37">
+    <Path
+      fill={props.color || '#FFFFFF'}
+      d="M19.6613 29.4509C20.268 29.4509 20.7633 29.2101 21.3577 28.6683L31.127 19.6988C31.5975 19.2653 31.7585 18.8078 31.7585 18.4105C31.7585 18.0012 31.6099 17.5557 31.127 17.1102L21.3577 8.22493C20.7014 7.62295 20.2928 7.37012 19.686 7.37012C18.8193 7.37012 18.2003 8.0323 18.2003 8.83896V13.39H17.8412C8.93854 13.39 5.06299 18.9402 5.06299 27.8376C5.06299 28.873 5.6697 29.4509 6.33833 29.4509C6.85837 29.4509 7.42794 29.3305 7.86131 28.56C10.0158 24.623 13.0493 23.4431 17.8412 23.4431H18.2003V28.0423C18.2003 28.8489 18.8193 29.4509 19.6613 29.4509Z"
+    />
   </Svg>
-)
+);
