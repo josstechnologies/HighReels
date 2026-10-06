@@ -20,6 +20,18 @@ type UIState = {
   songCardData: any;
   showSongCard: (data: any) => void;
   hideSongCard: () => void;
+  profileCardVisible: boolean;
+  profileCardData: any;
+  showProfileCard: (data: any) => void;
+  hideProfileCard: () => void;
+  shareSheetVisible: boolean;
+  shareSheetData: any;
+  showShareSheet: (data: any) => void;
+  hideShareSheet: () => void;
+  reportSheetVisible: boolean;
+  reportSheetData: any;
+  showReportSheet: (data?: any) => void;
+  hideReportSheet: () => void;
 };
 
 const toEmoji = (emoji: StaticEmoji): AnimatedEmoji => ({...emoji, url: '', previewUrl: ''});
@@ -36,6 +48,17 @@ const patch = (partial: Partial<UIState>) => {
   state = {...state, ...partial};
   emit();
 };
+
+const closeHomeSheets = {
+  songCardVisible: false,
+  songCardData: null,
+  profileCardVisible: false,
+  profileCardData: null,
+  shareSheetVisible: false,
+  shareSheetData: null,
+  reportSheetVisible: false,
+  reportSheetData: null,
+} as const;
 
 state = {
   reactionOverlay: {isVisible: false, position: {x: 0, y: 0}, postId: null},
@@ -54,8 +77,25 @@ state = {
   },
   songCardVisible: false,
   songCardData: null,
-  showSongCard: (data) => patch({songCardVisible: true, songCardData: data}),
+  showSongCard: (data) => patch({...closeHomeSheets, songCardVisible: true, songCardData: data}),
   hideSongCard: () => patch({songCardVisible: false, songCardData: null}),
+  profileCardVisible: false,
+  profileCardData: null,
+  showProfileCard: (data) => patch({...closeHomeSheets, profileCardVisible: true, profileCardData: data}),
+  hideProfileCard: () => patch({profileCardVisible: false, profileCardData: null}),
+  shareSheetVisible: false,
+  shareSheetData: null,
+  showShareSheet: (data) => patch({...closeHomeSheets, shareSheetVisible: true, shareSheetData: data}),
+  hideShareSheet: () => patch({shareSheetVisible: false, shareSheetData: null}),
+  reportSheetVisible: false,
+  reportSheetData: null,
+  showReportSheet: (data) =>
+    patch({
+      ...closeHomeSheets,
+      reportSheetVisible: true,
+      reportSheetData: data ?? state.shareSheetData,
+    }),
+  hideReportSheet: () => patch({reportSheetVisible: false, reportSheetData: null}),
 };
 
 export const useUIStore = <T,>(selector: (value: UIState) => T): T =>

@@ -169,7 +169,9 @@ import { EyeOutline } from './EyeOutline';
 import { AudioEmpty } from './AudioEmpty';
 import { BellOutline } from './BellOutline';
 import { EyeOff } from './EyeOff';
-import { HeartOutline } from './HeartOutline';  
+import { HeartOutline } from './HeartOutline';
+import { Fire } from './Fire';
+import { HeartBreak } from './HeartBreak';
 
 export const SVGS = {
   Ads,
@@ -217,6 +219,7 @@ export const SVGS = {
   Effects,
   ExternalLink,
   Favourite,
+  Fire,
   Follow,
   Followers,
   Following,
@@ -226,6 +229,7 @@ export const SVGS = {
   Grid,
   GridSelected,
   Heart,
+  HeartBreak,
   HeartFilled,
   HeartOutline,
   History,

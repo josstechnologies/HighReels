@@ -113,5 +113,24 @@
     "pdf": "PDF",
     "html": "HTML",
     "exportButton": "Exporter la discussion"
+  },
+  "report": {
+    "title": "Signaler",
+    "selectReason": "Sélectionnez une raison",
+    "thanks": "Merci pour votre signalement",
+    "reasons": {
+      "pornography": "Pornographie et nudité",
+      "violence": "Violence et scènes gore",
+      "hateSpeech": "Discours de haine et discrimination",
+      "selfHarm": "Automutilation et contenu suicidaire",
+      "harassment": "Harcèlement et intimidation",
+      "childExploitation": "Exploitation d'enfants",
+      "spam": "Spam et pratiques trompeuses",
+      "terrorism": "Terrorisme et contenu extrémiste",
+      "drugs": "Contenu lié aux drogues",
+      "mentalHealth": "Sensibilisation à la santé mentale",
+      "substanceAbuse": "Prévention de l'abus de substances",
+      "impersonation": "Usurpation d'identité et vol d'identité"
+    }
   }
 }

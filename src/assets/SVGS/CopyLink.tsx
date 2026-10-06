@@ -1,23 +1,14 @@
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import Svg, {SvgProps, Path} from 'react-native-svg';
+
 export const CopyLink = (props: SvgProps) => (
-  <Svg
-    width={24}
-    height={24}
-    fill="none" {...props} viewBox="0 0 24 24">
-    <G
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      clipPath="url(#a)"
-    >
-      <Path d="M20 9.001h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Z" />
-      <Path d="M5 15.001H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-    </G>
-    <Defs>
-      <ClipPath id="a">
-        <Path fill="currentColor" d="M0 0h24v24H0z" />
-      </ClipPath>
-    </Defs>
+  <Svg width={25} height={25} fill="none" {...props} viewBox="0 0 25 25">
+    <Path
+      fill={props.color || '#616161'}
+      d="M3.30193 0C1.48825 0 0 1.48825 0 3.30193V15.7779C0 17.5916 1.48825 19.0786 3.30193 19.0786H15.772C17.5857 19.0786 19.0739 17.5916 19.0739 15.7779V3.30193C19.0739 1.48825 17.5857 0 15.772 0H3.30193Z"
+    />
+    <Path
+      fill={props.color || '#616161'}
+      d="M20.5623 16.1443C20.4314 18.4332 18.4433 20.3923 16.1829 20.5719C12.7916 20.6007 9.39918 20.581 6.00724 20.5832C5.43748 20.5837 4.9471 21.0532 5.05478 21.6116C5.36439 23.2172 6.53853 24.0146 8.1157 24.0146C12.6498 24.0191 16.5716 24.0214 20.8731 24.0101C22.7031 23.9636 24.025 22.2094 24.025 20.388C24.0205 16.3681 24.0341 12.3482 24.0255 8.32833C24.0253 8.18834 24.0017 7.96407 23.967 7.82854C23.5524 6.20457 22.6713 5.36816 21.5953 5.06765C21.0482 4.91494 20.5765 5.3971 20.5774 5.96699C20.5811 8.14725 20.5869 13.2605 20.5623 16.1443Z"
+    />
   </Svg>
-)
+);

@@ -1,22 +1,10 @@
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import Svg, {SvgProps, Path} from 'react-native-svg';
+
 export const Download = (props: SvgProps) => (
-  <Svg
-    width={24}
-    height={24}
-    fill="none" {...props} viewBox="0 0 24 24">
-    <G clipPath="url(#a)">
-      <Path
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M7.5 12l4.5 4.5 4.5-4.5M12 16.5V3"
-      />
-    </G>
-    <Defs>
-      <ClipPath id="a">
-        <Path fill="currentColor" d="M0 0h24v24H0z" />
-      </ClipPath>
-    </Defs>
+  <Svg width={18} height={25} fill="none" {...props} viewBox="0 0 18 25">
+    <Path
+      fill={props.color || '#616161'}
+      d="M8.61325 20.9177L0 11.0749H6.15165L6.1528 0H11.0748V11.0737H17.2265L8.61325 20.9177ZM0 24.6089H17.2253V22.1485L0 22.1474V24.6089Z"
+    />
   </Svg>
-)
+);

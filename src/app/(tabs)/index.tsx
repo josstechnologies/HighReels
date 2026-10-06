@@ -5,6 +5,11 @@ import {useRouter} from 'expo-router';
 import {IMAGES, SVGS} from '@/assets';
 import {EmojiReactionOverlay} from '@/components/EmojiReactionOverlay';
 import {HomeSideMenus} from '@/components/HomeSideMenus';
+import {HomePostMeta} from '@/components/HomePostMeta';
+import {HomeMusicSheet} from '@/components/HomeMusicSheet';
+import {HomeProfileSheet} from '@/components/HomeProfileSheet';
+import {HomeReportSheet} from '@/components/HomeReportSheet';
+import {HomeShareSheet} from '@/components/HomeShareSheet';
 import {useIsFocused} from 'expo-router/react-navigation';
 import {useBottomTabBarHeight} from 'expo-router/js-tabs';
 import {useUIStore} from '@/store/uiStore';
@@ -20,6 +25,7 @@ import Animated, {useSharedValue, useAnimatedStyle, withSpring, withDelay, withT
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 
+/* LEGACY SongCard UI (peach card) — restore when needed:
 export const SongCard = () => {
   const router = useRouter();
   const hideSongCard = useUIStore((state) => state.hideSongCard);
@@ -39,16 +45,12 @@ export const SongCard = () => {
     <View className="absolute bottom-3 w-[96%] self-center">
       <View className="flex-col gap-4 rounded-[28px] bg-[#f2dfd8]/90 px-3 pb-0 pt-3 shadow-lg" style={{backgroundColor: 'rgba(255, 245, 240, 0.85)'}}>
         <View className="flex w-full flex-row items-start justify-between pl-1 pr-2">
-          {/* <Link asChild href={`/songpreview?templateId=${songCardData?.template_id}`} onPress={() => hideSongCard()}> */}
           <Pressable onPress={() => router.navigate(`/user-profile/${songCardData.user.id}`)}>
             <Image
               source={songCardData.user?.image ? {uri: songCardData.user.image} : IMAGES.user}
-              // getAssetUrl(songCardData.user.image, 'profile_images')
               className="mt-1 h-[52px] w-[52px] rounded-full"
             />
           </Pressable>
-          {/* </Link> */}
-
           <View className="flex flex-row items-start justify-center gap-7 pt-2">
             <View className="flex-col items-center justify-center gap-1">
               <SVGS.Repost />
@@ -56,22 +58,18 @@ export const SongCard = () => {
             </View>
             <View className="items-center justify-center pt-3">
               <SVGS.Vote color="#121212" />
-              {/* <Text className="font-NunitoSans_500Medium text-base text-black/80">20</Text> */}
             </View>
             <View className="items-center justify-center pt-3">
               <SVGS.Vote className="rotate-180" color="#121212" />
-              {/* <Text className="font-NunitoSans_500Medium text-base text-black/80">20</Text> */}
             </View>
             <View className="pt-2">
               <SVGS.DotMenu />
             </View>
           </View>
-
           <Pressable onPress={() => hideSongCard()} className="h-full items-start pt-1">
             <SVGS.Add height={18} width={18} bgColor="#000" className="rotate-45" />
           </Pressable>
         </View>
-
         <View className="mb-3 w-full flex-col rounded-[20px] bg-white p-4 shadow-sm">
           <View className="mb-1 flex flex-row items-center justify-between">
             <Text className="flex-1 font-extrabold text-[20px] tracking-tight text-black" numberOfLines={1}>
@@ -83,7 +81,6 @@ export const SongCard = () => {
                   <Text className="font-semibold text-[15px] text-black">Follow</Text>
                 </View>
               )}
-
               <Pressable
                 onPress={() => {
                   hideSongCard();
@@ -93,12 +90,10 @@ export const SongCard = () => {
               </Pressable>
             </View>
           </View>
-
           <View className="mb-2.5 flex flex-row items-center gap-1">
             <SVGS.Profile width={16} height={16} color="#6b7280" />
             <Text className="font-NunitoSans_600SemiBold text-base text-gray-400">by {songCardData.profiles?.name || 'User'}</Text>
           </View>
-
           <Pressable onPress={() => setIsBioExpanded(!isBioExpanded)}>
             <Text className="font-NunitoSans_600SemiBold text-base text-gray-400">
               {songCardData.templates?.category ? `Category: ${songCardData.templates.category}` : 'No template details available'}
@@ -108,6 +103,23 @@ export const SongCard = () => {
       </View>
     </View>
   );
+};
+*/
+
+export const SongCard = () => {
+  // Legacy peach song card kept for later — feed uses HomeMusicSheet / HomeProfileSheet.
+  // const router = useRouter();
+  // const hideSongCard = useUIStore((state) => state.hideSongCard);
+  // const songCardData = useUIStore((state) => state.songCardData);
+  // const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
+  // const accountId = useSelector(() => getActiveAccount()?.accountId);
+  // const [isBioExpanded, setIsBioExpanded] = useState(false);
+  // const currentUserId = hasSession ? accountId : undefined;
+  //
+  // useEffect(() => { setIsBioExpanded(false); }, [songCardData]);
+  // if (!songCardData) return null;
+  // return ( ... old peach card UI ... );
+  return null;
 };
 
 export const EmptyList = ({message}: {message: string}) => {
@@ -330,7 +342,6 @@ const FeedItem = ({
 
 export default function Home() {
   const {navigate} = useRouter();
-  const songCardVisible = useUIStore((state) => state.songCardVisible);
   const tabBarHeight = useBottomTabBarHeight();
   const {height, width} = useWindowDimensions();
   const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
@@ -522,9 +533,13 @@ export default function Home() {
         initialNumToRender={1}
         maxToRenderPerBatch={1}
       />
+      {posts[activeIndex] && <HomePostMeta post={posts[activeIndex]} />}
       {posts[activeIndex] && <HomeSideMenus post={posts[activeIndex]} />}
       <EmojiReactionOverlay />
-      {songCardVisible && <SongCard />}
+      <HomeMusicSheet />
+      <HomeProfileSheet />
+      <HomeShareSheet />
+      <HomeReportSheet />
     </View>
   );
 }
