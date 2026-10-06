@@ -1,6 +1,6 @@
 import {Pressable, ScrollView, Text, View} from 'react-native';
 import {Image} from 'expo-image';
-import {useRouter} from 'expo-router';
+import {useRouter, type Href} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {STATIC, SVGS} from '@/assets';
 
@@ -27,6 +27,7 @@ const CARDS = [
     description: 'Turn your content into earnings. Explore ways to monetize your videos and grow your income.',
     meta: '18 videos',
     image: STATIC.monetization,
+    href: '/monetize' as Href,
   },
 ] as const;
 
@@ -42,7 +43,7 @@ function VideoMeta({label}: {label: string}) {
 }
 
 export function ProfessionalDashboardScreen() {
-  const {back} = useRouter();
+  const {back, push} = useRouter();
 
   return (
     <SafeAreaView className="flex-1 bg-secondary">
@@ -66,6 +67,7 @@ export function ProfessionalDashboardScreen() {
               key={card.id}
               accessibilityRole="button"
               accessibilityLabel={card.title}
+              onPress={'href' in card && card.href ? () => push(card.href) : undefined}
               className="flex-row overflow-hidden rounded-2xl bg-white px-4 py-4 active:opacity-90"
               style={{
                 shadowColor: '#000',

@@ -36,3 +36,4 @@ export * from './ScreenTimeDurationScreen';
 export * from './SleepHoursScreen';
 export * from './ShareYourFeedbackScreen';
 export * from './ProfessionalDashboardScreen';
+export * from './MonetizeScreen';

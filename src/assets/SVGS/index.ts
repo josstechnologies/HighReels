@@ -172,6 +172,7 @@ import { EyeOff } from './EyeOff';
 import { HeartOutline } from './HeartOutline';
 import { Fire } from './Fire';
 import { HeartBreak } from './HeartBreak';
+import { Bag } from './Bag';
 
 export const SVGS = {
   Ads,
@@ -240,6 +241,7 @@ export const SVGS = {
   Key,
   Layout,
   Category,
+  Bag,
   Link,
   Location,
   Location1,
