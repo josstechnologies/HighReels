@@ -8,6 +8,9 @@ import {HomeSideMenus} from '@/components/HomeSideMenus';
 import {HomePostMeta} from '@/components/HomePostMeta';
 import {HomeMusicSheet} from '@/components/HomeMusicSheet';
 import {HomeProfileSheet} from '@/components/HomeProfileSheet';
+import {HomeCommentsSheet} from '@/components/HomeCommentsSheet';
+import {HomeBookmarkSheet} from '@/components/HomeBookmarkSheet';
+import {HomeGiftSheet} from '@/components/HomeGiftSheet';
 import {HomeReportSheet} from '@/components/HomeReportSheet';
 import {HomeShareSheet} from '@/components/HomeShareSheet';
 import {useIsFocused} from 'expo-router/react-navigation';
@@ -540,6 +543,9 @@ export default function Home() {
       <HomeProfileSheet />
       <HomeShareSheet />
       <HomeReportSheet />
+      <HomeCommentsSheet />
+      <HomeGiftSheet />
+      <HomeBookmarkSheet />
     </View>
   );
 }

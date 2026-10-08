@@ -40,6 +40,20 @@ export const signOut = async (): Promise<boolean> => {
 
 let refreshPromise: Promise<string> | null = null;
 
+/** 401 here is a bad credential, not an expired session. Logout and refresh use refreshAPI. */
+const CREDENTIAL_ROUTES = new Set<string>([
+  API_ROUTES.LOGIN.PASSWORD,
+  API_ROUTES.LOGIN.OTP_SEND,
+  API_ROUTES.LOGIN.OTP_VERIFY,
+  API_ROUTES.SIGNUP.OTP_SEND,
+  API_ROUTES.SIGNUP.OTP_VERIFY,
+  API_ROUTES.SIGNUP.COMPLETE,
+  API_ROUTES.OTP_RESEND,
+  API_ROUTES.PASSWORD_RESET.OTP_SEND,
+  API_ROUTES.PASSWORD_RESET.OTP_VERIFY,
+  API_ROUTES.PASSWORD_RESET.COMPLETE,
+]);
+
 export const readEnvelope = <T extends object>(body: unknown): T | undefined => {
   if (!body || typeof body !== 'object') return undefined;
   const envelope = body as ApiEnvelope<T> & T;
@@ -102,7 +116,13 @@ API.interceptors.response.use(
   async (error: AxiosError) => {
     const request = error.config as RetryableRequestConfig | undefined;
 
-    if (error.response?.status !== 401 || !request || request._retry) {
+    if (
+      error.response?.status !== 401 ||
+      !request ||
+      request._retry ||
+      CREDENTIAL_ROUTES.has(request.url ?? '') ||
+      !authState$.refreshToken.get()
+    ) {
       return Promise.reject(error);
     }
 

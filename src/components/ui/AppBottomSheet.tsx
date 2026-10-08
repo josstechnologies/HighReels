@@ -23,6 +23,8 @@ type AppBottomSheetProps = {
   /** Android soft-input mode; prefer `adjustPan` so interactive keyboard offset runs. */
   android_keyboardInputMode?: 'adjustPan' | 'adjustResize';
   enableBlurKeyboardOnGesture?: boolean;
+  /** Sticky footer (gorhom). Pins to sheet bottom — use for composers. */
+  footerComponent?: React.ComponentProps<typeof BottomSheetModal>['footerComponent'];
   children: React.ReactNode;
 };
 
@@ -51,6 +53,7 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
       keyboardBlurBehavior,
       android_keyboardInputMode,
       enableBlurKeyboardOnGesture,
+      footerComponent,
       children,
     },
     ref,
@@ -206,6 +209,7 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
           backdropComponent={renderBackdrop}
           animationConfigs={animationConfigs}
           onDismiss={handleDismiss}
+          footerComponent={footerComponent}
           {...keyboardProps}>
           {children}
         </BottomSheetModal>
@@ -226,6 +230,7 @@ export const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(
         backdropComponent={renderBackdrop}
         animationConfigs={animationConfigs}
         onDismiss={handleDismiss}
+        footerComponent={footerComponent}
         {...keyboardProps}>
         <BottomSheetView style={contentStyle}>{children}</BottomSheetView>
       </BottomSheetModal>

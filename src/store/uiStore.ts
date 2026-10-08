@@ -32,6 +32,18 @@ type UIState = {
   reportSheetData: any;
   showReportSheet: (data?: any) => void;
   hideReportSheet: () => void;
+  commentsSheetVisible: boolean;
+  commentsSheetData: any;
+  showCommentsSheet: (data: any) => void;
+  hideCommentsSheet: () => void;
+  giftSheetVisible: boolean;
+  giftSheetData: any;
+  showGiftSheet: (data: any) => void;
+  hideGiftSheet: () => void;
+  bookmarkSheetVisible: boolean;
+  bookmarkSheetData: any;
+  showBookmarkSheet: (data: any) => void;
+  hideBookmarkSheet: () => void;
 };
 
 const toEmoji = (emoji: StaticEmoji): AnimatedEmoji => ({...emoji, url: '', previewUrl: ''});
@@ -58,6 +70,12 @@ const closeHomeSheets = {
   shareSheetData: null,
   reportSheetVisible: false,
   reportSheetData: null,
+  commentsSheetVisible: false,
+  commentsSheetData: null,
+  giftSheetVisible: false,
+  giftSheetData: null,
+  bookmarkSheetVisible: false,
+  bookmarkSheetData: null,
 } as const;
 
 state = {
@@ -96,6 +114,18 @@ state = {
       reportSheetData: data ?? state.shareSheetData,
     }),
   hideReportSheet: () => patch({reportSheetVisible: false, reportSheetData: null}),
+  commentsSheetVisible: false,
+  commentsSheetData: null,
+  showCommentsSheet: (data) => patch({...closeHomeSheets, commentsSheetVisible: true, commentsSheetData: data}),
+  hideCommentsSheet: () => patch({commentsSheetVisible: false, commentsSheetData: null}),
+  giftSheetVisible: false,
+  giftSheetData: null,
+  showGiftSheet: (data) => patch({...closeHomeSheets, giftSheetVisible: true, giftSheetData: data}),
+  hideGiftSheet: () => patch({giftSheetVisible: false, giftSheetData: null}),
+  bookmarkSheetVisible: false,
+  bookmarkSheetData: null,
+  showBookmarkSheet: (data) => patch({...closeHomeSheets, bookmarkSheetVisible: true, bookmarkSheetData: data}),
+  hideBookmarkSheet: () => patch({bookmarkSheetVisible: false, bookmarkSheetData: null}),
 };
 
 export const useUIStore = <T,>(selector: (value: UIState) => T): T =>

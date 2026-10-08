@@ -132,5 +132,62 @@
       "substanceAbuse": "Substance abuse prevention",
       "impersonation": "Impersonation and identity theft"
     }
+  },
+  "comments": {
+    "title": "Comments",
+    "reply": "Reply",
+    "viewReplies": "View {{count}} more replies",
+    "hideReplies": "Hide replies",
+    "addComment": "Add Comment...",
+    "empty": "No comments yet.",
+    "comingSoon": "Coming soon",
+    "emoji": "Emoji",
+    "gift": "Gift"
+  },
+  "gifts": {
+    "title": "Gifts",
+    "send": "Send",
+    "sent": "Gift sent",
+    "notEnough": "Not enough coins",
+    "comingSoon": "Coming soon",
+    "recharge": "Recharge",
+    "tabs": {
+      "exclusive": "Exclusive",
+      "interactive": "Interactive",
+      "premium": "Premium"
+    },
+    "items": {
+      "coolGuy": "Cool Guy",
+      "specs": "3D Specs",
+      "party": "Party Pop",
+      "candy": "Sweet Bite",
+      "bear": "Cuddle Bear",
+      "dance": "Happy Dance",
+      "sweetBite": "Sweet Bite",
+      "octo": "Octo Fun"
+    }
+  },
+  "coinStore": {
+    "title": "Coin Store",
+    "back": "Go back",
+    "subtitle": "Recharge to get gifts and bonus coins.",
+    "available": "Available Coins",
+    "bonus": "+{{count, number}} Bonus",
+    "pay": "Pay Securely",
+    "purchased": "Purchase complete"
+  },
+  "bookmark": {
+    "saveTitle": "Save to Folder",
+    "createTitle": "Create a Folder",
+    "addName": "Add a name to your folder",
+    "namePlaceholder": "Enter name",
+    "save": "Save",
+    "create": "Create",
+    "saved": "Saved",
+    "private": "Private",
+    "public": "Public",
+    "reels": "{{count}} reels",
+    "allSaved": "All Saved",
+    "travel": "Travel"
   }
 }

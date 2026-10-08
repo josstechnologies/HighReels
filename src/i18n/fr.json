@@ -132,5 +132,62 @@
       "substanceAbuse": "Prévention de l'abus de substances",
       "impersonation": "Usurpation d'identité et vol d'identité"
     }
+  },
+  "comments": {
+    "title": "Commentaires",
+    "reply": "Répondre",
+    "viewReplies": "Voir {{count}} réponses de plus",
+    "hideReplies": "Masquer les réponses",
+    "addComment": "Ajouter un commentaire...",
+    "empty": "Aucun commentaire pour le moment.",
+    "comingSoon": "Bientôt disponible",
+    "emoji": "Emoji",
+    "gift": "Cadeau"
+  },
+  "gifts": {
+    "title": "Cadeaux",
+    "send": "Envoyer",
+    "sent": "Cadeau envoyé",
+    "notEnough": "Pas assez de pièces",
+    "comingSoon": "Bientôt disponible",
+    "recharge": "Recharger",
+    "tabs": {
+      "exclusive": "Exclusif",
+      "interactive": "Interactif",
+      "premium": "Premium"
+    },
+    "items": {
+      "coolGuy": "Cool Guy",
+      "specs": "Lunettes 3D",
+      "party": "Cotillons",
+      "candy": "Douceur",
+      "bear": "Ours câlin",
+      "dance": "Danse",
+      "sweetBite": "Douceur",
+      "octo": "Poulpe"
+    }
+  },
+  "coinStore": {
+    "title": "Boutique de pièces",
+    "back": "Retour",
+    "subtitle": "Rechargez pour obtenir des cadeaux et des pièces bonus.",
+    "available": "Pièces disponibles",
+    "bonus": "+{{count, number}} bonus",
+    "pay": "Payer en sécurité",
+    "purchased": "Achat terminé"
+  },
+  "bookmark": {
+    "saveTitle": "Enregistrer dans un dossier",
+    "createTitle": "Créer un dossier",
+    "addName": "Ajoutez un nom à votre dossier",
+    "namePlaceholder": "Entrez un nom",
+    "save": "Enregistrer",
+    "create": "Créer",
+    "saved": "Enregistré",
+    "private": "Privé",
+    "public": "Public",
+    "reels": "{{count}} reels",
+    "allSaved": "Tout enregistré",
+    "travel": "Voyage"
   }
 }

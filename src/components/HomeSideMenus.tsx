@@ -1,6 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
 import {Text, TouchableHighlight, View} from 'react-native';
-import {useRouter} from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import {SVGS} from '@/assets';
 import {useCheckLogin} from '@/hooks/useCheckLogin';
@@ -23,13 +22,15 @@ const patchFeedItem = (postId: string, mapItem: (item: any) => any) => {
 };
 
 export const HomeSideMenus = ({post}: {post: any}) => {
-  const router = useRouter();
   const {checkLogin} = useCheckLogin();
   const showReactionOverlay = useUIStore((state) => state.showReactionOverlay);
   const postReactions = useUIStore((state) => state.postReactions);
   const setPostReaction = useUIStore((state) => state.setPostReaction);
   const showProfileCard = useUIStore((state) => state.showProfileCard);
   const showShareSheet = useUIStore((state) => state.showShareSheet);
+  const showCommentsSheet = useUIStore((state) => state.showCommentsSheet);
+  const showGiftSheet = useUIStore((state) => state.showGiftSheet);
+  const showBookmarkSheet = useUIStore((state) => state.showBookmarkSheet);
   // const showSongCard = useUIStore((state) => state.showSongCard);
   const likeRef = useRef<any>(null);
   const currentReaction = postReactions[post.id];
@@ -95,7 +96,7 @@ export const HomeSideMenus = ({post}: {post: any}) => {
           style={{borderRadius: 50, padding: 5}}
           underlayColor="#ffffff33"
           activeOpacity={0.5}
-          onPress={() => router.navigate({pathname: '/comments-sheet', params: {postId: post.id}})}>
+          onPress={() => showCommentsSheet(post)}>
           <SVGS.Comment height={37} width={37} />
         </TouchableHighlight>
         <Text className="font-NunitoSans_600SemiBold -mt-2 text-base text-white">{post.comments_count || 0}</Text>
@@ -113,9 +114,12 @@ export const HomeSideMenus = ({post}: {post: any}) => {
         <Text className="font-NunitoSans_600SemiBold -mt-2 text-base text-white">{post.share_count || 0}</Text>
       </View>
 
-      {/* UI-only for now — bookmark API not wired yet */}
       <View className="items-center justify-center">
-        <TouchableHighlight underlayColor="#ffffff80" activeOpacity={0.6} style={{borderRadius: 50, padding: 5}} onPress={() => {}}>
+        <TouchableHighlight
+          underlayColor="#ffffff80"
+          activeOpacity={0.6}
+          style={{borderRadius: 50, padding: 5}}
+          onPress={() => checkLogin(() => showBookmarkSheet(post))}>
           <SVGS.Bookmark height={36} width={36} />
         </TouchableHighlight>
         <Text className="font-NunitoSans_600SemiBold -mt-2 text-base text-white">{post.bookmark_count || 0}</Text>
@@ -126,7 +130,7 @@ export const HomeSideMenus = ({post}: {post: any}) => {
           underlayColor="#ffffff80"
           activeOpacity={0.6}
           style={{borderRadius: 50, padding: 5}}
-          onPress={() => checkLogin(() => router.navigate('/gift-sheet'))}>
+          onPress={() => checkLogin(() => showGiftSheet(post))}>
           <SVGS.Gift height={37} width={37} />
         </TouchableHighlight>
         <Text className="font-NunitoSans_600SemiBold -mt-2 text-base text-white">{post.gift_count || 0}</Text>

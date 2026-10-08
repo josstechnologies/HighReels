@@ -41,11 +41,14 @@ export default function Login() {
 
   const passwordLoginMutation = useMutation({
     mutationFn: async ({email, password}: {email: string; password: string}) => {
+      console.log('🚀 ~ Login ~ email:', API_ROUTES.LOGIN.PASSWORD);
       const response = await API.post<ApiEnvelope<PasswordLoginPayload>>(API_ROUTES.LOGIN.PASSWORD, {
         email,
         password,
       });
+      console.log('🚀 ~ Login ~ response:', response);
       const data = readEnvelope<PasswordLoginPayload>(response.data);
+      console.log('🚀 ~ Login ~ data:', data);
       if (!data) throw new Error('UNEXPECTED_LOGIN_PASSWORD');
       return {data, email};
     },
