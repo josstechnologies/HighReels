@@ -26,11 +26,11 @@ export const HomeSideMenus = ({post}: {post: any}) => {
   const showReactionOverlay = useUIStore((state) => state.showReactionOverlay);
   const postReactions = useUIStore((state) => state.postReactions);
   const setPostReaction = useUIStore((state) => state.setPostReaction);
-  const showProfileCard = useUIStore((state) => state.showProfileCard);
   const showShareSheet = useUIStore((state) => state.showShareSheet);
   const showCommentsSheet = useUIStore((state) => state.showCommentsSheet);
   const showGiftSheet = useUIStore((state) => state.showGiftSheet);
   const showBookmarkSheet = useUIStore((state) => state.showBookmarkSheet);
+  const showMoreSheet = useUIStore((state) => state.showMoreSheet);
   // const showSongCard = useUIStore((state) => state.showSongCard);
   const likeRef = useRef<any>(null);
   const currentReaction = postReactions[post.id];
@@ -140,8 +140,7 @@ export const HomeSideMenus = ({post}: {post: any}) => {
         underlayColor="#ffffff80"
         activeOpacity={0.6}
         style={{borderRadius: 50, padding: 5}}
-        // onPress={() => checkLogin(() => showSongCard(post))}
-        onPress={() => checkLogin(() => showProfileCard(post))}>
+        onPress={() => checkLogin(() => showMoreSheet(post))}>
         <SVGS.ThreeDot height={37} width={37} />
       </TouchableHighlight>
     </View>

@@ -10,6 +10,7 @@ import {HomeMusicSheet} from '@/components/HomeMusicSheet';
 import {HomeProfileSheet} from '@/components/HomeProfileSheet';
 import {HomeCommentsSheet} from '@/components/HomeCommentsSheet';
 import {HomeBookmarkSheet} from '@/components/HomeBookmarkSheet';
+import {HomeMoreSheet} from '@/components/HomeMoreSheet';
 import {HomeGiftSheet} from '@/components/HomeGiftSheet';
 import {HomeReportSheet} from '@/components/HomeReportSheet';
 import {HomeShareSheet} from '@/components/HomeShareSheet';
@@ -546,6 +547,7 @@ export default function Home() {
       <HomeCommentsSheet />
       <HomeGiftSheet />
       <HomeBookmarkSheet />
+      <HomeMoreSheet />
     </View>
   );
 }

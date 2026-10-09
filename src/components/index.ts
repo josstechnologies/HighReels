@@ -11,6 +11,7 @@ export * from './HomeReportSheet';
 export * from './HomeCommentsSheet';
 export * from './HomeGiftSheet';
 export * from './HomeBookmarkSheet';
+export * from './HomeMoreSheet';
 export * from './DatePickerWheel';
 export * from './DurationPickerWheel';
 export * from './TimePickerWheel';

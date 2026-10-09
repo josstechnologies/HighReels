@@ -44,6 +44,10 @@ type UIState = {
   bookmarkSheetData: any;
   showBookmarkSheet: (data: any) => void;
   hideBookmarkSheet: () => void;
+  moreSheetVisible: boolean;
+  moreSheetData: any;
+  showMoreSheet: (data: any) => void;
+  hideMoreSheet: () => void;
 };
 
 const toEmoji = (emoji: StaticEmoji): AnimatedEmoji => ({...emoji, url: '', previewUrl: ''});
@@ -76,6 +80,8 @@ const closeHomeSheets = {
   giftSheetData: null,
   bookmarkSheetVisible: false,
   bookmarkSheetData: null,
+  moreSheetVisible: false,
+  moreSheetData: null,
 } as const;
 
 state = {
@@ -126,13 +132,17 @@ state = {
   bookmarkSheetData: null,
   showBookmarkSheet: (data) => patch({...closeHomeSheets, bookmarkSheetVisible: true, bookmarkSheetData: data}),
   hideBookmarkSheet: () => patch({bookmarkSheetVisible: false, bookmarkSheetData: null}),
+  moreSheetVisible: false,
+  moreSheetData: null,
+  showMoreSheet: (data) => patch({...closeHomeSheets, moreSheetVisible: true, moreSheetData: data}),
+  hideMoreSheet: () => patch({moreSheetVisible: false, moreSheetData: null}),
 };
 
-export const useUIStore = <T,>(selector: (value: UIState) => T): T =>
+export const useUIStore = <T>(selector: (value: UIState) => T): T =>
   useSyncExternalStore(
     (listener) => {
       listeners.add(listener);
       return () => listeners.delete(listener);
     },
-    () => selector(state),
+    () => selector(state)
   );

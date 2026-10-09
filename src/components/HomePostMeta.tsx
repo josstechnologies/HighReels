@@ -3,6 +3,7 @@ import {Pressable, Text, View} from 'react-native';
 import {useRouter} from 'expo-router';
 import {Image} from 'expo-image';
 import {IMAGES, SVGS} from '@/assets';
+import {useCheckLogin} from '@/hooks/useCheckLogin';
 import {useUIStore} from '@/store/uiStore';
 
 function captionFromPost(post: any): string {
@@ -13,7 +14,9 @@ function captionFromPost(post: any): string {
 
 export function HomePostMeta({post}: {post: any}) {
   const router = useRouter();
+  const {checkLogin} = useCheckLogin();
   const showSongCard = useUIStore((state) => state.showSongCard);
+  const showProfileCard = useUIStore((state) => state.showProfileCard);
   const [following, setFollowing] = useState(false);
 
   useEffect(() => {
@@ -67,9 +70,11 @@ export function HomePostMeta({post}: {post: any}) {
       </View>
 
       {caption ? (
-        <Text className="mt-2.5 font-medium text-[13px] leading-5 text-white" numberOfLines={1}>
-          {caption}
-        </Text>
+        <Pressable onPress={() => checkLogin(() => showProfileCard(post))} className="mt-2.5 active:opacity-70">
+          <Text className="font-medium text-[13px] leading-5 text-white" numberOfLines={1}>
+            {caption}
+          </Text>
+        </Pressable>
       ) : null}
     </View>
   );

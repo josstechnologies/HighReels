@@ -189,5 +189,32 @@
     "reels": "{{count}} reels",
     "allSaved": "All Saved",
     "travel": "Travel"
+  },
+  "reelMenu": {
+    "interested": "Interested",
+    "interestedHint": "Add this to your interests",
+    "interestedDone": "Added to your interests",
+    "notInterested": "Not Interested",
+    "notInterestedHint": "Show me less like this",
+    "notInterestedDone": "We'll show you less like this",
+    "save": "Save Reel",
+    "saveHint": "Add this to your saved reels",
+    "remix": "Remix this reel",
+    "remixOff": "Remixing is turned off",
+    "captions": "Captions",
+    "captionsSoon": "Captions coming soon",
+    "copy": "Copy Link",
+    "copied": "Link copied",
+    "views": "Views",
+    "viewsSoon": "Views coming soon",
+    "report": "Report"
+  },
+  "folders": {
+    "title": "My Folders",
+    "newCollection": "New Collection",
+    "back": "Go back",
+    "travel": "Travel",
+    "fashion": "Fashion",
+    "cooking": "Cooking"
   }
 }

@@ -189,5 +189,32 @@
     "reels": "{{count}} reels",
     "allSaved": "Tout enregistré",
     "travel": "Voyage"
+  },
+  "reelMenu": {
+    "interested": "Intéressé",
+    "interestedHint": "Ajouter ceci à vos centres d'intérêt",
+    "interestedDone": "Ajouté à vos centres d'intérêt",
+    "notInterested": "Pas intéressé",
+    "notInterestedHint": "Me montrer moins de contenus comme celui-ci",
+    "notInterestedDone": "Nous vous montrerons moins de contenus similaires",
+    "save": "Enregistrer le reel",
+    "saveHint": "Ajouter ceci à vos reels enregistrés",
+    "remix": "Remixer ce reel",
+    "remixOff": "Le remix est désactivé",
+    "captions": "Sous-titres",
+    "captionsSoon": "Sous-titres bientôt disponibles",
+    "copy": "Copier le lien",
+    "copied": "Lien copié",
+    "views": "Vues",
+    "viewsSoon": "Vues bientôt disponibles",
+    "report": "Signaler"
+  },
+  "folders": {
+    "title": "Mes dossiers",
+    "newCollection": "Nouvelle collection",
+    "back": "Retour",
+    "travel": "Voyage",
+    "fashion": "Mode",
+    "cooking": "Cuisine"
   }
 }
