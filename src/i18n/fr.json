@@ -216,5 +216,23 @@
     "travel": "Voyage",
     "fashion": "Mode",
     "cooking": "Cuisine"
+  },
+  "postViews": {
+    "title": "Vues des publications",
+    "subtitle": "Découvrez qui a interagi avec vos publications récemment.",
+    "emptyTitle": "Aucune vue pour le moment",
+    "emptyBody": "Les vues de vos publications apparaîtront ici dès que les gens commenceront à interagir.",
+    "follow": "Suivre",
+    "following": "Abonné",
+    "back": "Retour",
+    "viewed": "A vu votre publication",
+    "liked": "A aimé votre publication",
+    "commented": "A commenté : « {{text}} »",
+    "comment": "Superbe photo !",
+    "shared": "A partagé votre publication",
+    "min10": "il y a 10 min",
+    "hour1": "il y a 1 h",
+    "hour3": "il y a 3 h",
+    "today": "Aujourd'hui"
   }
 }

@@ -216,5 +216,23 @@
     "travel": "Travel",
     "fashion": "Fashion",
     "cooking": "Cooking"
+  },
+  "postViews": {
+    "title": "Post Views",
+    "subtitle": "See who interacted with your posts recently.",
+    "emptyTitle": "No views yet",
+    "emptyBody": "Views on your posts will appear here once people start engaging.",
+    "follow": "Follow",
+    "following": "Following",
+    "back": "Go back",
+    "viewed": "Viewed your post",
+    "liked": "Liked your post",
+    "commented": "Commented: \"{{text}}\"",
+    "comment": "Amazing shot!",
+    "shared": "Shared your post",
+    "min10": "10 min ago",
+    "hour1": "1h ago",
+    "hour3": "3h ago",
+    "today": "Today"
   }
 }

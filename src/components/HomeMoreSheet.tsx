@@ -1,6 +1,7 @@
 import type {ReactNode} from 'react';
 import {Pressable, Text, View} from 'react-native';
 import type {SvgProps} from 'react-native-svg';
+import {useRouter} from 'expo-router';
 import {useTranslation} from 'react-i18next';
 import {SVGS} from '@/assets';
 import {AppBottomSheet} from '@/components/ui/AppBottomSheet';
@@ -15,7 +16,7 @@ type Row = {
   title: string;
   hint?: string;
   toast?: string;
-  action: 'toast' | 'bookmark' | 'report' | 'copy' | 'none';
+  action: 'toast' | 'bookmark' | 'report' | 'copy' | 'views' | 'none';
 };
 
 const GROUPS: Row[][] = [
@@ -46,7 +47,7 @@ const GROUPS: Row[][] = [
     {id: 'copy', Icon: SVGS.CopyLink, title: 'reelMenu.copy', action: 'copy'},
   ],
   [
-    {id: 'views', Icon: SVGS.Eye, title: 'reelMenu.views', toast: 'reelMenu.viewsSoon', action: 'toast'},
+    {id: 'views', Icon: SVGS.Eye, title: 'reelMenu.views', action: 'views'},
     {id: 'report', Icon: SVGS.Report, title: 'reelMenu.report', action: 'report'},
   ],
 ];
@@ -54,6 +55,7 @@ const GROUPS: Row[][] = [
 /** Reel menu opened from the feed ⋮ button. */
 export function HomeMoreSheet() {
   const {t} = useTranslation();
+  const router = useRouter();
   const visible = useUIStore((s) => s.moreSheetVisible);
   const data = useUIStore((s) => s.moreSheetData);
   const hideMoreSheet = useUIStore((s) => s.hideMoreSheet);
@@ -68,6 +70,11 @@ export function HomeMoreSheet() {
     }
     if (row.action === 'report') {
       showReportSheet(data);
+      return;
+    }
+    if (row.action === 'views') {
+      hideMoreSheet();
+      router.push('/post-views');
       return;
     }
     if (row.action === 'copy') {
