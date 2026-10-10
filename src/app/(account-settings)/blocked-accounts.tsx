@@ -5,15 +5,15 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {SVGS} from '@/assets';
 import {Button} from '@/components/Button';
 import {showToast} from '@/utils';
-import {BLOCKED_ACCOUNTS, type BlockedAccount} from '@/mock-data/blocked-accounts';
+import {unblockAccount, useBlockedAccounts, type BlockedAccount} from '@/mock-data/blocked-accounts';
 
 export default function BlockedAccountsScreen() {
   const {back} = useRouter();
   const [query, setQuery] = useState('');
-  const [accounts, setAccounts] = useState<BlockedAccount[]>(BLOCKED_ACCOUNTS);
+  const accounts = useBlockedAccounts();
 
   const unblock = (account: BlockedAccount) => {
-    setAccounts((current) => current.filter((item) => item.id !== account.id));
+    unblockAccount(account.id);
     showToast(`${account.name} unblocked`);
   };
 

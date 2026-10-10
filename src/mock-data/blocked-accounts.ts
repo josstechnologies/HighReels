@@ -1,3 +1,5 @@
+import {useSyncExternalStore} from 'react';
+
 export type BlockedAccount = {
   id: string;
   name: string;
@@ -16,3 +18,39 @@ export const BLOCKED_ACCOUNTS: BlockedAccount[] = [
   {id: 'nelson-mandela', name: 'Nelson Mandela', username: 'PeaceAdvocate', avatar: 'https://i.pravatar.cc/100?img=59'},
   {id: 'maya-angelou', name: 'Maya Angelou', username: 'WordsOfWisdom', avatar: 'https://i.pravatar.cc/100?img=26'},
 ];
+
+let sessionBlocked: BlockedAccount[] = [];
+let hidden = new Set<string>();
+let visible: BlockedAccount[] = BLOCKED_ACCOUNTS;
+const listeners = new Set<() => void>();
+const emit = () => listeners.forEach((listener) => listener());
+
+function rebuild() {
+  visible = [...BLOCKED_ACCOUNTS.filter((account) => !hidden.has(account.id)), ...sessionBlocked.filter((account) => !hidden.has(account.id))];
+}
+
+export function useBlockedAccounts() {
+  return useSyncExternalStore(
+    (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    () => visible
+  );
+}
+
+export function blockAccount(account: BlockedAccount) {
+  hidden.delete(account.id);
+  if (!sessionBlocked.some((item) => item.id === account.id) && !BLOCKED_ACCOUNTS.some((item) => item.id === account.id)) {
+    sessionBlocked = [...sessionBlocked, account];
+  }
+  rebuild();
+  emit();
+}
+
+export function unblockAccount(id: string) {
+  hidden.add(id);
+  sessionBlocked = sessionBlocked.filter((account) => account.id !== id);
+  rebuild();
+  emit();
+}

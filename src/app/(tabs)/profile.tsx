@@ -7,6 +7,7 @@ import {useSelector} from '@legendapp/state/react';
 import {SVGS} from '@/assets';
 import {Button} from '@/components';
 import {API_ROUTES, BYPASS_AUTH} from '@/constants';
+import {useCheckLogin} from '@/hooks/useCheckLogin';
 import {authState$} from '@/store';
 import {API, ApiEnvelope, cn, readEnvelope} from '@/utils';
 
@@ -35,7 +36,7 @@ function HeaderIcon({onPress, children}: {onPress?: () => void; children: ReactN
   );
 }
 
-function ProfileHeader({onMenu}: {onMenu?: () => void}) {
+function ProfileHeader({onMenu, onMessages, onNotifications}: {onMenu?: () => void; onMessages?: () => void; onNotifications?: () => void}) {
   return (
     <View className="flex-row items-center justify-between px-2 py-1">
       <View className="flex-row items-center">
@@ -51,13 +52,13 @@ function ProfileHeader({onMenu}: {onMenu?: () => void}) {
           <SVGS.Campaign width={22} height={22} className="text-black" />
         </HeaderIcon>
         <View className="relative">
-          <HeaderIcon>
+          <HeaderIcon onPress={onNotifications}>
             <SVGS.Notifications width={22} height={22} className="text-black" />
           </HeaderIcon>
           <View className="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger-700" />
         </View>
-        <HeaderIcon>
-          <SVGS.Messages width={22} height={22} className="text-black" />
+        <HeaderIcon onPress={onMessages}>
+          <SVGS.Message width={22} height={22} className="text-black" />
         </HeaderIcon>
       </View>
     </View>
@@ -82,6 +83,7 @@ function ProfileSkeleton() {
 
 export default function Profile() {
   const {navigate} = useRouter();
+  const {checkLogin} = useCheckLogin();
   const hasSession = useSelector(() => !!(authState$.accessToken.get() && authState$.refreshToken.get()));
   const canOpenMenu = hasSession || BYPASS_AUTH;
 
@@ -108,14 +110,16 @@ export default function Profile() {
   return (
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1" edges={['top']}>
-        <ProfileHeader onMenu={canOpenMenu ? () => navigate('/account-settings' as Href) : undefined} />
+        <ProfileHeader
+          onMenu={canOpenMenu ? () => navigate('/account-settings' as Href) : undefined}
+          onMessages={() => checkLogin(() => navigate('/chat' as Href))}
+          onNotifications={() => checkLogin(() => navigate('/notifications' as Href))}
+        />
 
         {!hasSession ? (
           <View className="flex-1 items-center justify-center px-8">
             <Text className="text-center font-semibold text-[17px] text-black">You&apos;re not logged in</Text>
-            <Text className="mt-2 text-center text-[14px] text-grey-300">
-              Log in to see your profile, posts, and account settings.
-            </Text>
+            <Text className="mt-2 text-center text-[14px] text-grey-300">Log in to see your profile, posts, and account settings.</Text>
             <View className="mt-6 w-full">
               <Button title="Log in" onPress={() => navigate('/login' as Href)} />
             </View>

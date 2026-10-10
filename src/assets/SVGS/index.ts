@@ -15,6 +15,18 @@ import {Camera} from './Camera';
 import {Campaign} from './Campaign';
 import {Caption} from './Caption';
 import {Chat} from './Chat';
+import {ChatContact} from './ChatContact';
+import {ChatCopy} from './ChatCopy';
+import {ChatDelete} from './ChatDelete';
+import {ChatDocument} from './ChatDocument';
+import {ChatEdit} from './ChatEdit';
+import {ChatForward} from './ChatForward';
+import {ChatLocation} from './ChatLocation';
+import {ChatPhotos} from './ChatPhotos';
+import {ChatPin} from './ChatPin';
+import {ChatReport} from './ChatReport';
+import {ChatReply} from './ChatReply';
+import {ChatStar} from './ChatStar';
 import {Clip} from './Clip';
 import {Close} from './Close';
 import {Close2} from './Close2';
@@ -56,6 +68,7 @@ import {Location1} from './Location1';
 import {Lock} from './Lock';
 import {Locked} from './Locked';
 import {Menu} from './Menu';
+import {Message} from './Message';
 import {Messages} from './Messages';
 import {MoveToInbox} from './MoveToInbox';
 import {Mute} from './Mute';
@@ -170,6 +183,10 @@ import { AudioEmpty } from './AudioEmpty';
 import { BellOutline } from './BellOutline';
 import { EyeOff } from './EyeOff';
 import { HeartOutline } from './HeartOutline';
+import { Filter } from './Filter';
+import { Lang } from './Lang';
+import { Mic } from './Mic';
+import { Smily } from './Smily';
 import { Fire } from './Fire';
 import { HeartBreak } from './HeartBreak';
 import { Bag } from './Bag';
@@ -196,6 +213,18 @@ export const SVGS = {
   Campaign,
   Caption,
   Chat,
+  ChatContact,
+  ChatCopy,
+  ChatDelete,
+  ChatDocument,
+  ChatEdit,
+  ChatForward,
+  ChatLocation,
+  ChatPhotos,
+  ChatPin,
+  ChatReport,
+  ChatReply,
+  ChatStar,
   Clip,
   Close,
   Close2,
@@ -220,6 +249,10 @@ export const SVGS = {
   Effects,
   ExternalLink,
   Favourite,
+  Filter,
+  Lang,
+  Mic,
+  Smily,
   Fire,
   Follow,
   Followers,
@@ -248,6 +281,7 @@ export const SVGS = {
   Lock,
   Locked,
   Menu,
+  Message,
   Messages,
   Messages2,
   MoveToInbox,

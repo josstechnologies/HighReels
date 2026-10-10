@@ -6,7 +6,7 @@ export const ArrowDown = (props: SvgProps) => (
     fill="none" {...props} viewBox="0 0 12 7">
     <Path
       d="M0.625 0.625L5.625 5.625L10.625 0.625"
-      stroke="white"
+      stroke="currentColor"
       strokeWidth={1.25}
       strokeLinecap="round"
       strokeLinejoin="round"
